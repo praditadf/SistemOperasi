@@ -91,20 +91,19 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 
 ### 3. (Opsional, konsep) blacklist modul:
 ```
-# echo " blacklist loop " | sudo tee / etc/ modprobe .d/
-blacklist - loop . conf
+# echo " blacklist loop " | sudo tee / etc/ modprobe .d/blacklist - loop . conf
 ```
 
 
 ## Praktikum 2.6
 
-### 1. 
+### 1. Lihat detail salah satu disk (sesuaikan dengan perangkat Anda, misal sda):
 ![](images/.png)
 
-### 2. 
+### 2. Lihat detail device terminal:
 ![](images/.png)
 
-### 3. 
+### 3. Lihat disk dan partisi untuk mengaitkan dengan /dev:
 ![](images/.png)
 
 ## Latihan 2.3
@@ -249,5 +248,6 @@ blacklist - loop . conf
 
 ## Latihan 2.5
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
+
 
 
