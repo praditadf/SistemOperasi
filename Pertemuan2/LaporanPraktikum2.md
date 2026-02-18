@@ -95,31 +95,24 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 ```
 
 
-## Praktikum 2.6
+## Praktikum 2.6 — Mengenali Block vs Character Device
 
 ### 1. Lihat detail salah satu disk (sesuaikan dengan perangkat Anda, misal sda):
-![](images/.png)
+![detail disk](images/6sda2.png)
 
 ### 2. Lihat detail device terminal:
-![](images/.png)
+![Detail device terminal](images/6tty.png)
 
 ### 3. Lihat disk dan partisi untuk mengaitkan dengan /dev:
-![](images/.png)
+![List disk & partisi](images/6lsblk.png)
 
 ## Latihan 2.3
+Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan character device. (Hint: karakter pertama pada permission string)
 
+## Praktikum 2.7 — Melihat Informasi udev
 
-## Praktikum 2.7
-
-### 1. 
-![](images/.png)
-
-### 2. 
-![](images/.png)
-
-### 3. 
-![](images/.png)
-
+### 1.  Cek atribut udev untuk disk:
+![Atrbut udec](images/7udev.png)
 
 
 
