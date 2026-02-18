@@ -3,13 +3,13 @@
 ## Praktikum 2.1 — Identifikasi CPU dan Memori
 
 ### 1. Tampilkan informasi CPU:
-![Informasi CPU](Praktikum2.1/lscpu.png "CPU")
+![Informasi CPU](images/lscpu.png "CPU")
 
 ### 2. Tampilkan ringkasan memori:
-![Ringkasan Memori](Praktikum2.1/free-h.png "RAM")
+![Ringkasan Memori](images/free-h.png "RAM")
 
 ### 3. Cek informasi hardware dari DMI/BIOS (butuh sudo):
-![Ringkasan Hardware](Praktikum2.1/free-h.png "dmicode")
+![Ringkasan Hardware](images/free-h.png "dmicode")
 
 ## Latihan 2.1
 Catat: (1) jumlah CPU(s), core/thread, (2) total RAM, (3) total swap. Jelaskan perbedaan RAM vs swap dalam 2–3 kalimat.
@@ -52,3 +52,198 @@ Perbedaan Ram dan scap adalah...
 
 ## Latihan 2.2
 Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksadesimal), nama driver/modul kernel, dan deskripsi singkat fungsinya.
+
+
+## Praktikum 2.3 — Identifikasi Storage dan Filesystem
+
+### 1.  Lihat daftar disk/partisi:
+![Daftar disk/partisi](images/3lsblk-f.png "lsblk")
+
+### 2. Tampilkan UUID dan tipe filesystem:
+![UUID & tipe filesystem](images/3blkid.png "blkid")
+
+### 3. Lihat mount point untuk root filesystem:
+![Mount point](images/3findmnt.png "3findmnt")
+
+
+## Praktikum 2.4
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.5
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.6
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+## Latihan 2.3
+
+
+## Praktikum 2.7
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.8
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.9
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+## Latihan 2.4
+
+
+## Praktikum 2.10
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.11
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.12
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.13
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.14
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.15
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+
+
+
+## Praktikum 2.16
+
+### 1. 
+![](images/.png "")
+
+### 2. 
+![](images/.png "")
+
+### 3. 
+![](images/.png "")
+
+## Latihan 2.5
+Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
