@@ -18,6 +18,10 @@ Install Ubuntu Server 22.04 LTS di VirtualBox dengan langkah berikut:
 5. Reboot dan login ke sistem
 6. Dokumentasikan proses instalasi dengan screenshot key steps
 
+### Install Ubuntu Server 22.04 LTS di VirtualBox
+![Create VM](images/InstallUbuntu.png)
+![Login Sistem](images/LoginVm.png)
+
 ### Latihan 1.4
 Setelah instalasi Ubuntu Server, lakukan tasks berikut:
 1. Update package list: sudo apt update
@@ -28,6 +32,22 @@ Setelah instalasi Ubuntu Server, lakukan tasks berikut:
 6. Check memory dengan free -h
 7. Dokumentasikan output dari setiap command
 
+### Dokumentasi Latihan 1.4
+
+#### 1. sudo apt update
+![](images/1.4update.png)
+#### 2. sudo apt upgrade
+![](images/1.4upgrade.png)
+#### 3. sudo apt install neofetch
+![](images/1.4installneofetch.png)
+#### 4. neofetch
+![](images/1.4neofetch.png)
+#### 5. df -h
+![](images/1.4df-h.png)
+#### 6. free -h
+![](images/1.4free-h.png)
+
+
 ### Latihan 1.5
 Eksplorasi sistem yang baru diinstall:
 1. Tampilkan informasi OS: cat /etc/os-release
@@ -36,6 +56,21 @@ Eksplorasi sistem yang baru diinstall:
 4. Check network connectivity: ping -c 4 google.com
 5. Install dan jalankan htop untuk melihat resource usage
 6. Buat laporan singkat tentang konfigurasi sistem Anda
+
+### Laporan Latihan 1.5
+
+#### 1. cat /etc/os-release
+![Informasi OS](images/1.5InformasiOs.png)
+#### 2. uname -r
+![Versi Kernel](images/1.5VersiKernel.png)
+#### 3. lsblk
+![List Partisi](images/1.5ListPartisi.png)
+#### 4. ping -c 4 google.com
+![Check Network](images/1.5CheckNetwork.png)
+#### 5. sudo apt install htop
+![Install htop](images/1.5InstallHtop.png)
+#### 6. htop
+![Run htop](images/1.5RunHtop.png)
 
 ### Latihan 1.6
 Ceritakan pengalaman Anda dengan sistem operasi:
@@ -49,3 +84,5 @@ pengalaman Anda.
 6. Setelah mempelajari bab ini, apakah ada sistem operasi lain yang ingin
 Anda coba? Mengapa?
 Tulis refleksi Anda dalam 300-500 kata disertai dengan dokumentasi.
+
+### Jawaban Latihan 1.6
