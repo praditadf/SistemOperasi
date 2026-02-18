@@ -66,18 +66,19 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 ![Mount point](images/3findmnt.png "3findmnt")
 
 
-## Praktikum 2.4
+## Praktikum 2.4 — Melihat Modul Aktif dan Informasinya
 
-### 1. 
-![](images/.png "")
+### 1. Cek versi kernel:
+![Versi Kernel](images/4uname-r.png)
 
-### 2. 
-![](images/.png "")
+### 2. Tampilkan daftar modul aktif:
+![Daftar Modul Aktif](images/4lsmodhead.png)
 
-### 3. 
-![](images/.png "")
+### 3. Pilih salah satu modul (contoh aman: loop) dan lihat detailnya:
+![Pilih Modul](images/4modinfo.png)
 
-
+### 4. Muat modul (jika belum aktif), lalu verifikasi:
+![Muat Modul](images/4modprobe.png)
 
 
 ## Praktikum 2.5
@@ -247,3 +248,4 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 
 ## Latihan 2.5
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
+
