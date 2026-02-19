@@ -245,8 +245,13 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 ## Latihan 2.3
 Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan character device. (Hint: karakter pertama pada permission string)
 
+## Latihan 2.4
+Gunakan grep untuk menampilkan hanya baris yang mengandung INFO atau WARN dari data.log. (Hint: gunakan grep -E dengan pola alternatif)
+
 ## Latihan 2.5
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
+
+
 
 
 
