@@ -1,4 +1,4 @@
-# Pengenalan Sistem Operasi & nstalasi
+# Pengenalan Sistem Operasi & Instalasi
 
 ## 1.10. Latihan
 
