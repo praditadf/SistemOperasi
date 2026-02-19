@@ -106,21 +106,21 @@
 
 ## Praktikum 2.8 — Membuat Workspace Praktikum
 
-### 1.
+### 1. Buat direktori praktikum dan masuk ke dalamnya:
 
-![](images/.png)
+![Make directory](images/8mkdir.png)
 
-### 2.
+### 2. Buat beberapa file contoh:
 
-![](images/.png)
+![New file](images/8touch.png)
 
-### 3.
+### 3. Isi file log contoh (simulasi):
 
-![](images/.png)
+![Fill file](images/8cat.png)
 
-### 4.
+### 4. Baca file dengan less:
 
-![](images/.png)
+![Read file](images/8less.png)
 
 ## Praktikum 2.9 — Pencarian Pola dengan grep
 
