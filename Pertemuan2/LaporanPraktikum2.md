@@ -11,27 +11,6 @@
 ### 3. Cek informasi hardware dari DMI/BIOS (butuh sudo):
 ![Ringkasan Hardware](images/free-h.png)
 
-## Latihan 2.1
-Catat: (1) jumlah CPU(s), core/thread, (2) total RAM, (3) total swap. Jelaskan perbedaan RAM vs swap dalam 2–3 kalimat.
-### Catat: (1) jumlah CPU(s), core/thread
-```
-CPU(s)               : 1
-Tread(s) per core    : 1
-Core(s) per socket   : 1
-Socket(s)            : 1
-```
-
-### (2) total RAM
-```
-Mem                  : 1.9Gi
-```
-
-### (3) total swap. Jelaskan perbedaan RAM vs swap dalam 2–3 kalimat.
-```
-Swap                 : 2.0Gi
-Perbedaan Ram dan scap adalah...
-```
-
 ## Praktikum 2.2 — Identifikasi Perangkat PCI/USB dan Driver
 
 
@@ -50,8 +29,6 @@ Perbedaan Ram dan scap adalah...
 ### 5. Lihat topologi USB (tree):
 ![Topologi USB](images/lsusb-t.png)
 
-## Latihan 2.2
-Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksadesimal), nama driver/modul kernel, dan deskripsi singkat fungsinya.
 
 
 ## Praktikum 2.3 — Identifikasi Storage dan Filesystem
@@ -106,8 +83,7 @@ Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksad
 ### 3. Lihat disk dan partisi untuk mengaitkan dengan /dev:
 ![List disk & partisi](images/6lsblk.png)
 
-## Latihan 2.3
-Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan character device. (Hint: karakter pertama pada permission string)
+
 
 ## Praktikum 2.7 — Melihat Informasi udev
 
@@ -238,6 +214,36 @@ Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan charac
 
 ### 3. 
 ![](images/.png)
+
+## Latihan 
+
+
+## Latihan 2.1
+Catat: (1) jumlah CPU(s), core/thread, (2) total RAM, (3) total swap. Jelaskan perbedaan RAM vs swap dalam 2–3 kalimat.
+### Catat: (1) jumlah CPU(s), core/thread
+```
+CPU(s)               : 1
+Tread(s) per core    : 1
+Core(s) per socket   : 1
+Socket(s)            : 1
+```
+
+### (2) total RAM
+```
+Mem                  : 1.9Gi
+```
+
+### (3) total swap. Jelaskan perbedaan RAM vs swap dalam 2–3 kalimat.
+```
+Swap                 : 2.0Gi
+Perbedaan Ram dan scap adalah...
+```
+
+## Latihan 2.2
+Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksadesimal), nama driver/modul kernel, dan deskripsi singkat fungsinya.
+
+## Latihan 2.3
+Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan character device. (Hint: karakter pertama pada permission string)
 
 ## Latihan 2.5
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
