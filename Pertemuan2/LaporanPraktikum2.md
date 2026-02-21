@@ -124,131 +124,123 @@
 
 ## Praktikum 2.9 — Pencarian Pola dengan grep
 
-### 1.
+### 1. Cari baris yang mengandung ERROR pada data.log:
 
-![](images/.png)
+![Find Error](images/9error.png)
 
-### 2.
+### 2. Cari tanpa memperhatikan huruf besar/kecil:
 
-![](images/.png)
+![Find](images/9error-i.png)
 
-### 3.
+### 3. Tampilkan nomor baris:
 
-![](images/.png)
+![Print](images/9-n.png)
 
-### 4.
+### 4. Tampilkan baris yang tidak cocok (invert match):
 
-![](images/.png)
+![Invert match](images/9-v.png)
 
 ## Praktikum 2.10 — Substitusi dengan sed (Aman di File Latihan)
 
-### 1.
+### 1. Siapkan file konfigurasi latihan:
 
-![](images/.png)
+![Create file](images/10cat.png)
 
-### 2.
+### 2. Ganti dev menjadi prod (tanpa mengubah file asli):
 
-![](images/.png)
+![Switch dev](images/10sed.png)
 
-### 3.
+### 3. Terapkan perubahan langsung ke file (-i):
 
-![](images/.png)
+![Aplly](images/10sed-i.png)
 
-### 4.
+### 4. Ganti semua kemunculan kata (g untuk global), contoh ubah myserver menjadi node:
 
-![](images/.png)
+![Switch](images/10.png)
 
 ## Praktikum 2.11 — Ekstraksi Kolom dengan awk
 
-### 1.
+### 1. Lihat output df-h:
 
-![](images/.png)
+![df-h](images/11df-h.png)
 
-### 2.
+### 2. Ambil kolom filesystem dan persentase pemakaian:
 
-![](images/.png)
+![Put colom](images/11df-hawk.png)
 
-### 3.
+### 3. Filter hanya yang pemakaian disk di atas 80%:
 
-![](images/.png)
+![Filter disk](images/11df-hawk80.png)
 
 ## Praktikum 2.12 — Melihat Proses dengan ps
 
-### 1.
+### 1. Tampilkan semua proses (format BSD):
 
-![](images/.png)
+![Show all](images/12psaux.png)
 
-### 2.
+### 2. Cari proses tertentu (misal sshd):
 
-![](images/.png)
+![Specific process](images/12sshd.png)
 
 ## Praktikum 2.13 — Monitoring Real-time dengan top
 
-### 1.
+### 1. Jalankan top:
 
-![](images/.png)
-
-### 2.
-
-![](images/.png)
+![run tup](images/13top.png)
 
 ## Praktikum 2.14 — Menghentikan Proses dengan kill
 
-### 1.
+### 1. Jalankan proses dummy di background:
 
-![](images/.png)
+![run dummy](images/14sleep.png)
 
-### 2.
+### 2. Cari PID proses sleep:
 
-![](images/.png)
+![Pid process sleep](images/14psaux.png)
 
-### 3.
+### 3. Hentikan dengan SIGTERM:
 
-![](images/.png)
+![Stop With Sigterm](images/14kill7078.png)
 
-### 4.
+### 4. Verifikasi proses berhenti:
 
-![](images/.png)
-
-### 5.
-
-![](images/.png)
+![Process stops](images/14term.png)
 
 ## Praktikum 2.15  — Cek Disk, Load, dan Service
 
-### 1.
+### 1. Cek penggunaan disk:
 
-![](images/.png)
+![Use disk](images/15df-h.png)
 
-### 2.
+### 2. Cari direktori yang besar (contoh pada /var):
 
-![](images/.png)
+![Large directory](images/15var.png)
 
-### 3.
+### 3. Cek load dan uptime:
 
-![](images/.png)
+![Load & uptime](images/15uptime.png)
 
-### 4.
+### 4. Cek service yang gagal:
 
-![](images/.png)
+![Service failed](images/15systemctl.png)
 
-### 5.
+### 5. Ambil log error terbaru (jika ada indikasi masalah):
 
-![](images/.png)
+![Log](images/15journalctl.png)
 
 ## Praktikum 2.16 — Monitoring Port dan Koneksi (Network Basics)
 
-### 1.
+### 1. Lihat interface dan IP:
 
-![](images/.png)
+![Interface and IP](images/16ipa.png)
 
-### 2.
+### 2. Lihat routing table:
 
-![](images/.png)
+![Routing table](images/16ipr.png)
 
-### 3.
+### 3. Lihat port yang sedang listening:
 
-![](images/.png)
+![port list](images/16ss-tulpn.png)
 
 ## Latihan
 
@@ -289,6 +281,7 @@ Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan charac
 ## Latihan 2.4
 
 Gunakan grep untuk menampilkan hanya baris yang mengandung INFO atau WARN dari data.log. (Hint: gunakan grep -E dengan pola alternatif)
+![](images/lat2.4.png)
 
 ## Latihan 2.5
 
