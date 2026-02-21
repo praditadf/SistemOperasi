@@ -286,3 +286,31 @@ Gunakan grep untuk menampilkan hanya baris yang mengandung INFO atau WARN dari d
 ## Latihan 2.5
 
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
+
+## Latihan 2.A
+
+Jalankan lspci-nnk. Pilih 1 perangkat PCI dan tuliskan: nama perangkat, ID vendor:device, dan kernel driver in use.
+
+## Latihan 2.B
+
+Tentukan device root filesystem dengan findmnt /. Lalu cocokkan dengan lsblk-f dan tuliskan tipe filesystem serta UUID-nya.
+
+## Latihan 2.C
+
+Buat file server.log berisi minimal 10 baris dengan variasi kata: INFO, WARN, ERROR. Gunakan grep untuk menampilkan hanya baris ERROR.
+
+## Latihan 2.D
+
+Gunakan sed untuk mengganti semua kata server menjadi node pada file latihan. Tunjukkan sebelum dan sesudah.
+
+## Latihan 2.E
+
+Gunakan df-h lalu awk untuk menampilkan filesystem yang penggunaan disk di atas 70%.
+
+## Latihan 2.F
+
+Jalankan sleep 600 &. Temukan PID-nya dengan ps. Hentikan dengan SIGTERM. Jelaskan beda SIGTERM vs SIGKILL.
+
+## Latihan 2.G
+
+Gunakan systemctl–failed. Jika tidak ada yang gagal, pilih satu service aktif (misal ssh) dan tampilkan status serta 30 baris log terakhirnya.
