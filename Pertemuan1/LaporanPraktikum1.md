@@ -5,9 +5,37 @@
 ### Latihan 1.1
 Jelaskan 5 fungsi utama sistem operasi dengan contoh konkret dari minimal 2 OS berbeda (Windows, macOS, atau Linux).
 
+#### Process Management
+Sistem operasi bertugas untuk menentukan proses mana yang mendapat CPU time, membuat dan mengakhiri proses, mengkoordinasi multiple processes, dan memfasilitasi komunikasi antar proses. Contoh :
+* Windows : Task Manager menampilkan proses yang berjalan dan penggunaan sumber daya
+* Linux: Perintah ps, top, dan htop untuk memantau proses
+
+#### Memory Management
+Sistem operasi berfungsi untuk memberikan memori ke proses yang membutuhkan, menggunakan disk untuk extension dari RAM, mencegah satu proses mengakses memori proses lain, serta teknik untuk optimasi penggunaan memori. Contoh:
+* Pagefile di Windows : Ketika RAM penuh, sistem operasi memindahkan sebagian data ke disk sehingga aplikasi dapat terus berjalan,
+meskipun dengan kinerja yang lebih lambat.
+
+#### File Management
+Sistem operasi berfungsi sebagai file management, yaitu membuat, membaca, menulis, menghapus file, mengintegrasikan perangkat penyimpanan ke sistem
+Contoh file systems:
+* Windows: NTFS (New Technology File System)
+* macOS: APFS (Apple File System)
+* Linux: ext4, XFS, Btrfs
+
+#### I/O Management
+Sistem operasi merupakan perangkat lunak untuk berkomunikasi dengan perangkat keras, penyimpanan sementara untuk kelancaran operasi I/O, merespon sinyal dari perangkat keras, antrean untuk perangkat seperti printer.
+
+#### Security dan Protection
+Sistem operasi berfungsi sebagai verifikasi identitas pengguna, kontrol ke akses sumber daya berdasarkan izin, Proteksi data (BitLocker di Windows, FileVault di macOS), dan pencatatan aktivitas sistem untuk pemantauan keamanan.
+
 ### Latihan 1.2
 Kapan sebaiknya menggunakan Windows vs Linux vs macOS? Analisis
 berdasarkan use case: gaming, development, server, creative work, dan enterprise.
+* Gaming
+* Development
+* Server
+* Creative work
+* enterprise
 
 ### Latihan 1.3
 Install Ubuntu Server 22.04 LTS di VirtualBox dengan langkah berikut:
