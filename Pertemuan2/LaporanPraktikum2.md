@@ -273,10 +273,21 @@ Perbedaan Ram dan scap adalah...
 ## Latihan 2.2
 
 Temukan 1 perangkat PCI (misal NIC) dan tuliskan: Vendor:Device ID (angka heksadesimal), nama driver/modul kernel, dan deskripsi singkat fungsinya.
+* Vendor:Device ID : 15ad:0405
+* Nama driver/modul kernel: vmwgfx
+* Deskripsi singkat fungsi: Driver grafis untuk VMware yang menyediakan akselerasi 3D dan manajemen tampilan pada mesin virtual
 
 ## Latihan 2.3
 
 Dari output ls -l, jelaskan perbedaan penanda file untuk block device dan character device. (Hint: karakter pertama pada permission string)
+
+![Detail device terminal](images/6tty.png)
+
+Pada perintah ls -l /dev/sda outputnya karakter pertama b menunjukkan singkatan dari block.
+
+Pada perintah ls -l /dev/tty menghasilkan output karakter pertama c menunjukkan singkatan dari character.
+
+
 
 ## Latihan 2.4
 
