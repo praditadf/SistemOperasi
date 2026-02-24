@@ -304,13 +304,14 @@ Port 631 digunakan oleh CUPS untuk menjalankan IPP (Internet Print Protocol).
 ## Latihan 2.A
 
 Jalankan lspci-nnk. Pilih 1 perangkat PCI dan tuliskan: nama perangkat, ID vendor:device, dan kernel driver in use.
-*Nama Perangkat: VMware SVGA II Adapter
-*ID Vendor:Device: 15ad:0405
-*Kernel Driver in Use: vmwgfx
+* Nama Perangkat: VMware SVGA II Adapter
+* ID Vendor:Device: 15ad:0405
+* Kernel Driver in Use: vmwgfx
 
 ## Latihan 2.B
 
 Tentukan device root filesystem dengan findmnt /. Lalu cocokkan dengan lsblk-f dan tuliskan tipe filesystem serta UUID-nya.
+
 Device yang digunakan sebagai root filesystem adalah /dev/sda2. Partisi ini menggunakan tipe filesystem ext4 dan memiliki UUID 285ad1fb-cd18-4dbe-a388-242bd6f133fd
 
 ## Latihan 2.C
