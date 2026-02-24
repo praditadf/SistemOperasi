@@ -297,8 +297,8 @@ Gunakan grep untuk menampilkan hanya baris yang mengandung INFO atau WARN dari d
 ## Latihan 2.5
 
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
-*PORT : 631 (TCP)
-*Proses/service : cupsd (berjalan pada alamat lokal 127.0.0.1 dan [::1]) 
+* PORT : 631 (TCP)
+* Proses/service : cupsd (berjalan pada alamat lokal 127.0.0.1 dan [::1]) 
 Port 631 digunakan oleh CUPS untuk menjalankan IPP (Internet Print Protocol).
 
 ## Latihan 2.A
@@ -321,6 +321,7 @@ Buat file server.log berisi minimal 10 baris dengan variasi kata: INFO, WARN, ER
 ## Latihan 2.D
 
 Gunakan sed untuk mengganti semua kata server menjadi node pada file latihan. Tunjukkan sebelum dan sesudah.
+![](images/2D.png)
 
 ## Latihan 2.E
 
@@ -337,3 +338,4 @@ Jalankan sleep 600 &. Temukan PID-nya dengan ps. Hentikan dengan SIGTERM. Jelask
 ## Latihan 2.G
 
 Gunakan systemctl–failed. Jika tidak ada yang gagal, pilih satu service aktif (misal ssh) dan tampilkan status serta 30 baris log terakhirnya.
+![](images/2G.png)
