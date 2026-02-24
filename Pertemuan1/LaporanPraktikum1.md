@@ -31,11 +31,11 @@ Sistem operasi berfungsi sebagai verifikasi identitas pengguna, kontrol ke akses
 ### Latihan 1.2
 Kapan sebaiknya menggunakan Windows vs Linux vs macOS? Analisis
 berdasarkan use case: gaming, development, server, creative work, dan enterprise.
-* Gaming
-* Development
-* Server
-* Creative work
-* enterprise
+* Gaming           : Windows adalah pilihan terbaik untuk gaming karena memiliki kompatibilitas yang luas dengan game-game populer, driver grafis yang lebih baik, dan dukungan untuk teknologi seperti DirectX.
+* Development      : Linux adalah pilihan terbaik untuk development karena memiliki banyak tool development yang gratis dan open-source, serta fleksibilitas yang tinggi. Linux juga memungkinkan developer untuk memiliki kontrol penuh atas sistem operasi.
+* Server           : Linux adalah pilihan terbaik untuk server karena memiliki keamanan yang tinggi, fleksibilitas yang tinggi, dan biaya yang rendah. Linux juga memiliki banyak distribusi yang dioptimalkan untuk server.
+* Creative work    : macOS adalah pilihan terbaik untuk creative work karena memiliki aplikasi-aplikasi kreatif yang sangat baik seperti Final Cut Pro dan Logic Pro, serta memiliki antarmuka yang intuitif dan mudah digunakan.
+* enterprise       : Windows adalah pilihan terbaik untuk enterprise karena memiliki kompatibilitas yang luas dengan aplikasi-aplikasi bisnis, dukungan yang baik dari Microsoft, dan memiliki fitur keamanan yang kuat seperti Active Directory.
 
 ### Latihan 1.3
 Install Ubuntu Server 22.04 LTS di VirtualBox dengan langkah berikut:
@@ -102,15 +102,13 @@ Eksplorasi sistem yang baru diinstall:
 
 ### Latihan 1.6
 Ceritakan pengalaman Anda dengan sistem operasi:
-1. Sistem operasi apa yang Anda gunakan sehari-hari? (Windows, macOS,
-Linux, atau lainnya)
-2. Berapa lama Anda menggunakan sistem operasi tersebut?
-3. Apa yang Anda sukai dari sistem operasi tersebut?
-4. Apa tantangan atau masalah yang pernah Anda hadapi?
-5. Apakah Anda pernah menggunakan sistem operasi lain? Bandingkan
-pengalaman Anda.
-6. Setelah mempelajari bab ini, apakah ada sistem operasi lain yang ingin
+1. Sistem operasi apa yang Anda gunakan sehari-hari? (Windows, macOS, Linux, atau lainnya) ![](images/1.6.1.png) Sistem operasi yang saya gunakan sehari-hari adalah windows. Saya menggunakan windows untuk keperluan sehari-hari saya terutama untuk menunjang aktivitas perkuliahan.
+2. Berapa lama Anda menggunakan sistem operasi tersebut? Saya sudah menggunakan sistem operasi windows selama lebih dari 2 tahun, semenjak pertama kali saya memakai sistem operasi pada komputer.
+3. Apa yang Anda sukai dari sistem operasi tersebut? Saya menyukai windows karena sistem operasi ini mudah digunakan, dipelajari, dan dipahami, bahkan bagi seorang pemula sekalipun. Selain itu, saya juga terbantu karena sudah langsung mendapatkan lisensi windows yang sudah aktif sejak pertama kali saja memakai perangkat ini.
+5. Apa tantangan atau masalah yang pernah Anda hadapi? Tantangan yang pernah saya hadapi adalah ketika laptop saya tiba-tiba mengalami bluescreen, dan laptop mati tidak bisa dinyalakan lagi selama beberapa menit. Saat tombol daya ditekan, mesinnya hanya menyala sebentar tanpa menampilkan gambar apa pun di layar, kemudian mati lagi.
+6. Apakah Anda pernah menggunakan sistem operasi lain? Bandingkan
+pengalaman Anda. ![](images/Ubuntu.png) Saya baru mencoba menggunakan linux untuk pembelajaran mata kuliah sistem operasi. Jika dibandingkan dengan windows, linux terasa lebih susah dikarenakan semua program nya harus manual. namun dengan belajar hal tersebut saya sedikit memahami bagaimana sistem operasi bekerja.
+7. Setelah mempelajari bab ini, apakah ada sistem operasi lain yang ingin
 Anda coba? Mengapa?
-Tulis refleksi Anda dalam 300-500 kata disertai dengan dokumentasi.
+Setelah mempelajari bab ini, saya ingin terus mempelajari sistem operasi yang belum pernah saya coba sebelumnya, terutama linux. Selain sistem operasi ini sangat mendukung untuk development dan juga jauh lebih ringan dibanding sistem operasi yang lainnya.
 
-### Jawaban Latihan 1.6
