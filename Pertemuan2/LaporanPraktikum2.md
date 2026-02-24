@@ -297,18 +297,26 @@ Gunakan grep untuk menampilkan hanya baris yang mengandung INFO atau WARN dari d
 ## Latihan 2.5
 
 Pilih satu port yang listening dari output ss -tulpn(misal port 22), lalu tuliskan service/proses yang membukanya. Jelaskan kegunaan port tersebut secara singkat.
+*PORT : 631 (TCP)
+*Proses/service : cupsd (berjalan pada alamat lokal 127.0.0.1 dan [::1]) 
+Port 631 digunakan oleh CUPS untuk menjalankan IPP (Internet Print Protocol).
 
 ## Latihan 2.A
 
 Jalankan lspci-nnk. Pilih 1 perangkat PCI dan tuliskan: nama perangkat, ID vendor:device, dan kernel driver in use.
+*Nama Perangkat: VMware SVGA II Adapter
+*ID Vendor:Device: 15ad:0405
+*Kernel Driver in Use: vmwgfx
 
 ## Latihan 2.B
 
 Tentukan device root filesystem dengan findmnt /. Lalu cocokkan dengan lsblk-f dan tuliskan tipe filesystem serta UUID-nya.
+Device yang digunakan sebagai root filesystem adalah /dev/sda2. Partisi ini menggunakan tipe filesystem ext4 dan memiliki UUID 285ad1fb-cd18-4dbe-a388-242bd6f133fd
 
 ## Latihan 2.C
 
 Buat file server.log berisi minimal 10 baris dengan variasi kata: INFO, WARN, ERROR. Gunakan grep untuk menampilkan hanya baris ERROR.
+![](images/lat2c.png)
 
 ## Latihan 2.D
 
@@ -317,10 +325,14 @@ Gunakan sed untuk mengganti semua kata server menjadi node pada file latihan. Tu
 ## Latihan 2.E
 
 Gunakan df-h lalu awk untuk menampilkan filesystem yang penggunaan disk di atas 70%.
+![](images/lat2e.png)
 
 ## Latihan 2.F
 
 Jalankan sleep 600 &. Temukan PID-nya dengan ps. Hentikan dengan SIGTERM. Jelaskan beda SIGTERM vs SIGKILL.
+![](images/lat2.f.png)
+* SIGTERM : menghentikan proses untuk berhenti dengan mengizinkan proses untuk menyimpan data dan menutup file.
+* SIGKILL : menghentikan proses seketika tanpa adanya pembersihan melainkan langsung menghapus proses.
 
 ## Latihan 2.G
 
