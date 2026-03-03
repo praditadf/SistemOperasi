@@ -188,4 +188,13 @@ Implementasikan script backup yang:
 4. Mencatat stderr ke backup-error.log
 5. Menambahkan timestamp di setiap log entry
 
-
+### Script backup :
+```
+#!/bin/bash
+echo "[$(date)] /home/user" | tee -a backup-succes.log
+tar -cvzf backup.tar.gz /home/user 2>> backup-error.log | tee -a backup-succes.log
+```
+```
+$ ./backup.sh
+[Tue Mar  3 07:11:29 PM WIB 2026] /home/user
+```
