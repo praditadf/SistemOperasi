@@ -29,7 +29,7 @@ Buat pipeline yang:
 4. Menyimpan ke file sorted-users.txt
 
    Hint: Gunakan cut, sort, dan operator redirect.
-### Pipeline
+### Pipeline :
 ``` $ cut -d: -f1 /etc/passwd | sort > sorted-users.txt ```
 ```
 _apt
@@ -89,8 +89,79 @@ Tulis script monitoring yang:
 2. Menyimpan log dengan timestamp
 3. Berjalan selama 1 menit (12 iterasi)
 4. Output ditampilkan di terminal DAN disimpan ke file
-44 1 Dasar Input/Output (I/O)
-1.12 Referensi Tambahan
+
+### Script Monitor :
+```
+#!/bin/bash
+for i in {1..12}; do
+date '+%Y-%m%-d %H:%M:%S' | tee -a log.txt
+free -h | tee -a log.txt
+uptime | tee -a log.txt
+sleep 5 
+done
+```
+``` $ bash monitor.sh
+2026-033 18:12:29
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       202Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:29 up  1:09,  1 user,  load average: 0.35, 0.43, 0.46
+2026-033 18:12:34
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       202Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:35 up  1:09,  1 user,  load average: 0.30, 0.41, 0.46
+2026-033 18:12:40
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:40 up  1:10,  1 user,  load average: 0.27, 0.40, 0.45
+2026-033 18:12:45
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:45 up  1:10,  1 user,  load average: 0.25, 0.40, 0.45
+2026-033 18:12:50
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:50 up  1:10,  1 user,  load average: 0.23, 0.39, 0.45
+2026-033 18:12:55
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:12:55 up  1:10,  1 user,  load average: 0.21, 0.38, 0.45
+2026-033 18:13:00
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:00 up  1:10,  1 user,  load average: 0.20, 0.38, 0.44
+2026-033 18:13:05
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       201Mi       135Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:05 up  1:10,  1 user,  load average: 0.18, 0.37, 0.44
+2026-033 18:13:10
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       199Mi       143Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:10 up  1:10,  1 user,  load average: 0.41, 0.41, 0.45
+2026-033 18:13:16
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       197Mi       143Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:16 up  1:10,  1 user,  load average: 0.37, 0.41, 0.45
+2026-033 18:13:21
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       197Mi       143Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:21 up  1:10,  1 user,  load average: 0.34, 0.40, 0.45
+2026-033 18:13:26
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.1Gi       197Mi       143Mi       1.6Gi       1.8Gi
+Swap:          2.0Gi        23Mi       2.0Gi
+ 18:13:26 up  1:10,  1 user,  load average: 0.31, 0.39, 0.45
+```
 
 ## Latihan 3.4
 Buat perintah yang:
@@ -99,6 +170,16 @@ Buat perintah yang:
 3. Menghitung jumlah file yang ditemukan
 4. Menyimpan daftar path lengkap ke file
 
+### Perintah :
+```
+$ find / -name "*.conf" 2> /dev/null | wc -l > path.txt
+```
+
+```
+$ wc -l < path.txt
+2078
+```
+
 ## Latihan 3.5
 Implementasikan script backup yang:
 1. Menggunakan tar untuk backup direktori
@@ -106,4 +187,5 @@ Implementasikan script backup yang:
 3. Mencatat stdout ke backup-success.log
 4. Mencatat stderr ke backup-error.log
 5. Menambahkan timestamp di setiap log entry
+
 
