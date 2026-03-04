@@ -6,7 +6,27 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
 2. Apa yang dimaksud perintah-perintah manipulasi file : cp, mv, dan rm (sertakan format yang digunakan)
 3. Jelaskan perbedaan *Symbolic link* menggunakan *hard link (direct)* dan *soft link (indirect)*
 4. Tuliskan maksud perintah-perintah : file, find, which, locate dan grep.
+   
+**Jawaban**
 
+1. * pwd
+   * cd
+   * mkdir
+   * rmdir
+2. 
+* cp
+* mv
+* rm
+3. 
+* *Symbolic link* *hard link (direct)*
+* *Symbolic link* *soft link (indirect)*
+4. 
+* file
+* find
+* which
+* locate
+* grep
+  
 ## PERCOBAAN:
 
 1. Login sebagai user.
