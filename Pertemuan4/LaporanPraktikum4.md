@@ -40,204 +40,206 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
 
    *$ pwd*
 
-   $ echo
+   *$ echo*
 
-   $HOME
+   *$HOME*
 
 2. Melihat direktori aktual dan parent direktori
-   $ pwd
 
-   $ cd .
+   *$ pwd*
 
-   $ pwd
+   *$ cd .*
 
-   $ cd ..
+   *$ pwd*
 
-   $ pwd
+   *$ cd ..*
 
-   $ cd
+   *$ pwd*
+
+   *$ cd*
 
 3. Membuat satu direktori, lebih dari satu direktori atau sub direktori
-   $ pwd
 
-   $ mkdir A B C A/D A/E B/F A/D/A
+   *$ pwd*
 
-   $ ls -l
+   *$ mkdir A B C A/D A/E B/F A/D/A*
 
-   $ ls -l A
+   *$ ls -l*
 
-   $ ls -l A/D
+   *$ ls -l A*
+
+   *$ ls -l A/D*
 
 4. Menghap us satu atau lebih direktori hanya dapat dilakukan pada direktori kosong dan hanya dapat dihapus oleh pemiliknya kecuali bila diberikan ijin aksesnya
 
-   $ rmdir B (Terdapat pesan error, mengapa ?)
+   *$ rmdir B* (Terdapat pesan error, mengapa ?)
 
-   $ ls -l B
+   *$ ls -l B*
 
-   $ rmdir B/F B
+   *$ rmdir B/F B*
 
-   $ ls -l B (Terdapat pesan error, me ngapa ?)
+   *$ ls -l B* (Terdapat pesan error, me ngapa ?)
 
 5. Navigasi direktori dengan instruksi cd untuk pindah dari satu direktori ke direktori lain.
 
-   $ pwd
+   *$ pwd*
 
-   $ ls -l
+   *$ ls -l*
 
-   $ cd A
+   *$ cd A*
 
-   $ pwd
+   *$ pwd*
 
-   $ cd ..
+   *$ cd ..*
 
-   $ pwd
+   *$ pwd*
 
-   $ cd /home/<user>/C
+   *$ cd /home/<user>/C*
 
-   $ pwd
+   *$ pwd*
 
-   $ cd /<user/C (Terdapat pesan error, mengapa ?)
+   *$ cd /<user/C* (Terdapat pesan error, mengapa ?)
 
-   $ pwd
+   *$ pwd*
 
 ### Percobaan 2 : Manipulasi file
 
 1. Perintah cp untuk mengkopi file atau seluruh direktori
 
-   $ cat > contoh
+   *$ cat* > contoh
 
    Membuat sebuah file
 
-   [Ctrl-d]
+   *[Ctrl-d]*
 
-   $ cp contoh contoh1
+   *$ cp* contoh contoh1
 
-   $ ls -l
+   *$ ls -l*
 
-   $ cp contoh A
+   *$ cp contoh A*
 
-   $ ls –l A
+   *$ ls –l A*
 
-   $ cp contoh contoh1 A/D
+   *$ cp contoh contoh1 A/D*
 
-   $ ls –l A/D
+   *$ ls –l A/D*
 
 2. Perintah mv untuk memindah file
 
-   $ mv contoh contoh2
+   *$ mv contoh contoh2*
 
-   $ ls -l
+   *$ ls -l*
 
-   $ mv contoh1 contoh2 A/D
+   *$ mv contoh1 contoh2 A/D*
 
-   $ ls –l A/D
+   *$ ls –l A/D*
 
-   $ mv contoh contoh1 C
-
-   $ ls –l C
+   *$ mv contoh contoh1 C*
+*
+   *$ ls –l C*
 
 3. Perintah rm untuk menghapus file
 
-   $ rm contoh2
+   *$ rm contoh2*
 
-   $ ls -l
+   *$ ls -l*
 
-   $ rm –i contoh
+   *$ rm –i contoh*
 
-   $ rm –rf A C
+   *$ rm –rf A C*
 
-   $ ls -l
+   *$ ls -l*
 
 ### Percobaan 3 : Symbolic Link
 
 1. Membuat shortcut (file link)
 
-   $ echo "Hallo apa khabar" > halo.txt
+   *$ echo "Hallo apa khabar" > halo.txt*
    
-   $ ls -l
+   *$ ls -l*
    
-   $ ln halo.txt z
+   *$ ln halo.txt z*
    
-   $ ls -l
+   *$ ls -l*
    
-   $ cat z
+   *$ cat z*
    
-   $ mkdir mydir
+   *$ mkdir mydir*
    
-   $ ln z mydir/halo.juga
+   *$ ln z mydir/halo.juga*
    
-   $ cat mydir/halo.juga
+   *$ cat mydir/halo.juga*
    
-   $ ln -s z bye.txt
+   *$ ln -s z bye.txt*
    
-   $ ls -l bye.txt
+   *$ ls -l bye.txt*
    
-   $ cat bye.txt
+   *$ cat bye.txt*
 
 ### Percobaan 4 : Melihat Isi File
 
-      $ ls –l
-   
-      $ file halo.txt
-   
-      $ file bye.txt
+1. *$ ls –l*
+
+   *$ file halo.txt*
+
+   *$ file bye.txt*
 
 ### Percobaan 5 : Mencari file
 
 1. Perintah find
 
-   $ find /home –name “_.txt” –print > myerror.txt
+   *$ find /home –name “_.txt” –print > myerror.txt*
    
-   $ cat myerror.txt
+   *$ cat myerror.txt*
    
-   $ find . –name “_.txt” –exec wc –l ‘{}’ ‘;’
+   *$ find . –name “_.txt” –exec wc –l ‘{}’ ‘;’*
 2. Perintah which
 
-   $ which ls
+   *$ which ls*
 
 3. Perintah locate
 
-   $ locate “\*.txt”
+   *$ locate “\*.txt”*
 
 ### Percobaan 6 : Mencari text pada file
 
-      $ grep Hallo \*.txt
+1. *$ grep Hallo \*.txt*
 
 ## LATIHAN:
 
 1. Cobalah urutan perintah berikut :
 
-   $ cd
+   *$ cd*
    
-   $ pwd
+   *$ pwd*
    
-   $ ls –al
+   *$ ls –al*
    
-   $ cd .
+   *$ cd .*
    
-   $ pwd
+   *$ pwd*
    
-   $ cd ..
+   *$ cd ..*
    
-   $ pwd
+   *$ pwd*
    
-   $ ls -al
+   *$ ls -al*
    
-   $ cd ..
+   *$ cd ..*
    
-   $ pwd
+   *$ pwd*
    
-   $ ls -al
+   *$ ls -al*
    
-   $ cd /etc
+   *$ cd /etc*
    
-   $ ls –al | more
+   *$ ls –al | more*
    
-   $ cat passwd
+   *$ cat passwd*
    
-   $ cd –
+   *$ cd –*
    
-   $ pwd
+   *$ pwd*
 
 2. Lanjutkan penelusuran pohon pada sistem file menggunakan cd, ls, pwd dan cat.
    Telusuri direktory /bin, /usr/bin, /sbin, /tmp dan /boot.
