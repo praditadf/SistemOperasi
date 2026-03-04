@@ -13,19 +13,19 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
    * cd
    * mkdir
    * rmdir
-2. 
-* cp
-* mv
-* rm
-3. 
-* *Symbolic link* *hard link (direct)*
-* *Symbolic link* *soft link (indirect)*
-4. 
-* file
-* find
-* which
-* locate
-* grep
+
+2. * cp
+   * mv
+   * rm
+
+3. * *Symbolic link* *hard link (direct)*
+   * *Symbolic link* *soft link (indirect)*
+
+4. * file
+   * find
+   * which
+   * locate
+   * grep
   
 ## PERCOBAAN:
 
