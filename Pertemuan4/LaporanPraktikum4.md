@@ -9,17 +9,17 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
    
 **Jawaban**
 
-1. * pwd
-   * cd
-   * mkdir
-   * rmdir
+1. * pwd   : berfungsi untuk menampilkan lokasi direktori saat ini
+   * cd    : Digunakan untuk mengubah lokai direktori yang digunakan
+   * mkdir : Digunakan untuk membuat direktori baru
+   * rmdir : berfungsi untuk menghapus direktori
 
-2. * cp
-   * mv
-   * rm
+2. * cp   : Perintah untuk menyalin file atau direktori ke lokasi lain
+   * mv   : Perintah untuk memindahkan file atau direktori ke lokasi lain
+   * rm   : Perintah untuk menghapus file atau direktori
 
-3. * *Symbolic link* *hard link (direct)*
-   * *Symbolic link* *soft link (indirect)*
+3. * *Symbolic link* *hard link (direct)*   :
+   * *Symbolic link* *soft link (indirect)* :
 
 4. * file
    * find
