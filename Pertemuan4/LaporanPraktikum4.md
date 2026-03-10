@@ -130,7 +130,7 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
    drwxrwxr-x 2 praditadf praditadf 4096 Mar 10 19:17 A
 ```
 
-1. Menghapus satu atau lebih direktori hanya dapat dilakukan pada direktori kosong dan hanya dapat dihapus oleh pemiliknya kecuali bila diberikan ijin aksesnya
+4. Menghapus satu atau lebih direktori hanya dapat dilakukan pada direktori kosong dan hanya dapat dihapus oleh pemiliknya kecuali bila diberikan ijin aksesnya
 
    *$ rmdir B* (Terdapat pesan error, mengapa ?) Karena direktori tersebut tidak kosong terdapat direktori F
 
@@ -150,7 +150,7 @@ Jawablah pertanyaan-pertanyaan di bawah ini :
    ls: cannot access 'B': No such file or directory
    ```
 
-1. Navigasi direktori dengan instruksi cd untuk pindah dari satu direktori ke direktori lain.
+5. Navigasi direktori dengan instruksi cd untuk pindah dari satu direktori ke direktori lain.
 
    *$ pwd*
 
@@ -2819,9 +2819,9 @@ praditadf@praditadf-VirtualBox:~/C$ pwd
    crw--w---- 1 praditadf tty 136, 0 Mar 10 20:42 /dev/pts/0
 ```
 
-1. Telusuri derectory /proc. Tampilkan isi file interrupts, devices, cpuinfo, meminfo dan uptime menggunakan perintah cat. Dapatkah Anda melihat mengapa directory /proc disebut pseudo -filesystem yang memungkinkan akses ke struktur data kernel ?
+4. Telusuri derectory /proc. Tampilkan isi file interrupts, devices, cpuinfo, meminfo dan uptime menggunakan perintah cat. Dapatkah Anda melihat mengapa directory /proc disebut pseudo -filesystem yang memungkinkan akses ke struktur data kernel ?
 
-   Direkktory /proc disebut pseudo -filesystem
+   Direktori /proc disebut pseudo-filesystem karena sistem file ini tidak disimpan di dalam harddisk, melainkan dibuat di atas RAM dan diatur langsung secara dinamis oleh kernel Linux. Itulah sebabnya kita bisa mengakses struktur data kernel dan melihat status hardware (seperti cpuinfo dan meminfo) secara real-time.
 
    ```
    praditadf@praditadf-VirtualBox:~$ cd /proc
@@ -3043,21 +3043,21 @@ praditadf@praditadf-VirtualBox:~/C$ pwd
    10620.09 16706.71
    ```
 
-2. Ubahlah direktory home ke user lain secara langsung menggunakan cd ~username.
+5. Ubahlah direktory home ke user lain secara langsung menggunakan cd ~username.
 
    ```
    praditadf@praditadf-VirtualBox:~$ cd  ~praditadf
    praditadf@praditadf-VirtualBox:~$ 
    ```
 
-3. Ubah kembali ke direktory home Anda.
+6. Ubah kembali ke direktory home Anda.
 
    ```
    praditadf@praditadf-VirtualBox:~$ cd /home
    praditadf@praditadf-VirtualBox:/home$ 
    ```
 
-4. Buat subdirektory work dan play.
+7. Buat subdirektory work dan play.
 
    ```
    praditadf@praditadf-VirtualBox:~$ mkdir work play
@@ -3065,13 +3065,13 @@ praditadf@praditadf-VirtualBox:~/C$ pwd
    drwxrwxr-x 2 praditadf praditadf   4096 Mar 10 21:14 play
    ```
 
-5. Hapus subdirektory work.
+8. Hapus subdirektory work.
 
    ```
    praditadf@praditadf-VirtualBox:~$ rmdir work
    ```
 
-6. Copy file /etc/passwd ke direktory home Anda.
+9. Copy file /etc/passwd ke direktory home Anda.
 
     ```
     praditadf@praditadf-VirtualBox:~$ cp /etc/passwd ~
@@ -3090,6 +3090,8 @@ praditadf@praditadf-VirtualBox:~/C$ pwd
 
 11. Ubahlah ke subdirektory play dan buat symbolic link dengan nama terminal yang menunjuk ke perangkat tty. Apa yang terjadi jika melakukan hard link ke perangkat tty ?
 
+    Jika melakukan hard link ke perangkat tty akan muncul pesan error. Hal ini karena sistem Linux tidak mengizinkan pembuatan hard link untuk file khusus demi keamanan sistem file.
+
 ```
 
    praditadf@praditadf-VirtualBox:~$ cd ~/play
@@ -3102,6 +3104,8 @@ praditadf@praditadf-VirtualBox:~/C$ pwd
 ```
 
 praditadf@praditadf-VirtualBox:~/play$ echo "hello world" > hello.txt
+praditadf@praditadf-VirtualBox:~/play$ cp terminal hello.txt
+hello world
 
 ```
 
@@ -3138,18 +3142,30 @@ praditadf@praditadf-VirtualBox:~$ rm -rf work
 1. Analisa hasil percobaan yang Anda lakukan.
    a. Analisa setiap hasil tampilannya.
    b. Pada Percobaan 1 point 3 buatlah pohon dari struktur file dan direktori
-   
+
+   ```
    .
+
    ├── A
+
    │   ├── D
+
    │   │   └── A
-   │   └── 
+
+   │   └── E
+
    ├── B
+
    │   └── F
+
    ├── C
-
+   ```
+   
    c. Bila terdapat pesan error, jelaskan penyebabnya.
-2. Kerjakan latihan diatas dan analisa hasil tampilannya.
-3. Berikan kesimpulan dari praktikum ini.
+1. Kerjakan latihan diatas dan analisa hasil tampilannya.
+2. Berikan kesimpulan dari praktikum ini.
 
+   * Organisasi file pada Linux memiliki struktur menyerupai pohon yang hierarkis, yang selalu diawali dari direktori paling dasar yaitu root. Di dalam root tersebut, kita dapat menciptakan file, direktori, hingga subdirektori ke bawah
+   * Kita dapat memanipulasi dan menelusuri sistem file menggunakan instruksi baris perintah. Ini mencakup perintah direktori (pwd, cd, mkdir, rmdir) , manipulasi file (cp, mv, rm) , hingga perintah untuk mencari file dan isi teks di dalamnya (find, which, locate, grep)
+   * Linux memiliki teknik link untuk memberikan lebih dari satu nama pada data yang sama. Kita bisa membuat file duplikat yang identik dengan file asli, di mana perubahan pada satu file akan memengaruhi yang lain, namun penggunaannya terbatas pada partisi disk yang sama. Dan membuat file shortcut yang hanya menunjuk ke lokasi file asal, serta dapat dibuat melintasi partisi disk yang berbeda.
 
