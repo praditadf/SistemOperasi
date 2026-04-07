@@ -2667,6 +2667,8 @@ htop is already the newest version (3.3.0-4build1).
 praditadf@praditadf-VirtualBox:~$ htop
 ```
 
+![HTOP](images/HTOP.png)
+
 ## Latihan 6.6
 
 #### 1. Gunakan ps aux –sort=%mem untuk menemukan proses yang menggunakan memori paling banyak di VM Anda. Proses apa itu?
@@ -2684,6 +2686,7 @@ pradita+    4285  0.4  3.5 1459515644 142316 ?   Sl   17:55   0:23 /snap/code/22
 pradita+    3354  0.1  3.0 2610128 120904 ?      Sl   17:54   0:09 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:37717 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {7802a8d4-756b-43c1-b556-68e6b1119eab} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
 pradita+    3469  0.1  2.5 1461316216 103776 ?   Sl   17:54   0:07 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
 ```
+
 > Proses yang menggunakan memori paling banyak adalah proses dengan PID 3575 yaitu aplikasi visual studio code
 
 #### 2. Di dalam top, tekan 1 . Apa yang berubah pada tampilan? Mengapa informasi ini berguna?
@@ -2707,8 +2710,8 @@ MiB Swap:   2048.0 total,   1712.8 free,    335.2 used.   1425.9 avail Mem
 
 #### 3. Di dalam htop, navigasikan ke proses sshd menggunakan tombol panah. Tekan F9 dan amati opsi sinyal yang tersedia
 
-
 ![SLEEP](images/SIGTERM.png)
+
 ```
 Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, atau memuat ulang konfigurasi tanpa perlu menuliskan secara manual dengan PID nya
 ```
@@ -2721,9 +2724,279 @@ Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, at
 
 #### 1. Jalankan ps aux –forest dan temukan proses dengan PID 1. Apa nama dan fungsi proses tersebut dalam sistem Linux modern?
 
+```
+praditadf@praditadf-VirtualBox:~$ ps aux --forest
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           2  0.0  0.0      0     0 ?        S    17:53   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-rcu_gp]
+root           5  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-sync_wq]
+root           6  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-kvfree_rcu_reclaim]
+root           7  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-slub_flushwq]
+root           8  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-netns]
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+root          12  0.0  0.0      0     0 ?        I    17:53   0:00  \_ [kworker/u8:0-ipv6_addrconf]
+root          13  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-mm_percpu_wq]
+root          14  0.0  0.0      0     0 ?        S    17:53   0:01  \_ [ksoftirqd/0]
+root          15  0.0  0.0      0     0 ?        I    17:53   0:06  \_ [rcu_preempt]
+root          16  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [rcu_exp_par_gp_kthread_worker/0]
+root          17  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [rcu_exp_gp_kthread_worker]
+root          18  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [migration/0]
+root          19  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [idle_inject/0]
+root          20  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [cpuhp/0]
+root          21  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [cpuhp/1]
+root          22  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [idle_inject/1]
+root          23  0.0  0.0      0     0 ?        S    17:53   0:02  \_ [migration/1]
+root          24  0.0  0.0      0     0 ?        S    17:53   0:03  \_ [ksoftirqd/1]
+root          29  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [kdevtmpfs]
+root          30  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-inet_frag_wq]
+root          31  0.0  0.0      0     0 ?        I    17:53   0:00  \_ [rcu_tasks_kthread]
+root          32  0.0  0.0      0     0 ?        I    17:53   0:00  \_ [rcu_tasks_rude_kthread]
+root          33  0.0  0.0      0     0 ?        I    17:53   0:00  \_ [rcu_tasks_trace_kthread]
+root          34  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [kauditd]
+root          35  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [khungtaskd]
+root          37  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [oom_reaper]
+root          38  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-writeback]
+root          40  0.0  0.0      0     0 ?        S    17:53   0:03  \_ [kcompactd0]
+root          41  0.0  0.0      0     0 ?        SN   17:53   0:00  \_ [ksmd]
+root          42  0.0  0.0      0     0 ?        SN   17:53   0:00  \_ [khugepaged]
+root          43  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-kblockd]
+root          44  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-blkcg_punt_bio]
+root          45  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-kintegrityd]
+root          46  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [irq/9-acpi]
+root          48  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-tpm_dev_wq]
+root          49  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-ata_sff]
+root          50  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-md]
+root          51  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-md_bitmap]
+root          52  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-edac-poller]
+root          53  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-devfreq_wq]
+root          54  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [watchdogd]
+root          55  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-quota_events_unbound]
+root          58  0.3  0.0      0     0 ?        S    17:53   0:26  \_ [kswapd0]
+root          59  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [ecryptfs-kthread]
+root          60  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-kthrotld]
+root          62  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-acpi_thermal_pm]
+root          64  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [scsi_eh_0]
+root          65  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-scsi_tmf_0]
+root          66  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [scsi_eh_1]
+root          67  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-scsi_tmf_1]
+root          72  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-mld]
+root          73  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-ipv6_addrconf]
+root          74  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-kstrp]
+root          75  0.0  0.0      0     0 ?        I    17:53   0:00  \_ [kworker/u8:1-ipv6_addrconf]
+root          77  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/u11:0]
+root          78  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/u12:0-ttm]
+root          90  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-charger_manager]
+root         139  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [scsi_eh_2]
+root         140  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-scsi_tmf_2]
+root         196  0.0  0.0      0     0 ?        S    17:53   0:01  \_ [jbd2/sda2-8]
+root         197  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-ext4-rsv-conversion]
+root         385  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [psimon]
+root         561  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [irq/18-vmwgfx]
+root         565  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/R-ttm]
+root        1137  0.1  0.0      0     0 ?        I    17:53   0:08  \_ [kworker/0:4-cgroup_free]
+root        1185  0.0  0.0      0     0 ?        S    17:53   0:00  \_ [psimon]
+root        1615  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/u13:1]
+root        1616  0.0  0.0      0     0 ?        I<   17:53   0:00  \_ [kworker/u13:2]
+root        2608  0.0  0.0      0     0 ?        I<   17:54   0:00  \_ [kworker/u12:1]
+root        4574  0.0  0.0      0     0 ?        I<   18:00   0:01  \_ [kworker/1:1H-kblockd]
+root        4701  0.1  0.0      0     0 ?        I    18:06   0:12  \_ [kworker/u10:0-flush-8:0]
+root        4799  0.1  0.0      0     0 ?        I    18:09   0:13  \_ [kworker/u9:1-flush-8:0]
+root        5312  0.0  0.0      0     0 ?        I    18:40   0:00  \_ [kworker/1:0-events]
+root        5792  0.0  0.0      0     0 ?        I<   18:56   0:00  \_ [kworker/0:0H-kblockd]
+root        6455  0.1  0.0      0     0 ?        I    19:24   0:02  \_ [kworker/u10:2-events_power_efficient]
+root        6639  0.1  0.0      0     0 ?        I    19:34   0:02  \_ [kworker/u9:4-flush-8:0]
+root        6782  0.1  0.0      0     0 ?        I    19:40   0:01  \_ [kworker/u9:0-events_unbound]
+root        6813  0.0  0.0      0     0 ?        I    19:44   0:00  \_ [kworker/u9:2-flush-8:0]
+root        6903  0.0  0.0      0     0 ?        I<   19:45   0:00  \_ [kworker/0:2H-kblockd]
+root        6909  0.0  0.0      0     0 ?        I    19:45   0:00  \_ [kworker/1:1-cgroup_free]
+root        7032  0.1  0.0      0     0 ?        I    19:48   0:01  \_ [kworker/u10:3-events_power_efficient]
+root        7056  0.0  0.0      0     0 ?        I<   19:50   0:00  \_ [kworker/1:2H]
+root        7072  0.0  0.0      0     0 ?        I    19:53   0:00  \_ [kworker/0:0-events]
+root        7173  0.0  0.0      0     0 ?        I<   19:57   0:00  \_ [kworker/0:1H]
+root        7244  0.1  0.0      0     0 ?        I    19:58   0:00  \_ [kworker/u10:1-kvfree_rcu_reclaim]
+root        7249  0.2  0.0      0     0 ?        I    19:58   0:00  \_ [kworker/u10:4-events_unbound]
+root        7266  0.0  0.0      0     0 ?        I    20:00   0:00  \_ [kworker/0:1]
+root           1  0.0  0.3  23460 13608 ?        Ss   17:53   0:06 /sbin/init splash
+root         245  0.0  0.3  50848 15004 ?        S<s  17:53   0:01 /usr/lib/systemd/systemd-journald
+root         330  0.0  0.1  30048  7536 ?        Ss   17:53   0:00 /usr/lib/systemd/systemd-udevd
+systemd+     409  0.0  0.1  17572  7524 ?        Ss   17:53   0:02 /usr/lib/systemd/systemd-oomd
+systemd+     412  0.0  0.3  21728 12500 ?        Ss   17:53   0:01 /usr/lib/systemd/systemd-resolved
+systemd+     415  0.0  0.1  91060  7596 ?        Ssl  17:53   0:00 /usr/lib/systemd/systemd-timesyncd
+avahi        751  0.0  0.1   8676  4472 ?        Ss   17:53   0:00 avahi-daemon: running [praditadf-VirtualBox.local]
+avahi        843  0.0  0.0   8488  1336 ?        S    17:53   0:00  \_ avahi-daemon: chroot helper
+message+     756  0.0  0.1  12220  7092 ?        Ss   17:53   0:01 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --s
+gnome-r+     762  0.0  0.3 439092 14144 ?        Ssl  17:53   0:00 /usr/libexec/gnome-remote-desktop-daemon --system
+polkitd      778  0.0  0.2 399680 11824 ?        Ssl  17:53   0:01 /usr/lib/polkit-1/polkitd --no-debug
+root         780  0.0  0.1 322052  7216 ?        Ssl  17:53   0:00 /usr/libexec/power-profiles-daemon
+root         793  0.0  0.7 1924008 28160 ?       Ssl  17:53   0:04 /snap/snapd/current/usr/lib/snapd/snapd
+root         797  0.0  0.2 321968  8156 ?        Ssl  17:53   0:00 /usr/libexec/accounts-daemon
+root         800  0.0  0.0  18100  2960 ?        Ss   17:53   0:00 /usr/sbin/cron -f -P
+root         802  0.0  0.1 318552  6832 ?        Ssl  17:53   0:00 /usr/libexec/switcheroo-control
+root         810  0.0  0.2  18156  8636 ?        Ss   17:53   0:00 /usr/lib/systemd/systemd-logind
+root         815  0.0  0.3 469812 12032 ?        Ssl  17:53   0:00 /usr/libexec/udisks2/udisksd
+root         850  0.0  0.4 345260 16956 ?        Ssl  17:53   0:00 /usr/sbin/NetworkManager --no-daemon
+root         856  0.0  0.1  17392  5528 ?        Ss   17:53   0:00 /usr/sbin/wpa_supplicant -u -s -O DIR=/run/wpa_supplicant GROUP=netdev
+syslog       866  0.0  0.1 222572  5500 ?        Ssl  17:53   0:00 /usr/sbin/rsyslogd -n -iNONE
+root         924  0.0  0.2 392108 11236 ?        Ssl  17:53   0:00 /usr/sbin/ModemManager
+root        1107  0.0  0.2  47072 11064 ?        Ss   17:53   0:00 /usr/sbin/cupsd -l
+lp          1163  0.0  0.1  16844  7004 ?        S    17:53   0:00  \_ /usr/lib/cups/notifier/dbus dbus://
+root        1123  0.0  0.3 120928 14128 ?        Ssl  17:53   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for
+kernoops    1150  0.0  0.0  12752  2104 ?        Ss   17:53   0:00 /usr/sbin/kerneloops --test
+kernoops    1160  0.0  0.0  12752  2356 ?        Ss   17:53   0:00 /usr/sbin/kerneloops
+cups-br+    1164  0.0  0.4 268500 17760 ?        Ssl  17:53   0:00 /usr/sbin/cups-browsed
+root        1166  0.0  0.2 323500  9216 ?        Ssl  17:53   0:00 /usr/sbin/gdm3
+root        1735  0.0  0.2 398720 11172 ?        Sl   17:53   0:00  \_ gdm-session-worker [pam/gdm-password]
+pradita+    1819  0.0  0.1 244344  6040 tty2     Ssl+ 17:53   0:00      \_ /usr/libexec/gdm-wayland-session env GNOME_SHELL_SESSION_MODE=ubuntu /usr/bin/
+pradita+    1833  0.0  0.3 306912 13412 tty2     Sl+  17:53   0:00          \_ /usr/libexec/gnome-session-binary --session=ubuntu
+rtkit       1259  0.0  0.0  88484  3468 ?        SNsl 17:53   0:00 /usr/libexec/rtkit-daemon
+colord      1382  0.0  0.3 328732 14164 ?        Ssl  17:53   0:00 /usr/libexec/colord
+root        1419  0.0  0.2 325996  9060 ?        Ssl  17:53   0:02 /usr/libexec/upowerd
+pradita+    1750  0.0  0.3  21316 12816 ?        Ss   17:53   0:01 /usr/lib/systemd/systemd --user
+pradita+    1751  0.0  0.0  21476  1948 ?        S    17:53   0:00  \_ (sd-pam)
+pradita+    1762  0.0  0.3 124212 12872 ?        Ssl  17:53   0:03  \_ /usr/bin/pipewire
+pradita+    1764  0.0  0.1 106412  5208 ?        Ssl  17:53   0:00  \_ /usr/bin/pipewire -c filter-chain.conf
+pradita+    1769  0.0  0.3 415536 14596 ?        Ssl  17:53   0:01  \_ /usr/bin/wireplumber
+pradita+    1775  0.0  0.3 126340 13936 ?        Ssl  17:53   0:01  \_ /usr/bin/pipewire-pulse
+pradita+    1780  0.0  0.2 325192  9948 ?        SLsl 17:53   0:00  \_ /usr/bin/gnome-keyring-daemon --foreground --components=pkcs11,secrets --control-d
+pradita+    1786  0.0  0.1  11260  6716 ?        Ss   17:53   0:03  \_ /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-a
+pradita+    1895  0.0  0.1 831968  7360 ?        Ssl  17:53   0:00  \_ /usr/libexec/xdg-document-portal
+root        1906  0.0  0.0   2712  2064 ?        Ss   17:53   0:00  |   \_ fusermount3 -o rw,nosuid,nodev,fsname=portal,auto_unmount,subtype=portal -- /r
+pradita+    1899  0.0  0.1 318112  6164 ?        Ssl  17:53   0:00  \_ /usr/libexec/xdg-permission-store
+pradita+    1932  0.0  0.1 162660  6452 ?        Ssl  17:53   0:00  \_ /usr/libexec/gcr-ssh-agent --base-dir /run/user/1000/gcr
+pradita+    1936  0.0  0.1 100224  5668 ?        Ssl  17:53   0:00  \_ /usr/libexec/gnome-session-ctl --monitor
+pradita+    1946  0.0  0.1 322940  7596 ?        Ssl  17:53   0:00  \_ /usr/libexec/gvfsd
+pradita+    2523  0.0  0.2 544540  9044 ?        Sl   17:54   0:00  |   \_ /usr/libexec/gvfsd-trash --spawner :1.20 /org/gtk/gvfs/exec_spaw/0
+pradita+    4537  0.0  0.2 396904  8856 ?        Sl   17:59   0:00  |   \_ /usr/libexec/gvfsd-recent --spawner :1.20 /org/gtk/gvfs/exec_spaw/1
+pradita+    1956  0.0  0.1 468384  6944 ?        Sl   17:53   0:00  \_ /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f
+pradita+    1967  0.0  0.3 742168 15488 ?        Ssl  17:53   0:00  \_ /usr/libexec/gnome-session-binary --systemd-service --session=ubuntu
+pradita+    2002  0.0  0.1 382952  7984 ?        Sl   17:54   0:00  |   \_ /usr/libexec/at-spi-bus-launcher --launch-immediately
+pradita+    2013  0.0  0.1   9620  5300 ?        S    17:54   0:00  |   |   \_ /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibili
+pradita+    2149  0.0  1.0 836804 43888 ?        Sl   17:54   0:00  |   \_ /usr/libexec/evolution-data-server/evolution-alarm-notify
+pradita+    2153  0.0  0.1 305500  7808 ?        Sl   17:54   0:00  |   \_ /usr/libexec/gsd-disk-utility-notify
+pradita+    4243  0.0  0.7 505996 28484 ?        Sl   17:55   0:01  |   \_ /usr/bin/update-notifier
+pradita+    2000 14.1  9.6 4195004 386616 ?      Ssl  17:54  18:02  \_ /usr/bin/gnome-shell
+pradita+    2862  0.6  0.9 280024 39368 ?        S    17:54   0:49  |   \_ /usr/bin/Xwayland :0 -rootless -noreset -accessx -core -auth /run/user/1000/.m
+pradita+    2899  0.0  0.4 1128336 17972 ?       Sl   17:54   0:04  |   \_ /usr/libexec/mutter-x11-frames
+pradita+    3002  2.3  9.5 3322772 384292 ?      Sl   17:54   2:59  |   \_ /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    3321  0.0  0.4 443020 19868 ?        S    17:54   0:00  |   |   \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -ipcHandle 0 -sign
+pradita+    3327  0.0  0.7 456440 30856 ?        Sl   17:54   0:00  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -parentBuildID
+pradita+    3354  0.1  2.8 2612192 114656 ?      Sl   17:54   0:11  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    3364  0.0  0.7 589448 31628 ?        Sl   17:54   0:00  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -parentBuildID
+pradita+    3609  0.0  2.1 2615452 86768 ?       Sl   17:54   0:01  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    3627  0.6  6.4 7010408 256844 ?      Sl   17:54   0:48  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    3850  0.0  0.7 456436 31204 ?        Sl   17:54   0:00  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -parentBuildID
+pradita+    3853  0.0  1.5 2567312 61416 ?       Sl   17:54   0:00  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    4044  0.0  1.5 2568144 62092 ?       Sl   17:55   0:07  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    4050  0.0  1.5 2568144 61876 ?       Sl   17:55   0:07  |   |       \_ /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser 
+pradita+    6853  0.1  1.6 2820884 66432 ?       Sl   19:44   0:01  |   \_ gjs /usr/share/gnome-shell/extensions/ding@rastersoft.com/app/ding.js -E -P /u
+pradita+    2073  0.0  0.1 236076  7552 ?        Sl   17:54   0:00  \_ /usr/libexec/at-spi2-registryd --use-gnome-session
+pradita+    2081  0.0  0.3 654752 14928 ?        Sl   17:54   0:00  \_ /usr/libexec/gnome-shell-calendar-server
+pradita+    2100  0.0  0.9 1218428 37156 ?       Ssl  17:54   0:00  \_ /usr/libexec/evolution-source-registry
+pradita+    2103  0.0  0.3 2593480 13216 ?       Sl   17:54   0:00  \_ /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.Shell.Notifications
+pradita+    2105  0.1  0.2 397316  8148 ?        Ssl  17:54   0:09  \_ /usr/bin/ibus-daemon --panel disable
+pradita+    2274  0.0  0.1 319144  6568 ?        Sl   17:54   0:00  |   \_ /usr/libexec/ibus-dconf
+pradita+    2285  0.0  0.5 432040 22972 ?        Sl   17:54   0:04  |   \_ /usr/libexec/ibus-extension-gtk3
+pradita+    2438  0.0  0.1 245444  7328 ?        Sl   17:54   0:03  |   \_ /usr/libexec/ibus-engine-simple
+pradita+    2106  0.0  0.1 392200  6508 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-a11y-settings
+pradita+    2107  0.0  0.3 423460 14200 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-color
+pradita+    2108  0.0  0.2 440356 10240 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-datetime
+pradita+    2109  0.0  0.1 467548  7712 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-housekeeping
+pradita+    2112  0.0  0.3 422256 14016 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-keyboard
+pradita+    2114  0.0  0.4 752104 17008 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-media-keys
+pradita+    2116  0.0  0.4 607756 16996 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-power
+pradita+    2119  0.0  0.2 332436 10696 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-print-notifications
+pradita+    2120  0.0  0.1 539760  6488 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-rfkill
+pradita+    2123  0.0  0.1 318236  6316 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-screensaver-proxy
+pradita+    2124  0.0  0.2 551872 10020 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-sharing
+pradita+    2125  0.0  0.1 394500  7516 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-smartcard
+pradita+    2126  0.0  0.2 402316  8724 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-sound
+pradita+    2127  0.0  0.3 496968 14776 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-wacom
+pradita+    2297  0.0  0.3 424916 14188 ?        Sl   17:54   0:00  \_ /usr/libexec/gsd-printer
+pradita+    2302  0.0  0.4 555360 17324 ?        Sl   17:54   0:00  \_ /usr/libexec/goa-daemon
+pradita+    2304  0.0  0.1 319100  6724 ?        Sl   17:54   0:00  \_ /usr/libexec/ibus-portal
+pradita+    2315  0.0  0.2 397992 10468 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfs-udisks2-volume-monitor
+pradita+    2356  0.0  0.5 899408 21304 ?        Ssl  17:54   0:00  \_ /usr/libexec/evolution-calendar-factory
+pradita+    2358  0.0  0.2 397800  8368 ?        Sl   17:54   0:00  \_ /usr/libexec/goa-identity-service
+pradita+    2368  0.0  0.1 318448  6652 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfs-goa-volume-monitor
+pradita+    2374  0.0  0.1 398056  7908 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfs-afc-volume-monitor
+pradita+    2382  0.0  0.1 318468  6460 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfs-mtp-volume-monitor
+pradita+    2387  0.0  0.6 834132 27580 ?        Ssl  17:54   0:00  \_ /usr/libexec/evolution-addressbook-factory
+pradita+    2396  0.0  0.1 319436  6908 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfs-gphoto2-volume-monitor
+pradita+    2403  0.0  0.0  39140  1744 ?        Ss   17:54   0:00  \_ /snap/snapd-desktop-integration/343/usr/bin/snapd-desktop-integration
+pradita+    2499  0.0  0.2 429348  8404 ?        Sl   17:54   0:00  |   \_ /snap/snapd-desktop-integration/343/usr/bin/snapd-desktop-integration
+pradita+    2514  0.0  0.1 230248  5900 ?        Ssl  17:54   0:00  \_ /usr/libexec/dconf-service
+pradita+    2557  0.0  0.5 816840 23436 ?        SNsl 17:54   0:00  \_ /usr/libexec/tracker-miner-fs-3
+pradita+    2559  0.0  0.3 710400 12056 ?        Ssl  17:54   0:00  \_ /usr/libexec/xdg-desktop-portal
+pradita+    2571  0.0  0.6 917828 26512 ?        Ssl  17:54   0:01  \_ /usr/libexec/xdg-desktop-portal-gnome
+pradita+    2617  0.0  0.4 2601648 19176 ?       Sl   17:54   0:01  \_ /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.ScreenSaver
+pradita+    2667  0.0  0.4 428260 19816 ?        Ssl  17:54   0:00  \_ /usr/libexec/xdg-desktop-portal-gtk
+pradita+    2668  0.0  0.1 244948  6432 ?        Ssl  17:54   0:00  \_ /usr/libexec/gvfsd-metadata
+pradita+    2866  0.0  0.7 650976 30236 ?        Ssl  17:54   0:00  \_ /usr/libexec/gsd-xsettings
+pradita+    2868  0.4  1.3 643504 53440 ?        Ssl  17:54   0:33  \_ /usr/libexec/gnome-terminal-server
+pradita+    2914  0.0  0.1  20196  4984 pts/0    Ss   17:54   0:00  |   \_ bash
+pradita+    7281 50.0  0.1  22424  4932 pts/0    R+   20:01   0:00  |       \_ ps aux --forest
+pradita+    2893  0.0  0.5 275824 20308 ?        Sl   17:54   0:00  \_ /usr/libexec/ibus-x11
+pradita+    3076  1.2  3.9 1461521032 157984 ?   SLsl 17:54   1:34  \_ /snap/code/228/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=
+pradita+    3078  0.0  1.0 33805580 41680 ?      S    17:54   0:00  |   \_ /snap/code/228/usr/share/code/code --type=zygote --no-zygote-sandbox --no-sand
+pradita+    3079  0.0  1.1 33805592 45348 ?      S    17:54   0:00  |   \_ /snap/code/228/usr/share/code/code --type=zygote --no-sandbox
+pradita+    3233  9.1  9.9 1463039440 397052 ?   Sl   17:54  11:32  |   |   \_ /snap/code/228/usr/share/code/code --type=zygote --no-sandbox
+pradita+    3150  0.0  1.5 50641164 61744 ?      Sl   17:54   0:04  |   \_ /proc/self/exe --type=utility --utility-sub-type=network.mojom.NetworkService 
+pradita+    3286  2.1  2.3 50718756 93248 ?      Sl   17:54   2:44  |   \_ /proc/self/exe --type=gpu-process --disable-gpu-sandbox --no-sandbox --ozone-p
+pradita+    3469  0.1  2.5 1461316216 103752 ?   Sl   17:54   0:08  |   \_ /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang
+pradita+    3571  0.0  2.2 1461333200 88396 ?    Sl   17:54   0:06  |   \_ /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang
+pradita+    3575  2.9 11.3 1461319884 454724 ?   Sl   17:54   3:46  |   \_ /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang
+pradita+    4285  0.3  3.4 1459515644 139336 ?   Sl   17:55   0:25  |       \_ /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resources
+pradita+    4306  0.0  2.0 1459515644 84144 ?    Sl   17:55   0:01  |       \_ /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resources
+pradita+    3093  0.0  0.0 149172   860 ?        Sl   17:54   0:00  \_ /snap/firefox/7967/usr/lib/firefox/crashhelper 3002 9 /tmp/ 11
+pradita+    3114  0.0  0.0 33576468 2512 ?       Sl   17:54   0:00  \_ /snap/code/228/usr/share/code/chrome_crashpad_handler --monitor-self-annotation=pt
+pradita+    3410  0.0  0.3 1766096 12072 ?       Sl   17:54   0:01  \_ /snap/snapd/current/usr/bin/snap userd
+root        4455  0.0  1.0 489872 42708 ?        Ssl  17:57   0:00 /usr/libexec/fwupd/fwupd
+```
+
+</details>
+
+> root           1  0.0  0.3  23460 13608 ?        Ss   17:53   0:06 /sbin/init splash
+
 #### 2. Hitung berapa proses yang dimiliki oleh user root dan berapa yang dimiliki oleh user Anda. Mengapa root memiliki lebih banyak proses?
 
+```
+praditadf@praditadf-VirtualBox:~$ ps -U root | wc -l
+108
+praditadf@praditadf-VirtualBox:~$ ps -U praditadf | wc -l
+103
+```
+>
+
 #### 3. Temukan semua proses yang berada dalam kondisi S. Mengapa sebagian besar proses di sistem berada dalam kondisi ini?
+
+```
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           2  0.0  0.0      0     0 ?        S    17:53   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    17:53   0:00 [pool_workqueue_release]
+root          14  0.0  0.0      0     0 ?        S    17:53   0:02 [ksoftirqd/0]
+root          16  0.0  0.0      0     0 ?        S    17:53   0:00 [rcu_exp_par_gp_kthread_worker/0]
+root          17  0.0  0.0      0     0 ?        S    17:53   0:00 [rcu_exp_gp_kthread_worker]
+root          18  0.0  0.0      0     0 ?        S    17:53   0:00 [migration/0]
+root          19  0.0  0.0      0     0 ?        S    17:53   0:00 [idle_inject/0]
+root          20  0.0  0.0      0     0 ?        S    17:53   0:00 [cpuhp/0]
+root          21  0.0  0.0      0     0 ?        S    17:53   0:00 [cpuhp/1]
+root          22  0.0  0.0      0     0 ?        S    17:53   0:00 [idle_inject/1]
+root          23  0.0  0.0      0     0 ?        S    17:53   0:02 [migration/1]
+root          24  0.0  0.0      0     0 ?        S    17:53   0:03 [ksoftirqd/1]
+root          29  0.0  0.0      0     0 ?        S    17:53   0:00 [kdevtmpfs]
+root          34  0.0  0.0      0     0 ?        S    17:53   0:00 [kauditd]
+root          35  0.0  0.0      0     0 ?        S    17:53   0:00 [khungtaskd]
+root          37  0.0  0.0      0     0 ?        S    17:53   0:00 [oom_reaper]
+root          40  0.0  0.0      0     0 ?        S    17:53   0:03 [kcompactd0]
+```
+>
 
 ## Latihan 6.B
 
@@ -2731,15 +3004,47 @@ Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, at
 
 #### 1. Jalankan tiga perintah sleep dengan durasi 100, 200, dan 300 detik di background. Verifikasi ketiganya dengan jobs
 
+```
+praditadf@praditadf-VirtualBox:~$ sleep 100 &
+[1] 7488
+praditadf@praditadf-VirtualBox:~$ sleep 200 &
+[2] 7489
+praditadf@praditadf-VirtualBox:~$ sleep 300 &
+[3] 7490
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]   Running                 sleep 100 &
+[2]-  Running                 sleep 200 &
+[3]+  Running                 sleep 300 &
+```
+
 #### 2. Bawa job kedua ke foreground, jeda dengan Ctrl+Z , lalu kembalikan ke background dengan bg
 
-#### 3. Hentikan job pertama dengan kill %1. Tampilkan kembali daftar job. Berapa job yang tersisa?Latihan 6.B Simulasi Manajemen Job
-
-#### 1. Jalankan tiga perintah sleep dengan durasi 100, 200, dan 300 detik di background. Verifikasi ketiganya dengan jobs
-
-#### 2. Bawa job kedua ke foreground, jeda dengan Ctrl+Z , lalu kembalikan ke background dengan bg
+```
+[1]   Running                 sleep 100 &
+[2]-  Running                 sleep 200 &
+[3]+  Running                 sleep 300 &
+praditadf@praditadf-VirtualBox:~$ fg %2
+sleep 200
+^Z
+[2]+  Stopped                 sleep 200
+praditadf@praditadf-VirtualBox:~$ bg %2
+[2]+ sleep 200 &
+```
 
 #### 3. Hentikan job pertama dengan kill %1. Tampilkan kembali daftar job. Berapa job yang tersisa?
+
+```
+praditadf@praditadf-VirtualBox:~$ kill %1
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]   Terminated              sleep 100
+[2]-  Running                 sleep 200 &
+[3]+  Running                 sleep 300 &
+praditadf@praditadf-VirtualBox:~$ jobs
+[2]-  Running                 sleep 200 &
+[3]+  Running                 sleep 300 &
+```
+
+> setelah dihentikan dengan kill %1, jobs yang tersisa hanya 2 karena jobs pertama telah dihentikan
 
 ## Latihan 6.C
 
@@ -2747,6 +3052,38 @@ Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, at
 
 #### 1. Jalankan dua proses sleep: satu dengan nice +5 dan satu dengan nice +15. Verifikasi nilai NI keduanya dengan ps
 
+```
+praditadf@praditadf-VirtualBox:~$ nice -n 5 sleep 500 &
+[1] 7636
+praditadf@praditadf-VirtualBox:~$ nice -n 15 sleep 600 &
+[2] 7638
+```
+
 #### 2. Gunakan renice untuk mengubah nice proses pertama menjadi +10. Proses mana yang kini lebih diprioritaskan scheduler?
 
+```
+praditadf@praditadf-VirtualBox:~$ renice -n 10 7636
+7636 (process ID) old priority 5, new priority 10
+```
+
+> Karena rentang -20 (prioritas tertinggi) hingga +19 (prioritas terendah), maka proses yang lebih diprioritaskan adalah proses yang pertama karena nilai nice nya 10
+
 #### 3. Kirim SIGSTOP ke salah satu proses, verifikasi kondisi T-nya, lalu kirim SIGCONT. Akhiri semua proses percobaan dengan pkill sleep
+
+```
+praditadf@praditadf-VirtualBox:~$ kill -SIGSTOP 7636
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    7636  0.0  0.0  16964  2152 pts/0    TN   20:15   0:00 sleep 500
+pradita+    7638  0.0  0.0  16964  2148 pts/0    SN   20:15   0:00 sleep 600
+
+[1]+  Stopped                 nice -n 5 sleep 500
+praditadf@praditadf-VirtualBox:~$ kill -SIGCONT 7636
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    7636  0.0  0.0  16964  2152 pts/0    SN   20:15   0:00 sleep 500
+pradita+    7638  0.0  0.0  16964  2148 pts/0    SN   20:15   0:00 sleep 600
+pradita+    7756  0.0  0.0  17820  2372 pts/0    S+   20:19   0:00 grep --color=auto sleep
+praditadf@praditadf-VirtualBox:~$ pkill sleep
+[1]-  Terminated              nice -n 5 sleep 500
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    7765  0.0  0.0  17820  2376 pts/0    S+   20:20   0:00 grep --color=auto sleep
+```
