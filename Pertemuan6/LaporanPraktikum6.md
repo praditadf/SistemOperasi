@@ -2684,7 +2684,7 @@ pradita+    4285  0.4  3.5 1459515644 142316 ?   Sl   17:55   0:23 /snap/code/22
 pradita+    3354  0.1  3.0 2610128 120904 ?      Sl   17:54   0:09 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:37717 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {7802a8d4-756b-43c1-b556-68e6b1119eab} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
 pradita+    3469  0.1  2.5 1461316216 103776 ?   Sl   17:54   0:07 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
 ```
->
+> Proses yang menggunakan memori paling banyak adalah proses dengan PID 3575 yaitu aplikasi visual studio code
 
 #### 2. Di dalam top, tekan 1 . Apa yang berubah pada tampilan? Mengapa informasi ini berguna?
 
@@ -2703,11 +2703,14 @@ MiB Mem :   3914.8 total,    137.4 free,   2488.9 used,   1714.0 buff/cache
 MiB Swap:   2048.0 total,   1712.8 free,    335.2 used.   1425.9 avail Mem 
 ```
 
-> Tampilan Cpu total berubah
+> Tampilan Cpu total berubah dari yang awalnya menampilkan total penggunaan cpu kemudian berganti menjadi cpu tiap tiap core
 
 #### 3. Di dalam htop, navigasikan ke proses sshd menggunakan tombol panah. Tekan F9 dan amati opsi sinyal yang tersedia
 
+
+![SLEEP](images/SIGTERM.png)
 ```
+Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, atau memuat ulang konfigurasi tanpa perlu menuliskan secara manual dengan PID nya
 ```
 
 # Latihan
