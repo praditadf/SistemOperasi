@@ -20,6 +20,13 @@ root          10  0.0  0.0      0     0 ?        I    20:07   0:00 [kworker/0:1-
 root          11  0.0  0.0      0     0 ?        I<   20:07   0:00 [kworker/0:0H-kblockd]
 root          12  0.0  0.0      0     0 ?        I    20:07   0:00 [kworker/u8:0-ipv6_addrconf]
 root          13  0.0  0.0      0     0 ?        I<   20:07   0:00 [kworker/R-mm_percpu_wq]
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```           
 root          14  0.1  0.0      0     0 ?        S    20:07   0:00 [ksoftirqd/0]
 root          15  0.3  0.0      0     0 ?        I    20:07   0:00 [rcu_preempt]
 root          16  0.0  0.0      0     0 ?        S    20:07   0:00 [rcu_exp_par_gp_kthread_worker/0]
@@ -238,6 +245,7 @@ pradita+    4106  0.0  0.0   5676  2764 ?        S    20:11   0:00 /usr/lib/spee
 pradita+    4118  0.8  1.7 2568148 70408 ?       Sl   20:11   0:00 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:4
 pradita+    4141 33.3  0.1  22428  4884 pts/0    R+   20:11   0:00 ps aux
 ```
+</details>
 
 ### 2. Tampilkan proses beserta thread-nya, dapat dilihat pada kolom LWP (Light-Weight Process ID)
 
