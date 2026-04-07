@@ -265,6 +265,13 @@ root          12      12  0.0    1  0.0      0     0 ?        I    20:07   0:00 
 root          13      13  0.0    1  0.0      0     0 ?        I<   20:07   0:00 [kworker/R-mm_percpu_wq]
 root          14      14  0.1    1  0.0      0     0 ?        S    20:07   0:00 [ksoftirqd/0]
 root          15      15  0.3    1  0.0      0     0 ?        I    20:07   0:01 [rcu_preempt]
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
 root          16      16  0.0    1  0.0      0     0 ?        S    20:07   0:00 [rcu_exp_par_gp_kthread_worker/0]
 root          17      17  0.0    1  0.0      0     0 ?        S    20:07   0:00 [rcu_exp_gp_kthread_worker]
 root          18      18  0.0    1  0.0      0     0 ?        S    20:07   0:00 [migration/0]
@@ -1192,6 +1199,7 @@ pradita+    4926    4932  0.0    8  2.2 1459515644 91764 ?    Sl   20:13   0:00 
 pradita+    4926    4933  0.0    8  2.2 1459515644 91764 ?    Sl   20:13   0:00 /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resource
 pradita+    4991    4991  100    1  0.1  25344  7756 pts/0    R+   20:14   0:00 ps aux -L
 ```
+</details>
 
 ### 3. Lihat PID shell aktif dan detail prosesnya
 
@@ -1238,6 +1246,13 @@ systemd(1)─┬─ModemManager(874)─┬─{ModemManager}(924)
            │            ├─{gdm3}(1237)
            │            ├─{gdm3}(1238)
            │            └─{gdm3}(1240)
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
            ├─gnome-remote-de(625)─┬─{gnome-remote-de}(884)
            │                      ├─{gnome-remote-de}(895)
            │                      └─{gnome-remote-de}(901)
@@ -1935,6 +1950,7 @@ systemd(1)─┬─ModemManager(874)─┬─{ModemManager}(924)
            └─wpa_supplicant(787)
 
 ```
+</details>
 
 ## Latihan 6.1
 
@@ -1951,6 +1967,8 @@ root           1  0.3  0.3  23636 15016 ?        Ss   20:07   0:04 /sbin/init sp
 #### 2. Jalankan pstree -p dan temukan proses bash Anda. Proses apa yang menjadi induk (PPID) dari bash tersebut?
 
 ```
+|-gnome-terminal-(2806)-+-bash(2824)-+-grep(4979)
+Proses yang menjadi induk dari bash tersebut adalah gnome-terminal dengan PPID 2806
 ```
 
 #### 3. Bandingkan output ps aux dan ps aux -L. Apa perbedaan yang Anda lihat?
