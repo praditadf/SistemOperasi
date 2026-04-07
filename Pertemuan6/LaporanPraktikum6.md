@@ -26,7 +26,7 @@ root          13  0.0  0.0      0     0 ?        I<   20:07   0:00 [kworker/R-mm
 <summary><b>Read More</b></summary>
 <br>
 
-```           
+```
 root          14  0.1  0.0      0     0 ?        S    20:07   0:00 [ksoftirqd/0]
 root          15  0.3  0.0      0     0 ?        I    20:07   0:00 [rcu_preempt]
 root          16  0.0  0.0      0     0 ?        S    20:07   0:00 [rcu_exp_par_gp_kthread_worker/0]
@@ -245,6 +245,7 @@ pradita+    4106  0.0  0.0   5676  2764 ?        S    20:11   0:00 /usr/lib/spee
 pradita+    4118  0.8  1.7 2568148 70408 ?       Sl   20:11   0:00 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:4
 pradita+    4141 33.3  0.1  22428  4884 pts/0    R+   20:11   0:00 ps aux
 ```
+
 </details>
 
 ### 2. Tampilkan proses beserta thread-nya, dapat dilihat pada kolom LWP (Light-Weight Process ID)
@@ -1199,6 +1200,7 @@ pradita+    4926    4932  0.0    8  2.2 1459515644 91764 ?    Sl   20:13   0:00 
 pradita+    4926    4933  0.0    8  2.2 1459515644 91764 ?    Sl   20:13   0:00 /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resource
 pradita+    4991    4991  100    1  0.1  25344  7756 pts/0    R+   20:14   0:00 ps aux -L
 ```
+
 </details>
 
 ### 3. Lihat PID shell aktif dan detail prosesnya
@@ -1950,6 +1952,7 @@ systemd(1)─┬─ModemManager(874)─┬─{ModemManager}(924)
            └─wpa_supplicant(787)
 
 ```
+
 </details>
 
 ## Latihan 6.1
@@ -1987,11 +1990,41 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 ### 1. Buat proses di background dan amati kondisinya
 
 ```
+praditadf@praditadf-VirtualBox:~$ sleep 60 &
+[1] 5550
+
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5550  0.0  0.0  16964  2152 pts/0    S    15:41   0:00 sleep 60
+pradita+    5552  0.0  0.0  17820  2368 pts/0    S+   15:41   0:00 grep --color=auto sleep
+
 ```
 
 ### 2. Amati perubahan exit code dari perintah yang berhasil dan gagal
 
 ```
+praditadf@praditadf-VirtualBox:~$ ls /tmp
+mcp-17TKOP
+snap-private-tmp
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-colord.service-Wv1Orz
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-fwupd.service-FGQJhy
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-ModemManager.service-jaMIBR
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-polkit.service-Nw5Fl7
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-power-profiles-daemon.service-NWsPtX
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-switcheroo-control.service-Owb1fY
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-systemd-logind.service-NK8EtM
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-systemd-oomd.service-x5VWqe
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-systemd-resolved.service-kXKHcZ
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-systemd-timesyncd.service-EL62qr
+systemd-private-7683b1e18fdf4a54a239cfe856e4b968-upower.service-qLz1N2
+praditadf@praditadf-VirtualBox:~$ echo "Sukses: $?"
+Sukses: 0
+[1]+  Done                    sleep 60
+
+praditadf@praditadf-VirtualBox:~$ ls /direktori-tidak-ada
+ls: cannot access '/direktori-tidak-ada': No such file or directory
+praditadf@praditadf-VirtualBox:~$ echo "Gagal: $?"
+Gagal: 2
+
 ```
 
 ## Latihan 6.2
@@ -1999,11 +2032,44 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 #### 1. Jalankan sleep 120 & dan amati kolom STAT pada ps aux. Kondisi apa yang ditampilkan? Mengapa proses sleep berada di kondisi tersebut?
 
 ```
+praditadf@praditadf-VirtualBox:~$ sleep 120 &
+[1] 5611
+
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5611  0.0  0.0  16964  2152 pts/0    S    15:46   0:00 sleep 120
+pradita+    5613  0.0  0.0  17820  2376 pts/0    S+   15:46   0:00 grep --color=auto sleep
+
+KPada kolom STAT menampilkan kondisi S, proses ini menunggu event dan dapat diinterupsi sinyal
 ```
 
 #### 2. Jalankan beberapa perintah yang berhasil dan yang gagal, lalu catat exit code masing-masing. Pola apa yang Anda temukan?
 
 ```
+praditadf@praditadf-VirtualBox:~$ ls A && echo "Exit code: $?"
+D  E
+Exit code: 0
+
+praditadf@praditadf-VirtualBox:~$ ls a ; echo "Exit code: $?"
+ls: cannot access 'a': No such file or directory
+Exit code: 2
+
+praditadf@praditadf-VirtualBox:~$ ls z ; echo "Exit code: $?"
+z
+Exit code: 0
+
+praditadf@praditadf-VirtualBox:~$ ls Z ; echo "Exit code: $?"
+ls: cannot access 'Z': No such file or directory
+Exit code: 2
+
+praditadf@praditadf-VirtualBox:~$ ls B ; echo "Exit code: $?"
+F
+Exit code: 0
+
+praditadf@praditadf-VirtualBox:~$ ls b ; echo "Exit code: $?"
+ls: cannot access 'b': No such file or directory
+Exit code: 2
+
+Pada setiap Exit code yang berhasil maka nilainya akan 0 sedangkan yang gagal Exit code bernilai selain 0
 ```
 
 ## Praktikum 6.3 — Mengatur Prioritas Proses
@@ -2011,21 +2077,33 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 ### 1. Jalankan proses dengan prioritas rendah
 
 ```
+praditadf@praditadf-VirtualBox:~$ nice -n 10 sleep 300 &
+[1] 4856
 ```
 
 ### 2. Verifikasi nilai nice pada kolom NI
 
 ```
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    4856  0.0  0.0  16964  2156 pts/0    SN   16:36   0:00 sleep 300
+pradita+    4859  0.0  0.0  17820  2372 pts/0    S+   16:36   0:00 grep --color=auto sleep
 ```
 
 ### 3. Ubah nilai nice proses yang sudah berjalan
 
 ```
+praditadf@praditadf-VirtualBox:~$ renice -n 15 -p 4856
+4856 (process ID) old priority 10, new priority 15
+praditadf@praditadf-VirtualBox:~$ ps -p 4856 -o pid,ni,cmd
+    PID  NI CMD
+   4856  15 sleep 300
 ```
 
 ### 4. Bersihkan proses percobaan
 
 ```
+praditadf@praditadf-VirtualBox:~$ kill %1
+praditadf@praditadf-VirtualBox:~$ 
 ```
 
 ## Latihan 6.3
@@ -2033,16 +2111,30 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 #### 1. Jalankan nice -n 5 sleep 200 & dan verifikasi nilai NI-nya dengan ps
 
 ```
+praditadf@praditadf-VirtualBox:~$ nice -n 5 sleep 200 &
+[1] 4962
+praditadf@praditadf-VirtualBox:~$ ps -p 4962 -o pid,ni,cmd
+    PID  NI CMD
+   4962   5 sleep 200
 ```
 
 #### 2. Ubah nilai nice menjadi 10 menggunakan renice, lalu verifikasi kembali
 
 ```
+praditadf@praditadf-VirtualBox:~$ renice -n 10 -p 4962
+4962 (process ID) old priority 5, new priority 10
+praditadf@praditadf-VirtualBox:~$ ps -p 4962 -o pid,ni,cmd
+    PID  NI CMD
+   4962  10 sleep 200
 ```
 
 #### 3. Coba ubah nilai nice menjadi -5 tanpa sudo. Apa yang terjadi? Mengapa Linux membatasi hal ini untuk user biasa?
 
 ```
+praditadf@praditadf-VirtualBox:~$ renice -n -5 -p 4962
+renice: failed to set priority for 4962 (process ID): Permission denied
+
+Linux membatasi user biasa untuk memberikan nilai nice negatif, karena nilai default adalah 0 dan hanya root yang dapat menurunkannya ke nilai negatif, sedangkan user biasa hanya bisa menaikkan nilai nice. 
 ```
 
 ## Praktikum 6.4 — Mengirim Sinyal ke Proses
@@ -2050,21 +2142,52 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 ### 1. Buat proses percobaan
 
 ```
+praditadf@praditadf-VirtualBox:~$ sleep 500 &
+[1] 5157
+praditadf@praditadf-VirtualBox:~$ sleep 600 &
+[2] 5158
+praditadf@praditadf-VirtualBox:~$ sleep 700 &
+[3] 5159
+praditadf@praditadf-VirtualBox:~$ ps aux | grep -v grep | grep sleep
+pradita+    5157  0.0  0.0  16964  2156 pts/0    S    16:49   0:00 sleep 500
+pradita+    5158  0.0  0.0  16964  2156 pts/0    S    16:49   0:00 sleep 600
+pradita+    5159  0.0  0.0  16964  2148 pts/0    S    16:49   0:00 sleep 700
 ```
 
 ### 2. Hentikan satu proses dengan SIGTERM dan verifikasi
 
 ```
+praditadf@praditadf-VirtualBox:~$ kill 5157
+praditadf@praditadf-VirtualBox:~$ ps aux | grep -v grep | grep sleep
+pradita+    5158  0.0  0.0  16964  2156 pts/0    S    16:49   0:00 sleep 600
+pradita+    5159  0.0  0.0  16964  2148 pts/0    S    16:49   0:00 sleep 700
+[1]   Terminated              sleep 500
 ```
 
 ### 3. Jeda dan lanjutkan proses dengan SIGSTOP/SIGCONT
 
 ```
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5158  0.0  0.0  16964  2156 pts/0    T    16:49   0:00 sleep 600
+pradita+    5159  0.0  0.0  16964  2148 pts/0    S    16:49   0:00 sleep 700
+pradita+    5216  0.0  0.0  17820  2372 pts/0    S+   16:54   0:00 grep --color=auto sleep
+
+[2]+  Stopped                 sleep 600
+
+praditadf@praditadf-VirtualBox:~$ kill -SIGCONT 5158
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5158  0.0  0.0  16964  2156 pts/0    S    16:49   0:00 sleep 600
+pradita+    5159  0.0  0.0  16964  2148 pts/0    S    16:49   0:00 sleep 700
+pradita+    5232  0.0  0.0  17820  2372 pts/0    S+   16:55   0:00 grep --color=auto sleep
+
 ```
 
 ### 4. Hentikan semua proses sleep sekaligus
 
 ```
+praditadf@praditadf-VirtualBox:~$ pkill sleep
+[2]-  Terminated              sleep 600
+[3]+  Terminated              sleep 700
 ```
 
 ## Latihan 6.4
@@ -2072,16 +2195,38 @@ Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-We
 #### 1. Jalankan sleep 400 &, kirim SIGSTOP, dan amati perubahan kolom STAT. Kondisi apa yang muncul?
 
 ```
+praditadf@praditadf-VirtualBox:~$ sleep 400 &
+[1] 5250
+praditadf@praditadf-VirtualBox:~$ kill -SIGSTOP 5250
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5250  0.0  0.0  16964  2156 pts/0    T    16:56   0:00 sleep 400
+pradita+    5254  0.0  0.0  17820  2376 pts/0    S+   16:56   0:00 grep --color=auto sleep
+
+[1]+  Stopped                 sleep 400
+
+Kolom STAT menjadi T (Jeda proses)
 ```
 
 #### 2. Kirim SIGCONT dan verifikasi proses kembali berjalan
 
 ```
+praditadf@praditadf-VirtualBox:~$ kill -SIGCONT 5250
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5250  0.0  0.0  16964  2156 pts/0    S    16:56   0:00 sleep 400
+pradita+    5288  0.0  0.0  17820  2376 pts/0    S+   16:58   0:00 grep --color=auto sleep
 ```
 
 #### 3. Hentikan proses dengan SIGTERM lalu verifikasi sudah tidak ada. Kapan Anda memilih SIGKILL daripada SIGTERM?
 
 ```
+praditadf@praditadf-VirtualBox:~$ kill -SIGTERM 5250
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5303  0.0  0.0  17820  2376 pts/0    S+   16:59   0:00 grep --color=auto sleep
+[1]+  Terminated              sleep 400
+praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
+pradita+    5314  0.0  0.0  17820  2376 pts/0    S+   17:00   0:00 grep --color=auto sleep
+
+Penggunaan SIGKILL digunakan ketika kita sudah mencoba menggunakan SIGTERM agar komputer mendapatkan kesempatan untuk menyimpan data dan membersihkan sumber daya sebelum berhenti. Sedangkan SIGKILL mematikan proses secara paksa tanpa cleanup yang berisiko menyebabkan data korup atau file lock yang tidak terlepas.
 ```
 
 ## Praktikum 6.5 — Manajemen Job Foreground dan Background
