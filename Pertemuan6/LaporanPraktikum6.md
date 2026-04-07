@@ -1961,7 +1961,7 @@ systemd(1)─┬─ModemManager(874)─┬─{ModemManager}(924)
 
 #### 1. Berapa total proses yang berjalan? Proses apa yang memiliki PID terkecil?
 
-> Total proses yang berjalan ada 225 proses yang didapatkan dengan menggunakan menjalankan perintah ws -l, dan proses dengan PID terkecil yaitu
+> Total proses yang berjalan ada 225 proses yang didapatkan dengan menggunakan menjalankan perintah wc -l, dan proses dengan PID terkecil yaitu
 
 ```
 root           1  0.3  0.3  23636 15016 ?        Ss   20:07   0:04 /sbin/init splash
@@ -2667,7 +2667,7 @@ htop is already the newest version (3.3.0-4build1).
 praditadf@praditadf-VirtualBox:~$ htop
 ```
 
-![HTOP](images/HTOP.png)
+![HTOP](Images/HTOP.png)
 
 ## Latihan 6.6
 
@@ -2710,7 +2710,7 @@ MiB Swap:   2048.0 total,   1712.8 free,    335.2 used.   1425.9 avail Mem
 
 #### 3. Di dalam htop, navigasikan ke proses sshd menggunakan tombol panah. Tekan F9 dan amati opsi sinyal yang tersedia
 
-![SLEEP](images/SIGTERM.png)
+![SLEEP](Images/SIGTERM.png)
 
 ```
 Dengan menggunakan F9 akan muncul opsi sinyal untuk meminta berhenti, dijeda, atau memuat ulang konfigurasi tanpa perlu menuliskan secara manual dengan PID nya
@@ -2972,7 +2972,7 @@ praditadf@praditadf-VirtualBox:~$ ps -U root | wc -l
 praditadf@praditadf-VirtualBox:~$ ps -U praditadf | wc -l
 103
 ```
->
+> user root memiliki 108 proses, sedangkan user praditadf memiliki 103 proses. Root memiliki proses lebih banyak karena root menjalankan proses inti.
 
 #### 3. Temukan semua proses yang berada dalam kondisi S. Mengapa sebagian besar proses di sistem berada dalam kondisi ini?
 
@@ -2996,7 +2996,7 @@ root          35  0.0  0.0      0     0 ?        S    17:53   0:00 [khungtaskd]
 root          37  0.0  0.0      0     0 ?        S    17:53   0:00 [oom_reaper]
 root          40  0.0  0.0      0     0 ?        S    17:53   0:03 [kcompactd0]
 ```
->
+> Sebagian besar proses di sistem dalam kondisi S, karena proses tersebut menunggu I/O untuk kembali di eksekusi
 
 ## Latihan 6.B
 
