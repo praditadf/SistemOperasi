@@ -1961,8 +1961,9 @@ systemd(1)─┬─ModemManager(874)─┬─{ModemManager}(924)
 
 #### 1. Berapa total proses yang berjalan? Proses apa yang memiliki PID terkecil?
 
+> Total proses yang berjalan ada 225 proses yang didapatkan dengan menggunakan menjalankan perintah ws -l, dan proses dengan PID terkecil yaitu
+
 ```
-Total proses yang berjalan ada 225 proses yang didapatkan dengan menggunakan menjalankan perintah ws -l, dan proses dengan PID terkecil yaitu
 root           1  0.3  0.3  23636 15016 ?        Ss   20:07   0:04 /sbin/init splash
 
 ```
@@ -1971,8 +1972,9 @@ root           1  0.3  0.3  23636 15016 ?        Ss   20:07   0:04 /sbin/init sp
 
 ```
 |-gnome-terminal-(2806)-+-bash(2824)-+-grep(4979)
-Proses yang menjadi induk dari bash tersebut adalah gnome-terminal dengan PPID 2806
 ```
+
+> Proses yang menjadi induk dari bash tersebut adalah gnome-terminal dengan PPID 2806
 
 #### 3. Bandingkan output ps aux dan ps aux -L. Apa perbedaan yang Anda lihat?
 
@@ -1981,9 +1983,9 @@ ps aux
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ps aux -L
 USER         PID     LWP %CPU NLWP %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-
-Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-Weight Process ID)
 ```
+
+> Perbedaan kedua output terdapat pada ps aux -L yang terdapat kolom LWP (Light-Weight Process ID)
 
 ## Praktikum 6.2 — Mengamati Siklus Hidup Proses
 
@@ -2038,9 +2040,9 @@ praditadf@praditadf-VirtualBox:~$ sleep 120 &
 praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
 pradita+    5611  0.0  0.0  16964  2152 pts/0    S    15:46   0:00 sleep 120
 pradita+    5613  0.0  0.0  17820  2376 pts/0    S+   15:46   0:00 grep --color=auto sleep
-
-KPada kolom STAT menampilkan kondisi S, proses ini menunggu event dan dapat diinterupsi sinyal
 ```
+
+> Pada kolom STAT menampilkan kondisi S, proses ini menunggu event dan dapat diinterupsi sinyal
 
 #### 2. Jalankan beberapa perintah yang berhasil dan yang gagal, lalu catat exit code masing-masing. Pola apa yang Anda temukan?
 
@@ -2068,9 +2070,9 @@ Exit code: 0
 praditadf@praditadf-VirtualBox:~$ ls b ; echo "Exit code: $?"
 ls: cannot access 'b': No such file or directory
 Exit code: 2
-
-Pada setiap Exit code yang berhasil maka nilainya akan 0 sedangkan yang gagal Exit code bernilai selain 0
 ```
+
+> Pada setiap Exit code yang berhasil maka nilainya akan 0 sedangkan yang gagal Exit code bernilai selain 0
 
 ## Praktikum 6.3 — Mengatur Prioritas Proses
 
@@ -2133,9 +2135,9 @@ praditadf@praditadf-VirtualBox:~$ ps -p 4962 -o pid,ni,cmd
 ```
 praditadf@praditadf-VirtualBox:~$ renice -n -5 -p 4962
 renice: failed to set priority for 4962 (process ID): Permission denied
-
-Linux membatasi user biasa untuk memberikan nilai nice negatif, karena nilai default adalah 0 dan hanya root yang dapat menurunkannya ke nilai negatif, sedangkan user biasa hanya bisa menaikkan nilai nice. 
 ```
+
+> Linux membatasi user biasa untuk memberikan nilai nice negatif, karena nilai default adalah 0 dan hanya root yang dapat menurunkannya ke nilai negatif, sedangkan user biasa hanya bisa menaikkan nilai nice.
 
 ## Praktikum 6.4 — Mengirim Sinyal ke Proses
 
@@ -2203,9 +2205,9 @@ pradita+    5250  0.0  0.0  16964  2156 pts/0    T    16:56   0:00 sleep 400
 pradita+    5254  0.0  0.0  17820  2376 pts/0    S+   16:56   0:00 grep --color=auto sleep
 
 [1]+  Stopped                 sleep 400
-
-Kolom STAT menjadi T (Jeda proses)
 ```
+
+> Kolom STAT menjadi T (Jeda proses)
 
 #### 2. Kirim SIGCONT dan verifikasi proses kembali berjalan
 
@@ -2225,64 +2227,444 @@ pradita+    5303  0.0  0.0  17820  2376 pts/0    S+   16:59   0:00 grep --color=
 [1]+  Terminated              sleep 400
 praditadf@praditadf-VirtualBox:~$ ps aux | grep sleep
 pradita+    5314  0.0  0.0  17820  2376 pts/0    S+   17:00   0:00 grep --color=auto sleep
-
-Penggunaan SIGKILL digunakan ketika kita sudah mencoba menggunakan SIGTERM agar komputer mendapatkan kesempatan untuk menyimpan data dan membersihkan sumber daya sebelum berhenti. Sedangkan SIGKILL mematikan proses secara paksa tanpa cleanup yang berisiko menyebabkan data korup atau file lock yang tidak terlepas.
 ```
+
+> Penggunaan SIGKILL digunakan ketika kita sudah mencoba menggunakan SIGTERM agar komputer mendapatkan kesempatan untuk menyimpan data dan membersihkan sumber daya sebelum berhenti. Sedangkan SIGKILL mematikan proses secara paksa tanpa cleanup yang berisiko menyebabkan data korup atau file lock yang tidak terlepas.
 
 ## Praktikum 6.5 — Manajemen Job Foreground dan Background
 
 ### 1. Jalankan tiga job di background
 
 ```
+praditadf@praditadf-VirtualBox:~$ sleep 200 &
+[1] 5719
+praditadf@praditadf-VirtualBox:~$ sleep 300 &
+[2] 5720
+praditadf@praditadf-VirtualBox:~$ sleep 400 &
+[3] 5722
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]   Running                 sleep 200 &
+[2]-  Running                 sleep 300 &
+[3]+  Running                 sleep 400 &
 ```
 
 ### 2. Bawa job pertama ke foreground, jeda, lalu kembalikan ke background
 
 ```
+praditadf@praditadf-VirtualBox:~$ fg %1
+sleep 200
+^Z
+[1]+  Stopped                 sleep 200
+praditadf@praditadf-VirtualBox:~$ bg %1
+[1]+ sleep 200 &
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]   Running                 sleep 200 &
+[2]-  Running                 sleep 300 &
+[3]+  Running                 sleep 400 &
 ```
 
 ### 3. Hentikan semua job
 
 ```
+praditadf@praditadf-VirtualBox:~$ kill %1 %2 %3
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]   Terminated              sleep 200
+[2]-  Terminated              sleep 300
+[3]+  Terminated              sleep 400
 ```
 
 ## Latihan 6.5
 
 #### 1. Jalankan top di foreground. Apa yang terjadi di terminal?
 
+> Ketika top dijalankan di foreground maka kita tidak bisa menulis perintah lain sebelum keluar atau jeda terlebih dahulu.
+
 ```
+
+top - 18:57:01 up  1:03,  1 user,  load average: 0.63, 0.61, 0.67
+Tasks: 221 total,   1 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  9.1 us,  9.9 sy,  0.0 ni, 80.2 id,  0.2 wa,  0.0 hi,  0.6 si,  0.0 st 
+MiB Mem :   3914.8 total,    130.0 free,   2421.6 used,   1791.4 buff/cache     
+MiB Swap:   2048.0 total,   1741.6 free,    306.4 used.   1493.2 avail Mem 
+
 ```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   2000 pradita+  20   0 4171772 366516 141664 S  19.9   9.1   9:17.67 gnome-shell                                                                       
+   3575 pradita+  20   0 1393.6g 442704  87392 S  19.3  11.0   1:56.76 code                                                                              
+   3233 pradita+  20   0 1395.3g 374532 135192 S  12.0   9.3   3:39.18 code                                                                              
+   3286 pradita+  20   0   48.4g 114116 111008 S   6.6   2.8   1:02.51 code                                                                              
+   3076 pradita+  20   0 1393.8g 153024 110936 S   1.7   3.8   0:47.91 code                                                                              
+   2862 pradita+  20   0  287552  57232  38716 S   1.3   1.4   0:17.70 Xwayland                                                                          
+   5609 root      20   0       0      0      0 I   1.3   0.0   0:00.28 kworker/u10:2-ext4-rsv-conversion                                                 
+   2868 pradita+  20   0  641252  52492  42268 S   0.7   1.3   0:15.66 gnome-terminal-                                                                   
+   4285 pradita+  20   0 1391.9g 131352  68400 S   0.7   3.3   0:12.64 code                                                                              
+    571 root      20   0       0      0      0 I   0.3   0.0   0:04.39 kworker/u9:5-kvfree_rcu_reclaim                                                   
+   2105 pradita+  20   0  397316   8008   7020 S   0.3   0.2   0:06.35 ibus-daemon                                                                       
+   2571 pradita+  20   0  917828  27948  20204 S   0.3   0.7   0:00.87 xdg-desktop-por                                                                   
+   3002 pradita+  20   0 3322972 437016 164756 S   0.3  10.9   2:01.06 firefox                                                                           
+      1 root      20   0   23460  13860   9816 S   0.0   0.3   0:05.91 systemd                                                                           
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.08 kthreadd                                                                          
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                            
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                                  
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                                 
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                      
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                            
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                   
+     12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker/u8:0-ipv6_addrconf                                                        
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                            
+     14 root      20   0       0      0      0 S   0.0   0.0   0:01.31 ksoftirqd/0                                                                       
+     15 root      20   0       0      0      0 I   0.0   0.0   0:03.82 rcu_preempt                                                                       
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                   
+     17 root      20   0       0      0      0 S   0.0   0.0   0:00.07 rcu_exp_gp_kthread_worker                                                         
+     18 root      rt   0       0      0      0 S   0.0   0.0   0:00.06 migration/0                                                                       
+     19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                     
+```
+
+</details>
 
 #### 2. Tekan Ctrl+Z dan cek statusnya dengan jobs. Kondisi apa yang ditampilkan?
 
 ```
+[1]+  Stopped                 top
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]+  Stopped                 top
+
+Terminal akan menampilkan kondisi jobs yang terjeda
 ```
 
 #### 3. Pindahkan ke background dengan bg. Apakah top dapat berjalan dengan baik di background? Mengapa?
 
 ```
+[1]+  Stopped                 top
+praditadf@praditadf-VirtualBox:~$ jobs
+[1]+  Stopped                 top
+praditadf@praditadf-VirtualBox:~$ bg %1
+[1]+ top &
+praditadf@praditadf-VirtualBox:~$ 
+
 ```
+
+> Top tidak dapat berjalan baik di background, karena top menampilkan proses secara real time sehingga harus berjalan di foreground
 
 #### 4. Kembalikan ke foreground dengan fg, lalu keluar dengan q
 
+```top - 19:05:37 up  1:12,  1 user,  load average: 0.75, 1.18, 0.97
+Tasks: 221 total,   1 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.8 sy,  0.0 ni, 98.3 id,  0.0 wa,  0.0 hi,  0.8 si,  0.0 st 
+MiB Mem :   3914.8 total,    172.5 free,   2424.7 used,   1707.0 buff/cache     
+MiB Swap:   2048.0 total,   1722.6 free,    325.4 used.   1490.0 avail Mem 
+
 ```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
 ```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   2000 pradita+  20   0 4165708 356588 135400 S  27.3   8.9  10:47.05 gnome-shell                                                                       
+     14 root      20   0       0      0      0 S   9.1   0.0   0:01.36 ksoftirqd/0                                                                       
+   6044 pradita+  20   0   23200   5768   3544 R   9.1   0.1   0:00.01 top                                                                               
+      1 root      20   0   23460  13860   9816 S   0.0   0.3   0:05.92 systemd                                                                           
+top - 19:08:02 up  1:14,  1 user,  load average: 1.30, 1.22, 1.01
+Tasks: 221 total,   4 running, 217 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  6.7 us,  9.7 sy,  0.0 ni, 83.0 id,  0.0 wa,  0.0 hi,  0.5 si,  0.0 st 
+MiB Mem :   3914.8 total,    202.5 free,   2411.4 used,   1704.4 buff/cache     
+MiB Swap:   2048.0 total,   1719.2 free,    328.8 used.   1503.4 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   2000 pradita+  20   0 4173868 355892 135400 S  17.2   8.9  11:12.01 gnome-shell                                                                       
+   3233 pradita+  20   0 1395.3g 398628 116580 S  17.1   9.9   6:00.65 code                                                                              
+   3575 pradita+  20   0 1393.6g 440936  87392 S   4.9  11.0   2:36.80 code                                                                              
+   3286 pradita+  20   0   48.4g 100048  96352 S   4.3   2.5   1:32.98 code                                                                              
+   3076 pradita+  20   0 1393.8g 155064 111164 S   2.8   3.9   1:01.82 code                                                                              
+   2862 pradita+  20   0  280020  49712  31184 S   1.5   1.2   0:27.20 Xwayland                                                                          
+   4285 pradita+  20   0 1391.9g 128520  68400 S   0.4   3.2   0:17.70 code                                                                              
+   2868 pradita+  20   0  641252  51620  42268 S   0.4   1.3   0:17.90 gnome-terminal-                                                                   
+   4799 root      20   0       0      0      0 R   0.4   0.0   0:07.32 kworker/u9:1-kvfree_rcu_reclaim                                                   
+   3002 pradita+  20   0 3321996 414872 164772 S   0.4  10.3   2:03.74 firefox                                                                           
+     68 root      20   0       0      0      0 I   0.4   0.0   0:14.95 kworker/u10:4-events_unbound                                                      
+    571 root      20   0       0      0      0 R   0.3   0.0   0:05.99 kworker/u9:5+events_unbound                                                       
+   4701 root      20   0       0      0      0 I   0.3   0.0   0:04.78 kworker/u10:0-events_unbound                                                      
+   2899 pradita+  20   0 1128336  41976  15872 S   0.2   1.0   0:02.49 mutter-x11-fram                                                                   
+     15 root      20   0       0      0      0 I   0.1   0.0   0:04.38 rcu_preempt                                                                       
+   2105 pradita+  20   0  397316   8028   7020 S   0.1   0.2   0:06.82 ibus-daemon                                                                       
+   3354 pradita+  20   0 2608080 119620  79536 S   0.1   3.0   0:07.61 Privileged Cont                                                                   
+     58 root      20   0       0      0      0 S   0.1   0.0   0:13.71 kswapd0                                                                           
+   1137 root      20   0       0      0      0 I   0.1   0.0   0:05.01 kworker/0:4-events                                                                
+   3571 pradita+  20   0 1393.6g  87168  76188 S   0.1   2.2   0:04.10 code                                                                              
+   3627 pradita+  20   0 7001912 252876 186496 S   0.1   6.3   0:34.66 Isolated Web Co                                                                   
+   1762 pradita+  20   0  124140  13468   8732 S   0.1   0.3   0:02.74 pipewire                                                                          
+   3150 pradita+  20   0   48.3g  61716  58880 S   0.1   1.5   0:02.95 code                                                                              
+   3469 pradita+  20   0 1393.6g 102920  80132 S   0.1   2.6   0:06.95 code                                                                              
+   4044 pradita+  20   0 2568144  66356  51396 S   0.1   1.7   0:04.23 Web Content                                                                       
+   4050 pradita+  20   0 2568144  66140  51268 S   0.1   1.6   0:04.04 Web Content                                                                       
+   2438 pradita+  20   0  245444   7216   6732 S   0.0   0.2   0:02.23 ibus-engine-sim                                                                   
+    409 systemd+  20   0   17572   7744   6848 S   0.0   0.2   0:01.64 systemd-oomd                                                                      
+   2285 pradita+  20   0  432040  23472  13492 S   0.0   0.6   0:03.59 ibus-extension-                                                                   
+praditadf@praditadf-VirtualBox:~$ 
+praditadf@praditadf-VirtualBox:~$ 
+
+```
+
+</details>
 
 ## Praktikum 6.6 — Pemantauan Proses
 
 ### 1. Temukan proses dengan penggunaan CPU dan memori tertinggi
 
 ```
+praditadf@praditadf-VirtualBox:~$ ps aux --sort=-%cpu | head -10
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+pradita+    2000 15.6  8.8 4173868 355904 ?      Ssl  17:54  12:41 /usr/bin/gnome-shell
+pradita+    3233  9.5 10.3 1463038196 413116 ?   Sl   17:54   7:41 /snap/code/228/usr/share/code/code --type=zygote --no-sandbox
+pradita+    3575  3.6 11.2 1461319884 449892 ?   Sl   17:54   2:54 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708997556373682
+pradita+    3002  2.7 10.3 3321980 413436 ?      Sl   17:54   2:15 /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    3286  2.3  2.2 50717524 91024 ?      Sl   17:54   1:54 /proc/self/exe --type=gpu-process --disable-gpu-sandbox --no-sandbox --ozone-platform=x11 --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --gpu-preferences=UAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --use-gl=angle --use-angle=swiftshader-webgl --shared-files --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708994745248135
+pradita+    3076  1.4  3.8 1461521032 155796 ?   SLsl 17:54   1:11 /snap/code/228/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=x11
+pradita+    3627  0.7  6.3 7001928 253732 ?      Sl   17:54   0:38 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:32809 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {481ca707-2ece-4961-806d-26327ccb2d1f} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 6 tab
+pradita+    2862  0.7  1.2 280020 49760 ?        S    17:54   0:34 /usr/bin/Xwayland :0 -rootless -noreset -accessx -core -auth /run/user/1000/.mutter-Xwaylandauth.4F9GN3 -listenfd 4 -listenfd 5 -displayfd 6 -initfd 7 -byteswappedclients
+pradita+    4285  0.4  3.1 1459515644 127884 ?   Sl   17:55   0:19 /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=3575
 ```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+praditadf@praditadf-VirtualBox:~$ ps aux --sort=-%mem | head -10
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+pradita+    3575  3.6 11.2 1461319884 449784 ?   Sl   17:54   2:54 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708997556373682
+pradita+    3233  9.5 10.3 1463038196 413700 ?   Sl   17:54   7:41 /snap/code/228/usr/share/code/code --type=zygote --no-sandbox
+pradita+    3002  2.7 10.3 3321964 413440 ?      Sl   17:54   2:15 /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    2000 15.6  8.8 4173868 355908 ?      Ssl  17:54  12:42 /usr/bin/gnome-shell
+pradita+    3627  0.7  6.3 7001928 253732 ?      Sl   17:54   0:38 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:32809 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {481ca707-2ece-4961-806d-26327ccb2d1f} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 6 tab
+pradita+    3076  1.4  3.8 1461521032 155796 ?   SLsl 17:54   1:11 /snap/code/228/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=x11
+pradita+    4285  0.4  3.1 1459515644 127884 ?   Sl   17:55   0:20 /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=3575
+pradita+    3354  0.1  3.0 2608096 120280 ?      Sl   17:54   0:07 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:37717 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {7802a8d4-756b-43c1-b556-68e6b1119eab} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
+pradita+    3469  0.1  2.5 1461316216 104144 ?   Sl   17:54   0:07 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
+```
+
+</details>
 
 ### 2. Jalankan top dan eksplorasi shortcut-nya
 
+* M
+
 ```
+top - 19:22:37 up  1:29,  1 user,  load average: 0.60, 1.45, 1.39
+Tasks: 221 total,   1 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.4 us,  2.3 sy,  0.0 ni, 96.2 id,  0.0 wa,  0.0 hi,  0.2 si,  0.0 st 
+MiB Mem :   3914.8 total,    235.8 free,   2399.4 used,   1677.2 buff/cache     
+MiB Swap:   2048.0 total,   1711.1 free,    336.9 used.   1515.4 avail Mem                                                                                 ] 
 ```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   3575 pradita+  20   0 1393.6g 450476  87400 S   0.0  11.2   3:14.14 code                                                                              
+   3002 pradita+  20   0 3323980 419288 159668 S   0.0  10.5   2:20.73 firefox                                                                           
+   3233 pradita+  20   0 1395.3g 353356 109680 S   0.0   8.8   9:20.78 code                                                                              
+   2000 pradita+  20   0 4173884 352216 135496 S   9.3   8.8  14:01.97 gnome-shell                                                                       
+   3627 pradita+  20   0 7001912 251304 186496 S   0.3   6.3   0:39.73 Isolated Web Co                                                                   
+   3076 pradita+  20   0 1393.8g 156036 111232 S   0.0   3.9   1:18.65 code                                                                              
+   4285 pradita+  20   0 1391.9g 138852  68400 S   0.0   3.5   0:22.18 code                                                                              
+   3354 pradita+  20   0 2610128 120384  79536 S   0.0   3.0   0:08.44 Privileged Cont                                                                   
+   3469 pradita+  20   0 1393.6g 103708  80132 S   0.0   2.6   0:07.41 code                                                                              
+   3609 pradita+  20   0 2615436  93504  67092 S   0.0   2.3   0:01.49 WebExtensions                                                                     
+   3286 pradita+  20   0   48.4g  92524  89592 S   0.0   2.3   2:11.29 code                                                                              
+   3571 pradita+  20   0 1393.6g  87964  76188 S   0.0   2.2   0:04.56 code                                                                              
+   4306 pradita+  20   0 1391.9g  84004  63028 S   0.0   2.1   0:00.85 code                                                                              
+   4044 pradita+  20   0 2568144  66356  51396 S   0.0   1.7   0:04.79 Web Content                                                                       
+   4050 pradita+  20   0 2568144  66144  51268 S   0.0   1.6   0:04.59 Web Content                                                                       
+   3853 pradita+  20   0 2567312  65692  50948 S   0.0   1.6   0:00.21 Web Content                                                                       
+   3150 pradita+  20   0   48.3g  61728  58880 S   0.0   1.5   0:03.37 code                                                                              
+   2868 pradita+  20   0  641252  51476  42428 S   0.7   1.3   0:21.92 gnome-terminal-                                                                   
+   2862 pradita+  20   0  280020  49760  31184 S   0.0   1.2   0:39.07 Xwayland                                                                          
+   2149 pradita+  20   0  836804  46936  36280 S   0.0   1.2   0:00.58 evolution-alarm                                                                   
+   2607 pradita+  20   0 2820888  45504  36372 S   0.0   1.1   0:01.51 gjs                                                                               
+   3079 pradita+  20   0   32.2g  45348  41940 S   0.0   1.1   0:00.11 code                                                                              
+   4455 root      20   0  489872  42720  36932 S   0.0   1.1   0:00.62 fwupd                                                                             
+   2899 pradita+  20   0 1128336  41976  15872 S   0.0   1.0   0:03.57 mutter-x11-fram                                                                   
+   3078 pradita+  20   0   32.2g  41680  41676 S   0.0   1.0   0:00.09 code                                                                              
+   3364 pradita+  20   0  589448  38280  26160 S   0.0   1.0   0:00.25 RDD Process                                                                       
+   2100 pradita+  20   0 1218428  37632  29300 S   0.0   0.9   0:00.37 evolution-sourc                                                                   
+   3327 pradita+  20   0  456440  36448  26332 S   0.0   0.9   0:00.10 Socket Process                                                                    
+   3850 pradita+  20   0  456436  35660  25528 S   0.0   0.9   0:00.10 Utility Process                                         
+
+```
+
+</details>
+
+* P
+
+```
+top - 19:23:37 up  1:30,  1 user,  load average: 0.66, 1.31, 1.34
+Tasks: 221 total,   1 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.6 us,  5.6 sy,  0.0 ni, 92.6 id,  0.0 wa,  0.0 hi,  0.2 si,  0.0 st 
+MiB Mem :   3914.8 total,    193.4 free,   2441.7 used,   1678.4 buff/cache     
+MiB Swap:   2048.0 total,   1711.1 free,    336.9 used.   1473.1 avail Mem 
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   2000 pradita+  20   0 4173900 352328 135496 S  16.6   8.8  14:14.78 gnome-shell                                                                       
+   6176 root      20   0       0      0      0 I   1.7   0.0   0:01.85 kworker/u9:2-events_unbound                                                       
+   2868 pradita+  20   0  641252  51516  42428 S   1.3   1.3   0:22.26 gnome-terminal-                                                                   
+     40 root      20   0       0      0      0 S   0.7   0.0   0:00.47 kcompactd0                                                                        
+   5843 root      20   0       0      0      0 I   0.7   0.0   0:01.79 kworker/u10:1-events_unbound                                                      
+   2438 pradita+  20   0  245444   7216   6732 S   0.3   0.2   0:02.50 ibus-engine-sim                                                                   
+   3627 pradita+  20   0 7001912 251328 186496 S   0.3   6.3   0:39.79 Isolated Web Co                                                                   
+   5312 root      20   0       0      0      0 I   0.3   0.0   0:00.44 kworker/1:0-events                                                                
+   6427 pradita+  20   0   23200   6028   3796 R   0.3   0.2   0:00.13 top                                                                               
+      1 root      20   0   23460  13860   9816 S   0.0   0.3   0:05.97 systemd                                                                           
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.08 kthreadd                                                                          
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                            
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                                  
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                                 
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                      
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                            
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                   
+     12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker/u8:0-ipv6_addrconf                                                        
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                            
+     14 root      20   0       0      0      0 S   0.0   0.0   0:01.44 ksoftirqd/0                                                                       
+     15 root      20   0       0      0      0 I   0.0   0.0   0:05.08 rcu_preempt                                                                       
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                   
+     17 root      20   0       0      0      0 S   0.0   0.0   0:00.07 rcu_exp_gp_kthread_worker                                                         
+     18 root      rt   0       0      0      0 S   0.0   0.0   0:00.08 migration/0                                                                       
+     19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                     
+     20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                           
+     21 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/1                                                                           
+     22 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/1                                                                     
+     23 root      rt   0       0      0      0 S   0.0   0.0   0:01.99 migration/1                                                         
+```
+
+</details>
+
+* 1
+
+```
+top - 19:24:24 up  1:31,  1 user,  load average: 1.38, 1.40, 1.37
+Tasks: 221 total,   1 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu0  :  5.5 us,  9.1 sy,  0.0 ni, 84.7 id,  0.0 wa,  0.0 hi,  0.7 si,  0.0 st 
+%Cpu1  :  1.1 us,  8.5 sy,  0.0 ni, 90.4 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   3914.8 total,    201.1 free,   2433.9 used,   1676.7 buff/cache     
+MiB Swap:   2048.0 total,   1711.1 free,    336.9 used.   1480.9 avail Mem 
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   2000 pradita+  20   0 4182044 352372 135516 S  24.9   8.8  14:25.76 gnome-shell                                                                       
+   5843 root      20   0       0      0      0 I   2.7   0.0   0:02.30 kworker/u10:1-events_unbound                                                      
+   2868 pradita+  20   0  641252  51516  42428 S   2.3   1.3   0:22.77 gnome-terminal-                                                                   
+   4799 root      20   0       0      0      0 I   2.3   0.0   0:09.96 kworker/u9:1-events_unbound                                                       
+   4050 pradita+  20   0 2568144  66144  51268 S   0.7   1.6   0:04.68 Web Content                                                                       
+    415 systemd+  20   0   91060   7720   7040 S   0.3   0.2   0:00.18 systemd-timesyn                                                                   
+   2899 pradita+  20   0 1128336  41976  15872 S   0.3   1.0   0:03.83 mutter-x11-fram                                                                   
+   3002 pradita+  20   0 3324012 419296 159668 S   0.3  10.5   2:21.22 firefox                                                                           
+   3076 pradita+  20   0 1393.8g 156144 111232 S   0.3   3.9   1:21.59 code                                                                              
+   3627 pradita+  20   0 7001928 251344 186496 S   0.3   6.3   0:39.86 Isolated Web Co                                                                   
+   4044 pradita+  20   0 2568144  66356  51396 S   0.3   1.7   0:04.86 Web Content                                                                       
+      1 root      20   0   23460  13860   9816 S   0.0   0.3   0:05.97 systemd                                                                           
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.08 kthreadd                                                                          
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                            
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                                  
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                                 
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                      
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                            
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                   
+     12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker/u8:0-ipv6_addrconf                                                        
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                            
+     14 root      20   0       0      0      0 S   0.0   0.0   0:01.45 ksoftirqd/0                                                                       
+     15 root      20   0       0      0      0 I   0.0   0.0   0:05.11 rcu_preempt                                                                       
+     16 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                   
+     17 root      20   0       0      0      0 S   0.0   0.0   0:00.07 rcu_exp_gp_kthread_worker                                                         
+     18 root      rt   0       0      0      0 S   0.0   0.0   0:00.09 migration/0                                                                       
+     19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                     
+     20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                        
+```
+
+</details>
+
+* u
+
+```
+top - 19:24:52 up  1:31,  1 user,  load average: 1.68, 1.46, 1.39
+Tasks: 222 total,   1 running, 221 sleeping,   0 stopped,   0 zombie
+%Cpu0  : 28.1 us, 18.2 sy,  0.0 ni, 52.2 id,  0.0 wa,  0.0 hi,  1.5 si,  0.0 st 
+%Cpu1  :  9.0 us, 36.0 sy,  0.0 ni, 54.5 id,  0.0 wa,  0.0 hi,  0.6 si,  0.0 st 
+MiB Mem :   3914.8 total,    160.5 free,   2474.4 used,   1698.5 buff/cache     
+MiB Swap:   2048.0 total,   1711.1 free,    336.9 used.   1440.4 avail Mem 
+Which user (blank for all)
+```
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
+   3233 pradita+  20   0 1395.3g 418236 123744 S  53.5  10.4   9:56.35 code                                                                              
+   2000 pradita+  20   0 4189592 359944 143048 S  38.2   9.0  14:32.35 gnome-shell                                                                       
+   3286 pradita+  20   0   48.4g 105752 102384 S  13.0   2.6   2:18.06 code                                                                              
+   3575 pradita+  20   0 1393.6g 452028  87400 S   8.6  11.3   3:19.82 code                                                                              
+   3076 pradita+  20   0 1393.8g 156116 111328 S   4.3   3.9   1:22.68 code                                                                              
+   2862 pradita+  20   0  287552  57292  38716 S   3.3   1.4   0:41.57 Xwayland                                                                          
+   4701 root      20   0       0      0      0 I   1.3   0.0   0:10.25 kworker/u10:0-events_unbound                                                      
+   3002 pradita+  20   0 3323980 419296 159668 S   1.0  10.5   2:21.32 firefox                                                                           
+   4285 pradita+  20   0 1391.9g 143004  68400 S   1.0   3.6   0:22.72 code                                                                              
+   4799 root      20   0       0      0      0 I   1.0   0.0   0:10.22 kworker/u9:1-events_unbound                                                       
+   2868 pradita+  20   0  641252  51516  42428 S   0.7   1.3   0:22.92 gnome-terminal-                                                                   
+   2105 pradita+  20   0  397316   8048   7020 S   0.3   0.2   0:07.71 ibus-daemon                                                                       
+   2285 pradita+  20   0  432040  23476  13492 S   0.3   0.6   0:03.73 ibus-extension-                                                                   
+   2899 pradita+  20   0 1128336  41976  15872 S   0.3   1.0   0:03.92 mutter-x11-fram                                                                   
+   3627 pradita+  20   0 7001912 251328 186496 S   0.3   6.3   0:39.90 Isolated Web Co                                                                   
+   4050 pradita+  20   0 2568144  66144  51268 S   0.3   1.6   0:04.70 Web Content                                                                       
+      1 root      20   0   23460  13860   9816 S   0.0   0.3   0:05.97 systemd                                                                           
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.08 kthreadd                                                                          
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                            
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                                  
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                                 
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                      
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                            
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                   
+     12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker/u8:0-ipv6_addrconf                                                        
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                            
+     14 root      20   0       0      0      0 S   0.0   0.0   0:01.45 ksoftirqd/0                                                                       
+     15 root      20   0       0      0      0 I   0.0   0.0   0:05.13 rcu_preempt                                                                       
+
+```
+
+</details>
 
 ### 3. Instal dan jalankan htop
 
 ```
+praditadf@praditadf-VirtualBox:~$ sudo apt install -y htop
+[sudo] password for praditadf: 
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+htop is already the newest version (3.3.0-4build1).
+0 upgraded, 0 newly installed, 0 to remove and 23 not upgraded.
+praditadf@praditadf-VirtualBox:~$ htop
 ```
 
 ## Latihan 6.6
@@ -2290,12 +2672,38 @@ Penggunaan SIGKILL digunakan ketika kita sudah mencoba menggunakan SIGTERM agar 
 #### 1. Gunakan ps aux –sort=%mem untuk menemukan proses yang menggunakan memori paling banyak di VM Anda. Proses apa itu?
 
 ```
+praditadf@praditadf-VirtualBox:~$ ps aux --sort=-%mem | head -10
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+pradita+    3575  3.5 11.1 1461319884 447592 ?   Sl   17:54   3:23 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708997556373682
+pradita+    3002  2.5 10.4 3332444 420108 ?      Sl   17:54   2:27 /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    3233 10.6  9.9 1463040244 400520 ?   Sl   17:54  10:13 /snap/code/228/usr/share/code/code --type=zygote --no-sandbox
+pradita+    2000 15.8  8.8 4173900 353836 ?      Ssl  17:54  15:23 /usr/bin/gnome-shell
+pradita+    3627  0.7  6.4 7010392 259852 ?      Sl   17:54   0:41 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:32809 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {481ca707-2ece-4961-806d-26327ccb2d1f} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 6 tab
+pradita+    3076  1.4  3.9 1461521032 156592 ?   SLsl 17:54   1:25 /snap/code/228/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=x11
+pradita+    4285  0.4  3.5 1459515644 142316 ?   Sl   17:55   0:23 /snap/code/228/usr/share/code/code /snap/code/228/usr/share/code/resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=3575
+pradita+    3354  0.1  3.0 2610128 120904 ?      Sl   17:54   0:09 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:37717 -prefMapHandle 1:278884 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {7802a8d4-756b-43c1-b556-68e6b1119eab} -parentPid 3002 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
+pradita+    3469  0.1  2.5 1461316216 103776 ?   Sl   17:54   0:07 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --crashpad-handler-pid=3114 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,3184216701153887361,13250874988657799531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
 ```
+>
 
 #### 2. Di dalam top, tekan 1 . Apa yang berubah pada tampilan? Mengapa informasi ini berguna?
 
 ```
+top - 19:32:45 up  1:39,  1 user,  load average: 0.92, 0.88, 1.11
+Tasks: 222 total,   2 running, 220 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  2.8 us,  3.1 sy,  0.0 ni, 93.9 id,  0.0 wa,  0.0 hi,  0.2 si,  0.0 st 
+MiB Mem :   3914.8 total,    137.2 free,   2489.1 used,   1705.5 buff/cache     
+MiB Swap:   2048.0 total,   1712.8 free,    335.2 used.   1425.7 avail Mem 
+
+top - 19:32:55 up  1:39,  1 user,  load average: 1.66, 1.05, 1.16
+Tasks: 222 total,   3 running, 219 sleeping,   0 stopped,   0 zombie
+%Cpu0  :  5.7 us,  3.8 sy,  0.0 ni, 88.7 id,  0.0 wa,  0.0 hi,  1.9 si,  0.0 st 
+%Cpu1  :  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   3914.8 total,    137.4 free,   2488.9 used,   1714.0 buff/cache     
+MiB Swap:   2048.0 total,   1712.8 free,    335.2 used.   1425.9 avail Mem 
 ```
+
+> Tampilan Cpu total berubah
 
 #### 3. Di dalam htop, navigasikan ke proses sshd menggunakan tombol panah. Tekan F9 dan amati opsi sinyal yang tersedia
 
