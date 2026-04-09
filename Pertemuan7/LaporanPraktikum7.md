@@ -479,55 +479,327 @@ backup_conf ()
 
 ### 1. Pastikan file contoh tersedia
 
+```
+praditadf@praditadf-VirtualBox:~$ cd ~/praktikum-os/week07-bash/sampel
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ touch laporan-harian.log laporan-mingguan.log laporan-bulanan.log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls
+backup-01.tar  backup-02.tar  catatan-a.txt  catatan-b.txt  laporan-bulanan.log  laporan-harian.log  laporan-mingguan.log
+```
+
 ### 2. Uji completion file
 
+```
+a) cat lap lalu Tab dua kali menjadi cat laporan-
+b) daftar file yang memiliki prefix lap yakni laporan-harian.log laporan-mingguan.log laporan-bulanan.log
+c) cat laporan-h lalu tekan Tab menghasilkan cat laporan-harian.log
+```
+
 ### 3. Jalankan beberapa perintah sederhana
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ pwd
+/home/praditadf/praktikum-os/week07-bash/sampel
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls -lah
+total 8.0K
+drwxrwxr-x 2 praditadf praditadf 4.0K Apr  8 12:23 .
+drwxrwxr-x 7 praditadf praditadf 4.0K Apr  8 12:46 ..
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:22 backup-01.tar
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:22 backup-02.tar
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:21 catatan-a.txt
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:21 catatan-b.txt
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  9 13:30 laporan-bulanan.log
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  9 13:30 laporan-harian.log
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  9 13:30 laporan-mingguan.log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ date
+Thu Apr  9 01:35:40 PM WIB 2026
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ whoami
+praditadf
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ history | tail -n 10
+ 1804  clear
+ 1805  cd ~/praktikum-os/week07-bash/sampel
+ 1806  touch laporan-harian.log laporan-mingguan.log laporan-bulanan.log
+ 1807  ls
+ 1808  cat lap
+ 1809  pwd
+ 1810  ls -lah
+ 1811  date
+ 1812  whoami
+ 1813  history | tail -n 10
+```
 
 ## Praktikum 6.10 — Menelusuri Perintah Diagnostik dengan History
 
 ### 1. Jalankan beberapa perintah diagnostik
 
+```
+praditadf@praditadf-VirtualBox:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           392M  1.6M  390M   1% /run
+/dev/sda2        25G   16G  8.1G  66% /
+tmpfs           2.0G   25M  1.9G   2% /dev/shm
+tmpfs           5.0M  8.0K  5.0M   1% /run/lock
+tmpfs           392M  140K  392M   1% /run/user/1000
+praditadf@praditadf-VirtualBox:~$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.5Gi       131Mi       184Mi       1.5Gi       1.3Gi
+Swap:          2.0Gi       489Mi       1.5Gi
+praditadf@praditadf-VirtualBox:~$ uptime
+ 13:37:16 up 46 min,  1 user,  load average: 0.43, 0.96, 0.99
+praditadf@praditadf-VirtualBox:~$ ps aux | head
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.2  0.3  23508 14612 ?        Ss   12:50   0:06 /sbin/init splash
+root           2  0.0  0.0      0     0 ?        S    12:50   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    12:50   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   12:50   0:00 [kworker/R-rcu_gp]
+root           5  0.0  0.0      0     0 ?        I<   12:50   0:00 [kworker/R-sync_wq]
+root           6  0.0  0.0      0     0 ?        I<   12:50   0:00 [kworker/R-kvfree_rcu_reclaim]
+root           7  0.0  0.0      0     0 ?        I<   12:50   0:00 [kworker/R-slub_flushwq]
+root           8  0.0  0.0      0     0 ?        I<   12:50   0:00 [kworker/R-netns]
+root          12  0.0  0.0      0     0 ?        I    12:50   0:00 [kworker/u8:0-ipv6_addrconf]
+```
+
 ### 2. Cari ulang perintah diagnostik dari history
+
+```
+praditadf@praditadf-VirtualBox:~$ history | grep -E 'df -h | free -h | uptime | ps aux'
+ 1118  ps aux
+ 1119  ps aux -L
+ 1123  ps aux | wc -1
+ 1124  ps aux | wc -l
+ 1125  ps aux wc -
+ 1126  ps aux | wc -l
+ 1127  ps aux --sort=pid | head -5
+ 1132  ps aux
+ 1133  ps aux | head 2
+ 1134  ps aux | head -2
+ 1135  ps aux -l | head -2
+ 1136  ps aux -L | head -2
+ 1137  ps aux | head -2
+ 1138  ps aux | grep sleep
+ 1172  ps aux | grep sleep
+ 1176  ps aux | grep sleep
+ 1179  ps aux | grep sleep
+ 1184  ps aux | grep sleep
+ 1186  ps aux | grep sleep
+ 1191  ps aux | grep -v sleep | grep sleep
+ 1192  ps aux | grep -v grep | grep sleep
+ 1194  ps aux | grep -v grep | grep sleep
+ 1198  ps aux | grep -v grep | grep sleep
+ 1200  ps aux | grep -v grep | grep sleep
+ 1202  ps aux | grep sleep
+ 1204  ps aux | grep sleep
+ 1206  ps aux | grep sleep
+ 1209  ps aux | grep sleep
+ 1211  ps aux | grep sleep
+ 1213  ps aux | grep sleep
+ 1215  ps aux | grep sleep
+ 1248  ps aux --sort=-%cpu | -head 10
+ 1249  ps aux --sort=-%cpu | head 10
+ 1250  ps aux --sort=-%cpu | head -10
+ 1252  ps aux --sort=-%cpu | head -10
+ 1253  ps aux --sort=-%mem | head -10
+ 1262  ps aux -sort=%mem
+ 1263  ps aux--sort=%mem
+ 1265  ps aux --sort=-%mem | head -10
+ 1270  ps aux | grep sleep
+ 1272  ps aux -forest
+ 1273  ps aux
+ 1274  ps aux -forest
+ 1276  ps aux --forest
+ 1285  ps aux
+ 1286  ps aux | awk '$8 ~ /^S/'
+ 1307  ps aux | grep sleep
+ 1309  ps aux | grep sleep
+ 1311  ps aux | grep sleep
+ 1390  df -h /
+ 1819  ps aux | head
+ 1820  history | grep -E 'df -h | free -h | uptime | ps aux'
+```
 
 ### 3. Jalankan ulang salah satu perintah berdasarkan nomor history
 
+```
+praditadf@praditadf-VirtualBox:~$ !1390
+df -h /
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        25G   16G  8.1G  66% /
+```
+
 ### 4. Simpan potongan history ke file dokumentasi
+
+```
+praditadf@praditadf-VirtualBox:~$ history | tail -n 20 > ~/praktikum-os/week07-bash/diag-history.txt
+praditadf@praditadf-VirtualBox:~$ cat ~/praktikum-os/week07-bash/diag-history.txt
+ 1803  type backup_conf
+ 1804  clear
+ 1805  cd ~/praktikum-os/week07-bash/sampel
+ 1806  touch laporan-harian.log laporan-mingguan.log laporan-bulanan.log
+ 1807  ls
+ 1808  cat lap
+ 1809  pwd
+ 1810  ls -lah
+ 1811  date
+ 1812  whoami
+ 1813  history | tail -n 10
+ 1814  cd
+ 1815  clear
+ 1816  df -h
+ 1817  free -h
+ 1818  uptime
+ 1819  ps aux | head
+ 1820  history | grep -E 'df -h | free -h | uptime | ps aux'
+ 1821  df -h /
+ 1822  history | tail -n 20 > ~/praktikum-os/week07-bash/diag-history.txt
+```
 
 ## Praktikum 6.11 — Mencoba Wildcard Dasar
 
 ### 1. Masuk ke direktori sampel
 
+```
+praditadf@praditadf-VirtualBox:~$ cd ~/praktikum-os//week07-bash//sampel
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls
+backup-01.tar  backup-02.tar  catatan-a.txt  catatan-b.txt  laporan-bulanan.log  laporan-harian.log  laporan-mingguan.log
+```
+
 ### 2. Coba beberapa pola wildcard
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls *.log
+laporan-bulanan.log  laporan-harian.log  laporan-mingguan.log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls catatan-?.txt
+catatan-a.txt  catatan-b.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ ls backup-0[12].tar
+backup-01.tar  backup-02.tar
+```
+
 ### 3. Coba beberapa ekspansi lain
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ echo log-{pagi,siang,malam}.txt
+log-pagi.txt log-siang.txt log-malam.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ echo ~
+/home/praditadf
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ echo ~/praktikum-os/week07-bash
+/home/praditadf/praktikum-os/week07-bash
+```
 
 ## Praktikum 6.12 — Mengarsipkan Banyak Log Sekaligus
 
 ### 1. Siapkan file log tambahan
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/sampel$ cd ~/praktikum-os/week07-bash/logs
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ touch acces-01.log acces-02.log acces-03.log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ ls
+acces-01.log  acces-02.log  acces-03.log  app-01.log  app-02.log  app-03.log
+```
+
 ### 2. Preview file yang akan diproses
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ echo *.log
+acces-01.log acces-02.log acces-03.log app-01.log app-02.log app-03.log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ echo acces-0?.log
+acces-01.log acces-02.log acces-03.log
+```
 
 ### 3. Pindahkan semua file log ke folder arsip
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ mkdir -p arsip-log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ mv *.log arsip-log/
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ ls arsip-log
+acces-01.log  acces-02.log  acces-03.log  app-01.log  app-02.log  app-03.log
+```
+
 ### 4. Kompres folder arsip
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ tar -czf arsip-log-$(date +%F).tar.gz arsip-log
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/logs$ ls -lah
+total 16K
+drwxrwxr-x 3 praditadf praditadf 4.0K Apr  9 13:48 .
+drwxrwxr-x 7 praditadf praditadf 4.0K Apr  9 13:40 ..
+drwxrwxr-x 2 praditadf praditadf 4.0K Apr  9 13:47 arsip-log
+-rw-rw-r-- 1 praditadf praditadf  217 Apr  9 13:48 arsip-log-2026-04-09.tar.gz
+```
 
 ## Praktikum 6.13 — Membedakan Single Quote, Double Quote, dan Escape
 
 ### 1. Uji single quote dan double quote
 
+```
+praditadf@praditadf-VirtualBox:~$ echo '$USER bekerja di $HOME'
+$USER bekerja di $HOME
+praditadf@praditadf-VirtualBox:~$ echo "$USER bekerja di $HOME"
+praditadf bekerja di /home/praditadf
+```
+
 ### 2. Uji escape karakter spasi
 
+```
+praditadf@praditadf-VirtualBox:~$ cd ~/praktikum-os/week07-bash/ruang-nama
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ ls laporan\ server\ april.txt
+'laporan server april.txt'
+```
+
 ### 3. Uji akses file yang sama dengan double quote
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ cat "laporan server april.txt" 
+```
 
 ## Praktikum 6.14 — Menangani File dengan Nama Sulit Secara Aman
 
 ### 1. Pastikan file target tersedia
 
+```
+praditadf@praditadf-VirtualBox:~$ cd ~/praktikum-os/week07-bash/ruang-nama
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ ls -lah
+total 8.0K
+drwxrwxr-x 2 praditadf praditadf 4.0K Apr  8 12:23  .
+drwxrwxr-x 7 praditadf praditadf 4.0K Apr  9 13:40  ..
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:23 'backup [mingguan] server.conf'
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  8 12:23 'laporan server april.txt'
+```
+
 ### 2. Salin file dengan nama kompleks ke folder backup
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ cp -- "backup [mingguan] server.conf" \
+> "$HOME/praktikum-os/week07-bash/backup/backup-mingguan-server.conf"
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ cp -- "backup [mingguan] server.conf" \
+> "$HOME/praktikum-os/week07-bash/backup/backup-mingguan-server.conf"
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ 
+```
 
 ### 3. Gunakan variabel untuk memproses path dengan aman
 
-### 4. Tampilkan daftar file hasil backup ###
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ file_asli="$HOME/praktikum-os/week07-bash/ruang-nama/backup [mingguan] server.conf"
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ file_salinan="$HOME/praktikum-os/week07-bash/backup/backup-mingguan-server-v2.conf" 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ cp -- "$file_asli" "$file_salinan"
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ ls -lah "$HOME/praktikum-os/week07-bash/backup"
+total 12K
+drwxrwxr-x 2 praditadf praditadf 4.0K Apr  9 14:01 .
+drwxrwxr-x 7 praditadf praditadf 4.0K Apr  9 13:40 ..
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  9 13:57 backup-mingguan-server.conf
+-rw-rw-r-- 1 praditadf praditadf    0 Apr  9 14:01 backup-mingguan-server-v2.conf
+-rw-rw-r-- 1 praditadf praditadf   10 Apr  9 13:27 sample-app.conf.2026-04-09-132713.bak
+```
+
+### 4. Tampilkan daftar file hasil backup
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ for file in "$HOME/praktikum-os/week07-bash/backup/*;
+> do
+> printf 'Hasil backup: %s\n' "$file'
+> done
+> ^C
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash/ruang-nama$ 
+```
 
 # 1.8 Tugas Praktikum
 
