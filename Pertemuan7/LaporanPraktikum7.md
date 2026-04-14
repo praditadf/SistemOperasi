@@ -825,7 +825,8 @@ Minimal luaran:
 
 ```
 praditadf@praditadf-VirtualBox:~$ cat ~/praktikum-os/week07-bash/toolkit-bash-report.txt 
-=== BUKTI TUGAS PRAKTIKUM 1===
+
+1. BLOK KONFIGURASI .bashrc
 
 1. BLOK KONFIGURASI .bashrc
 # --- Tugas Praktikum 1- Toolkit Bash Administrator Pribadi ---
@@ -833,7 +834,6 @@ export PATH="$HOME/praktikum-os/week07-bash/bin:$PATH"
 
 alias ll='ls -lah --color=auto'
 alias hist10='history | tail -n 10'
-alias ringkas-sistem='free -h  && uptime -p'
 
 backup_conf () {
 if [ $# -ne 1 ]; then
@@ -863,6 +863,26 @@ echo "Backup selesai di $dst"
 ll is aliased to `ls -lah --color=auto'
 hist10 is aliased to `history | tail -n 10'
 ringkas-sistem is aliased to `free -h  && uptime -p'
+
+4. HASIL EKSEKUSI SCRIPT:
+backup_conf is a function
+backup_conf () 
+{ 
+    if [ $# -ne 1 ]; then
+        echo " Usage : backup_conf <file>";
+        return 1;
+    fi;
+    local src="$1";
+    local dst="$HOME/praktikum-os/week07-bash/backup";
+    if [ ! -f "$src" ]; then
+        echo "File tidak ditemukan: $src";
+        return 2;
+    fi;
+    mkdir -p "$dst";
+    cp -- "$src" "$dst/$(basename "$src").$(date +%F-%H%M%S).bak";
+    echo "Backup selesai di $dst"
+}
+ringkas-sistem is aliased to `free -h  && uptime -p'
 ```
 
 ## Tugas Praktikum 2 — Audit File Konfigurasi dan Logging Aman
@@ -888,6 +908,306 @@ Minimal luaran:
 * perintah yang digunakan,
 * analisis singkat hasil audit.
 
+```
+=== LAPORAN AUDIT FILE KONFIGURASI ===
+Tanggal Audit: Tue Apr 14 09:20:11 PM WIB 2026
+Daftar file .conf di /etc :
+/etc/nsswitch.conf
+/etc/fonts/snap-override/10-prefer-noto.conf
+/etc/fonts/fonts.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-lgc-sans-mono.conf
+/etc/fonts/conf.avail/57-dejavu-serif.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-lgc-sans.conf
+/etc/fonts/conf.avail/65-droid-sans-fallback.conf
+/etc/fonts/conf.avail/57-dejavu-sans-mono.conf
+/etc/fonts/conf.avail/58-dejavu-lgc-sans.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-sans.conf
+/etc/fonts/conf.avail/30-droid-noto-mono.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-lgc-serif.conf
+/etc/fonts/conf.avail/30-droid-noto.conf
+/etc/fonts/conf.avail/58-dejavu-lgc-serif.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-serif.conf
+/etc/fonts/conf.avail/20-unhint-small-dejavu-sans-mono.conf
+/etc/fonts/conf.avail/57-dejavu-sans.conf
+/etc/fonts/conf.avail/58-dejavu-lgc-sans-mono.conf
+/etc/pnm2ppa.conf
+/etc/avahi/avahi-daemon.conf
+/etc/debconf.conf
+/etc/gdm3/custom.conf
+/etc/ld.so.conf
+/etc/initramfs-tools/update-initramfs.conf
+/etc/initramfs-tools/initramfs.conf
+/etc/xattr.conf
+/etc/apparmor/parser.conf
+/etc/security/time.conf
+/etc/security/capability.conf
+/etc/security/namespace.conf
+/etc/security/pam_env.conf
+/etc/security/pwhistory.conf
+/etc/security/faillock.conf
+/etc/security/sepermit.conf
+/etc/security/limits.conf
+/etc/security/group.conf
+/etc/security/access.conf
+/etc/security/pwquality.conf
+/etc/security/limits.d/25-pw-rlimits.conf
+/etc/security/limits.d/10-gamemode.conf
+/etc/udisks2/udisks2.conf
+/etc/ghostscript/cidfmap.d/90gs-cjk-resource-japan1.conf
+/etc/ghostscript/cidfmap.d/90gs-cjk-resource-cns1.conf
+/etc/ghostscript/cidfmap.d/90gs-cjk-resource-korea1.conf
+/etc/ghostscript/cidfmap.d/90gs-cjk-resource-gb1.conf
+/etc/ghostscript/cidfmap.d/90gs-cjk-resource-japan2.conf
+/etc/ghostscript/fontmap.d/10fonts-urw-base35.conf
+/etc/sudo_logsrvd.conf
+/etc/libaudit.conf
+/etc/hdparm.conf
+/etc/xdg/user-dirs.conf
+/etc/gtk-2.0/im-multipress.conf
+/etc/ucf.conf
+/etc/ufw/sysctl.conf
+/etc/ufw/ufw.conf
+/etc/e2scrub.conf
+/etc/depmod.d/ubuntu.conf
+/etc/dbus-1/system.d/com.ubuntu.LanguageSelector.conf
+/etc/dbus-1/system.d/org.debian.apt.conf
+/etc/dbus-1/system.d/com.ubuntu.SoftwareProperties.conf
+/etc/dbus-1/system.d/com.hp.hplip.conf
+/etc/dbus-1/system.d/com.redhat.PrinterDriversInstaller.conf
+/etc/dbus-1/system.d/kerneloops.conf
+/etc/dbus-1/system.d/com.redhat.NewPrinterNotification.conf
+/etc/dbus-1/system.d/org.opensuse.CupsPkHelper.Mechanism.conf
+/etc/dbus-1/system.d/com.ubuntu.WhoopsiePreferences.conf
+/etc/fprintd.conf
+/etc/logrotate.conf
+/etc/selinux/semanage.conf
+/etc/ipp-usb/ipp-usb.conf
+/etc/sudo.conf
+/etc/snmp/snmp.conf
+/etc/bluetooth/network.conf
+/etc/bluetooth/input.conf
+/etc/bluetooth/main.conf
+/etc/hp/hplip.conf
+/etc/cups/cups-browsed.conf
+/etc/cups/cups-files.conf
+/etc/cups/subscriptions.conf
+/etc/cups/cupsd.conf
+/etc/cups/snmp.conf
+/etc/gtk-3.0/im-multipress.conf
+/etc/apg.conf
+/etc/ts.conf
+/etc/UPower/UPower.conf
+/etc/pam.conf
+/etc/modprobe.d/blacklist-ath_pci.conf
+/etc/modprobe.d/blacklist-rare-network.conf
+/etc/modprobe.d/blacklist-modem.conf
+/etc/modprobe.d/blacklist.conf
+/etc/modprobe.d/iwlwifi.conf
+/etc/modprobe.d/blacklist-loop.conf
+/etc/modprobe.d/intel-microcode-blacklist.conf
+/etc/modprobe.d/amd64-microcode-blacklist.conf
+/etc/modprobe.d/blacklist-firewire.conf
+/etc/modprobe.d/blacklist-framebuffer.conf
+/etc/modprobe.d/alsa-base.conf
+/etc/locale.conf
+/etc/sensors3.conf
+/etc/NetworkManager/NetworkManager.conf
+/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+/etc/ld.so.conf.d/libc.conf
+/etc/ld.so.conf.d/x86_64-linux-gnu.conf
+/etc/apport/crashdb.conf
+/etc/PackageKit/Vendor.conf
+/etc/PackageKit/PackageKit.conf
+/etc/kerneloops.conf
+/etc/ca-certificates.conf
+/etc/usb_modeswitch.conf
+/etc/sane.d/ibm.conf
+/etc/sane.d/canon_lide70.conf
+/etc/sane.d/microtek.conf
+/etc/sane.d/mustek_usb.conf
+/etc/sane.d/xerox_mfp.conf
+/etc/sane.d/tamarack.conf
+/etc/sane.d/dll.conf
+/etc/sane.d/genesys.conf
+/etc/sane.d/hp4200.conf
+/etc/sane.d/epson.conf
+/etc/sane.d/pie.conf
+/etc/sane.d/mustek_pp.conf
+/etc/sane.d/dmc.conf
+/etc/sane.d/dell1600n_net.conf
+/etc/sane.d/kodak.conf
+/etc/sane.d/lexmark.conf
+/etc/sane.d/teco2.conf
+/etc/sane.d/canon_dr.conf
+/etc/sane.d/canon_pp.conf
+/etc/sane.d/s9036.conf
+/etc/sane.d/agfafocus.conf
+/etc/sane.d/kvs1025.conf
+/etc/sane.d/epsonds.conf
+/etc/sane.d/gphoto2.conf
+/etc/sane.d/artec.conf
+/etc/sane.d/snapscan.conf
+/etc/sane.d/matsushita.conf
+/etc/sane.d/plustek_pp.conf
+/etc/sane.d/ma1509.conf
+/etc/sane.d/umax_pp.conf
+/etc/sane.d/airscan.conf
+/etc/sane.d/dc25.conf
+/etc/sane.d/fujitsu.conf
+/etc/sane.d/hpsj5s.conf
+/etc/sane.d/st400.conf
+/etc/sane.d/rts8891.conf
+/etc/sane.d/umax.conf
+/etc/sane.d/apple.conf
+/etc/sane.d/microtek2.conf
+/etc/sane.d/canon.conf
+/etc/sane.d/coolscan2.conf
+/etc/sane.d/teco1.conf
+/etc/sane.d/hs2p.conf
+/etc/sane.d/pieusb.conf
+/etc/sane.d/coolscan3.conf
+/etc/sane.d/dc210.conf
+/etc/sane.d/stv680.conf
+/etc/sane.d/pixma.conf
+/etc/sane.d/magicolor.conf
+/etc/sane.d/teco3.conf
+/etc/sane.d/bh.conf
+/etc/sane.d/mustek.conf
+/etc/sane.d/epjitsu.conf
+/etc/sane.d/saned.conf
+/etc/sane.d/plustek.conf
+/etc/sane.d/sharp.conf
+/etc/sane.d/sm3840.conf
+/etc/sane.d/abaton.conf
+/etc/sane.d/hp3900.conf
+/etc/sane.d/test.conf
+/etc/sane.d/hp5400.conf
+/etc/sane.d/coolscan.conf
+/etc/sane.d/cardscan.conf
+/etc/sane.d/avision.conf
+/etc/sane.d/gt68xx.conf
+/etc/sane.d/canon630u.conf
+/etc/sane.d/net.conf
+/etc/sane.d/qcam.conf
+/etc/sane.d/sceptre.conf
+/etc/sane.d/nec.conf
+/etc/sane.d/epson2.conf
+/etc/sane.d/umax1220u.conf
+/etc/sane.d/ricoh.conf
+/etc/sane.d/leo.conf
+/etc/sane.d/kodakaio.conf
+/etc/sane.d/p5.conf
+/etc/sane.d/artec_eplus48u.conf
+/etc/sane.d/dc240.conf
+/etc/sane.d/sp15c.conf
+/etc/sane.d/escl.conf
+/etc/sane.d/u12.conf
+/etc/sane.d/hp.conf
+/etc/nftables.conf
+/etc/udev/iocost.conf
+/etc/udev/udev.conf
+/etc/adduser.conf
+/etc/geoclue/geoclue.conf
+/etc/host.conf
+/etc/pulse/client.conf
+/etc/deluser.conf
+/etc/cracklib/cracklib.conf
+/etc/modules-load.d/cups-filters.conf
+/etc/modules-load.d/lp.conf
+/etc/modules-load.d/loop.conf
+/etc/apt/apt.conf.d/20apt-esm-hook.conf
+/etc/apt/apt.conf.d/20snapd.conf
+/etc/environment.d/90atk-adaptor.conf
+/etc/environment.d/90qt-a11y.conf
+/etc/dhcpcd.conf
+/etc/gai.conf
+/etc/ubuntu-advantage/uaclient.conf
+/etc/fwupd/fwupd.conf
+/etc/fwupd/remotes.d/lvfs-testing.conf
+/etc/fwupd/remotes.d/lvfs.conf
+/etc/fwupd/remotes.d/vendor-directory.conf
+/etc/brltty.conf
+/etc/ldap/ldap.conf
+/etc/rygel.conf
+/etc/speech-dispatcher/speechd.conf
+/etc/speech-dispatcher/modules/espeak-ng.conf
+/etc/speech-dispatcher/modules/flite.conf
+/etc/speech-dispatcher/modules/mary-generic.conf
+/etc/speech-dispatcher/modules/llia_phon-generic.conf
+/etc/speech-dispatcher/modules/swift-generic.conf
+/etc/speech-dispatcher/modules/espeak.conf
+/etc/speech-dispatcher/modules/espeak-ng-mbrola-generic.conf
+/etc/speech-dispatcher/modules/espeak-ng-mbrola.conf
+/etc/speech-dispatcher/modules/espeak-mbrola-generic.conf
+/etc/speech-dispatcher/modules/festival.conf
+/etc/speech-dispatcher/modules/openjtalk.conf
+/etc/speech-dispatcher/modules/mimic3-generic.conf
+/etc/speech-dispatcher/modules/cicero.conf
+/etc/speech-dispatcher/modules/epos-generic.conf
+/etc/speech-dispatcher/modules/dtk-generic.conf
+/etc/speech-dispatcher/clients/emacs.conf
+/etc/updatedb.conf
+/etc/libao.conf
+/etc/init/whoopsie.conf
+/etc/mke2fs.conf
+/etc/systemd/logind.conf
+/etc/systemd/timesyncd.conf
+/etc/systemd/user.conf
+/etc/systemd/resolved.conf
+/etc/systemd/sleep.conf
+/etc/systemd/journald.conf
+/etc/systemd/pstore.conf
+/etc/systemd/networkd.conf
+/etc/systemd/system.conf
+/etc/systemd/oomd.conf
+/etc/fuse.conf
+/etc/openal/alsoft.conf
+/etc/rsyslog.conf
+/etc/sysctl.conf
+/etc/rsyslog.d/21-cloudinit.conf
+/etc/rsyslog.d/50-default.conf
+/etc/rsyslog.d/20-ufw.conf
+/etc/sysctl.d/10-zeropage.conf
+/etc/sysctl.d/10-kernel-hardening.conf
+/etc/sysctl.d/10-bufferbloat.conf
+/etc/sysctl.d/10-map-count.conf
+/etc/sysctl.d/10-network-security.conf
+/etc/sysctl.d/10-console-messages.conf
+/etc/sysctl.d/10-ptrace.conf
+/etc/sysctl.d/10-magic-sysrq.conf
+/etc/sysctl.d/10-ipv6-privacy.conf
+Total file konfigurasi .conf: 264 file
+=== RINGKASAN STDOUT & STDERR ===
+stdout dan stderr sangat penting dalam audit sistem
+Karena leporan dapat menjadi lebih rapi dan mudah dibaca
+tanpa ada pesan 'permission denied'
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ ls -lah audit-konfigurasi-*.txt
+-rw-rw-r-- 1 praditadf praditadf 8.2K Apr 14 21:20 audit-konfigurasi-2026-04-14.txt
+-rw-rw-r-- 1 praditadf praditadf 8.2K Apr 14 21:19 audit-konfigurasi-.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ head -n 5 audit-error.log
+find: ‘/etc/credstore.encrypted’: Permission denied
+find: ‘/etc/ssl/private’: Permission denied
+find: ‘/etc/cups/ssl’: Permission denied
+find: ‘/etc/polkit-1/rules.d’: Permission denied
+find: ‘/etc/sssd’: Permission denied
+```
+
+* Perintah yang digunakan
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ {
+    echo "=== LAPORAN AUDIT FILE KONFIGURASI ===";
+    echo "Tanggal Audit: $(date)"; 
+    echo "Daftar file .conf di /etc :"; find /etc -type f -name "*.conf" 2> audit-error.log;
+    JUMLAH=$(find /etc -type f -name "*.conf" 2>/dev/null | wc -l);
+    echo "Total file konfigurasi .conf: $JUMLAH file"; 
+    echo "=== RINGKASAN STDOUT & STDERR ===";
+    echo "stdout dan stderr sangat penting dalam audit sistem";
+    echo "Karena leporan dapat menjadi lebih rapi dan mudah dibaca";
+    echo "tanpa ada pesan 'permission denied'"; 
+    } | tee "audit-konfigurasi-$(date +%F).txt"
+```
+
 ## Tugas Praktikum 3 — Mini Health Check Harian Server
 
 Konteks riil: administrator perlu membuat pemeriksaan cepat (health check) untuk mengetahui kondisi dasar server sebelum dan sesudah maintenance.
@@ -905,7 +1225,7 @@ Instruksi tugas:
 * penggunaan filesystem root,
 * 10 baris terakhir history command yang relevan dengan pengecekan.
 
-3. Simpan hasil ke file log harian, misalnya healthcheck-$(date +%F).log.
+1. Simpan hasil ke file log harian, misalnya healthcheck-$(date +%F).log.
 2. Tampilkan hasil ke terminal dan ke file secara bersamaan.
 3. Jika Anda menggunakan pipeline dengan tee, cek juga status exit command utama.
 Syarat konsep yang harus muncul:
@@ -918,8 +1238,71 @@ Syarat konsep yang harus muncul:
 * penanganan error dasar.
 Minimal luaran:
 * file script yang executable,
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ cat <<'EOF' > ~/praktikum-os/week07-bash/bin/daily-healthcheck
+#!/usr/bin/env bash
+echo " === MINI HEALTH CHECK HARIAN === "
+                                                 
+echo "Tanggal & Waktu : $(date)"         
+echo "Hostname        : $(hostname)"             
+echo "User Aktif      : $(whoami)"
+echo "Shell Aktif     : $SHELL"
+echo "Uptime          : $(uptime -p)"
+                                     
+echo "[1] Penggunaan Memori:"        
+free -h                                          
+                             
+echo "[2] Penggunaan Filesystem Root (/):"
+df -h /                                          
+                                          
+echo "[3] 10 Baris History Terakhir:"
+tail -n 10 ~/.bash_history                                                  
+
+EOF
+```
+
 * contoh isi file log hasil eksekusi,
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ daily-healthcheck | tee ~/praktikum-os/week07-bash/logs/healthcheck-$(date +%F).log
+ === MINI HEALTH CHECK HARIAN === 
+Tanggal & Waktu : Tue Apr 14 09:37:02 PM WIB 2026
+Hostname        : praditadf-VirtualBox
+User Aktif      : praditadf
+Shell Aktif     : /bin/bash
+Uptime          : up 2 hours, 0 minutes
+[1] Penggunaan Memori:
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.5Gi       144Mi       177Mi       1.4Gi       1.3Gi
+Swap:          2.0Gi       717Mi       1.3Gi
+[2] Penggunaan Filesystem Root (/):
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        25G   15G  8.9G  62% /
+[3] 10 Baris History Terakhir:
+df -h
+lscpu
+cat /proc/cpuinfo
+cat /proc/meminfo
+hist10
+cek-sistem
+ringkas-sistem
+nano ./bashrc
+cd ~/praktikum-os/week07-bash/
+nano ./bashrc
+```
+
 * penjelasan singkat fungsi tiap bagian script.
+
+```
+$(...)Digunakan untuk menyisipkan hasil perintah seperti date, hostname, whoami, uptime -p secara langsung ke dalam teks.
+
+free -h: Menampilkan informasi penggunaan memori (RAM) dan Swap.
+
+df -h /: Menampilkan kapasitas, penggunaan, tersedia, dan sisa ruang penyimapan pada direktori root.
+
+tail -n 10 ~/.bash_history: Membaca 10 baris terakhir dari riwayat perintah.
+```
 
 ## Tugas Praktikum 4 — Penanganan File dengan Nama Kompleks dan Arsip Aman
 
@@ -932,7 +1315,7 @@ Instruksi tugas:
 * nama file yang mengandung tanda kurung siku atau karakter khusus,
 * file dengan pola nama serupa untuk diuji dengan wildcard.
 
-2. Tunjukkan perbedaan hasil jika file diakses tanpa quoting dan dengan quoting yang benar.
+1. Tunjukkan perbedaan hasil jika file diakses tanpa quoting dan dengan quoting yang benar.
 2. Lakukan preview wildcard dengan echo sebelum dipakai untuk operasi nyata.
 3. Salin file-file tersebut ke direktori backup dengan nama yang aman.
 4. Buat arsip tar.gz dari hasil backup.
