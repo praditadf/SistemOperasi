@@ -1328,7 +1328,61 @@ Instruksi tugas:
 * operasi file lanjutan yang aman.
 Minimal luaran:
 * daftar file awal,
+
+```
+laporan [harian].conf  laporan bulanan.txt  log-01.txt  log-02.txt  log-03.txt
+```
+
 * daftar file hasil backup,
+
+```
+laporan-bulanan-aman.txt
+laporan-harian-aman.conf
+log-01.txt
+log-02.txt
+log-03.txt
+```
+
 * file arsip tar.gz,
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ ls -lah *.tar.gz
+-rw-rw-r-- 1 praditadf praditadf 359 Apr 14 21:56 arsip-backup-2026-04-14.tar.gz
+```
+
 * file riwayat-arsip.txt,
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week07-bash$ cat riwayat-arsip.txt
+ 1920  if [ $STATUS_EXIT -eq 0 ]; then     echo "[INFO] Health check berhasil dieksekusi!"; else     echo "[ERROR] Terjadi error saat menjalankan health check (Kode Error: $STATUS_EXIT)."; fi
+ 1921  clear
+ 1922  cd
+ 1923  mkdir -p ~/praktikum-os/week07-bash/praktikum4
+ 1924  cd ~/praktikum-os/week07-bash/praktikum4
+ 1925  touch "laporan bulanan.txt"
+ 1926  touch "laporan [harian].conf"
+ 1927  touch log-01.txt log-02.txt log-03.txt
+ 1928  echo " --- Akses Tanpa Quoting ---"
+ 1929  ls laporan bulanan.txt
+ 1930  echo " --- Akses Dengan Quoting ---"
+ 1931  ls "laporan bulanan.txt"
+ 1932  echo " --- Wilcard --- "
+ 1933  echo log-*.txt
+ 1934  DIR_BACKUP="$HOME/praktikum-os/week07-bash/backup"
+ 1935  cp "laporan bulanan.txt" "$DIR_BACKUP/laporan-bulanan-aman.txt"
+ 1936  cp "laporan [harian].conf" "$DIR_BACKUP/laporan-harian-aman.conf"
+ 1937  cp log-*.txt "$DIR_BACKUP/"
+ 1938  echo "--- Daftar File di Folder Backup ---"
+ 1939  ls -lah "$DIR_BACKUP"
+ 1940  cd ~/praktikum-os/week07-bash
+ 1941  tar -czf arsip-backup-$(date +%F).tar.gz backup/
+ 1942  echo "--- Daftar File Arsip ---"
+ 1943  ls -lah *.tar.gz
+ 1944  history | tail -n 25 > riwayat-arsip.txt
+```
+
 * refleksi singkat tentang pentingnya quoting di Bash
+
+```
+Quoting dapat memastikan nama file yang diakses akan benar sehingga tidak akan salah ketika mengakses target ketika menggunakan perintah yang berbahaya seperti rm.
+```
