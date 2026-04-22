@@ -205,6 +205,12 @@ STATUS  : PERINGATAN - disk melebihi batas !
 ```
 ```
 
+## Latihan 9.3
+
+### Tambahkan ke script grading-batch.sh sebuah ringkasan di bagian bawah yang menampilkan: jumlah mahasiswa per grade (A, B, C, D, E) menggunakan perulangan for kedua yang mengiterasi array MAHASISWA.
+```
+```
+
 ## Praktikum 7.4 Library Fungsi Validasi
 
 ### 1. Buat file library
@@ -229,6 +235,12 @@ STATUS  : PERINGATAN - disk melebihi batas !
 
 ### 5. Beri izin dan uji semua skenario
 
+```
+```
+
+## Latihan 9.4
+
+### Tambahkan fungsi konfirmasi() ke lib-validasi.sh. Fungsi ini menampilkan pertanyaan, membaca input Y/N dari user, mengembalikan 0 jika Y dan 1 jika N. Buat script demo yang memanggil fungsi ini sebelum menghapus sebuah file.
 ```
 ```
 
@@ -263,6 +275,16 @@ STATUS  : PERINGATAN - disk melebihi batas !
 
 ### 3. Cek sintaks, lalu jalankan dengan tracing
 
+```
+```
+## Latihan 9.5
+
+### Script debug-latihan.sh tidak menangani direktori yang tidak ada. Perbaiki dengan menambahkan:
+* set -e di baris kedua
+* Pengecekan -d "$DIREKTORI" sebelum memanggil du
+* Pesan error yang informatif jika direktori tidak ditemukan
+
+Uji dengan direktori yang tidak ada.
 ```
 ```
 
