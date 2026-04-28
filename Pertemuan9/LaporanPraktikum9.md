@@ -169,6 +169,7 @@ STATUS  : PERINGATAN - disk melebihi batas !
 ## Latihan 9.2
 
 ### Buat script kalkulator.sh yang menerima tiga argumen: <angka1> <operator> <angka2> dengan operator +, -, *, atau /. Contoh: ./kalkulator.sh 20 + 5 menghasilkan 25. Gunakan case untuk memilih operasi, dan validasi jika argumen tidak lengkap
+
 ```
 #!/bin/bash
 # Penggunaan: ./kalkulator.sh [angka1] [operator] [angka2] 
@@ -425,32 +426,125 @@ Grade E: 1
 ### 1. Buat file library
 
 ```
+praditadf@praditadf-VirtualBox:~$ nano ~/praktikum-os/week09/scripts/lib-validasi.sh
 ```
 
 ### 2. Ketik isi berikut
 
 ```
+#!/bin/bash
+# lib-validasi.sh - Library fungsi validasi
+
+adalah_angka() {
+[[ "$1" =~ ^[0-9]+$ ]]
+}
+file_bisa_dibaca() {
+[ -f  "$1" ] && [ -r "$1" ]
+}
+error_exit() {
+echo "ERROR: $1" >&2
+exit 1
+}
+info() { echo "[ INFO ] $1"; }
+sukses() { echo "[ OK ] $1"; }
 ```
 
 ### 3. Buat script yang menggunakan library
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/pakai-library.sh
 ```
 
 ### 4. Ketik isi berikut
 
 ```
+#!/bin/bash
+# Muat library (seperti import di Java)
+source ~/praktikum-os/week09/scripts/lib-validasi.sh
+ANGKA=$1
+FILE=$2
+[ -z "$ANGKA" ] || [ -z "$FILE" ] && \
+error_exit "Penggunaan: $0 <angka> <path-file>"
+if adalah_angka "$ANGKA"; then
+sukses "Input '$ANGKA' adalah angka valid"
+else
+error_exit "'$ANGKA' bukan angka"
+fi
+if file_bisa_dibaca "$FILE"; then
+sukses "File '$FILE' bisa dibaca"
+info "Jumlah baris: $(wc -l < "$FILE")"
+else
+error_exit "File '$FILE' tidak ada atau tidak bisa dibaca "
+fi
 ```
 
 ### 5. Beri izin dan uji semua skenario
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x ~/praktikum-os/week09/scripts/pakai-library.sh 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh 42 /etc/hostname
+[ OK ] Input '42' adalah angka valid
+[ OK ] File '/etc/hostname' bisa dibaca
+[ INFO ] Jumlah baris: 1
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh abc /etc/hostname
+ERROR: 'abc' bukan angka
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh 42 /tidak-ada.txt
+[ OK ] Input '42' adalah angka valid
+ERROR: File '/tidak-ada.txt' tidak ada atau tidak bisa dibaca 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh
+ERROR: Penggunaan: ./pakai-library.sh <angka> <path-file>
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh 42 /etc/hostname
+[ OK ] Input '42' adalah angka valid
+[ OK ] File '/etc/hostname' bisa dibaca
+[ INFO ] Jumlah baris: 1
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh abc /etc/hostname
+ERROR: 'abc' bukan angka
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh 42 /tidak-ada.txt
+[ OK ] Input '42' adalah angka valid
+ERROR: File '/tidak-ada.txt' tidak ada atau tidak bisa dibaca 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./pakai-library.sh
+ERROR: Penggunaan: ./pakai-library.sh <angka> <path-file>
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ 
 ```
 
 ## Latihan 9.4
 
-### Tambahkan fungsi konfirmasi() ke lib-validasi.sh. Fungsi ini menampilkan pertanyaan, membaca input Y/N dari user, mengembalikan 0 jika Y dan 1 jika N. Buat script demo yang memanggil fungsi ini sebelum menghapus sebuah file.
+### Tambahkan fungsi konfirmasi() ke lib-validasi.sh. Fungsi ini menampilkan pertanyaan, membaca input Y/N dari user, mengembalikan 0 jika Y dan 1 jika N. Buat script demo yang memanggil fungsi ini sebelum menghapus sebuah file
+
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/lib-validasi.sh
+
+konfirmasi() {
+read -rp "$1 (Y/N): " hasil
+case "$hasil" in
+[Yy]) return 0 ;;
+[Nn]) return 1 ;;
+*) echo "Masukkan Y atau N." ;;
+esac
+}
+
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano hapus-file.sh
+#!/bin/bash
+# Load library
+source ./lib-validasi.sh
+file="$1"
+[ -z "$file" ] && error_exit "Nama file harus diberikan."
+file_bisa_dibaca "$file" || error_exit "File tidak ditemukan atau tidak bisa dibaca."
+if konfirmasi "Apakah Anda yakin ingin menghapus file '$file'?"; then
+    rm "$file" && sukses "File berhasil dihapus."
+else
+    info "Penghapusan dibatalkan."
+fi
+
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x hapus-file.sh 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ touch a.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./hapus-file.sh a.txt
+Apakah Anda yakin ingin menghapus file 'a.txt'? (Y/N): n
+[ INFO ] Penghapusan dibatalkan.
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./hapus-file.sh a.txt
+Apakah Anda yakin ingin menghapus file 'a.txt'? (Y/N): y
+[ OK ] File berhasil dihapus.
 ```
 
 ## Praktikum 7.5 Script Backup dengan Opsi
@@ -458,16 +552,73 @@ Grade E: 1
 ### 1. Buat script
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/backup-data.sh
 ```
 
 ### 2. Ketik isi berikut
 
 ```
+#!/bin/bash
+# Penggunaan: ./backup-data.sh [-v] [-c] [-l logfile] <sumber> <tujuan>
+
+VERBOSE=false
+COMPRESS=false
+LOG_FILE=""
+
+while getopts "vcl:" OPSI; do
+case $OPSI in
+v) VERBOSE=true ;;
+c) COMPRESS=true ;;
+l) LOG_FILE="$OPTARG" ;;
+*) echo "Penggunaan: $0 [-v] [-c] [-l logfile] <sumber> <tujuan>"
+exit 1 ;;
+esac
+done
+
+shift $((OPTIND - 1))
+
+SUMBER=$1
+TUJUAN=$2
+
+log() {
+local MSG="[$(date '+%T')] $1"
+echo "$MSG"
+[ -n "$LOG_FILE" ] && echo "$MSG" >> "$LOG_FILE"
+}
+
+[ -z "$SUMBER" ] || [ -z "$TUJUAN" ] && {
+echo "ERROR: sumber dan tujuan wajib diisi"; exit 1; }
+
+[ ! -d "$SUMBER" ] && { log "ERROR: $SUMBER tidak ada"; exit 2; }
+
+mkdir -p "$TUJUAN"
+
+TANGGAL=$(date '+%F-%H%M%S')
+
+[ "$VERBOSE" = true ] && log "Sumber: $SUMBER | Tujuan: $TUJUAN"
+
+if [ "$COMPRESS" = true ]; then
+ARSIP="$TUJUAN/backup-$(basename "$SUMBER")-$TANGGAL.tar.gz"
+tar -czf "$ARSIP" -C "$(dirname "$SUMBER")" "$(basename "$SUMBER")"
+log "Arsip: $ARSIP ($(du -sh "$ARSIP" | cut -f1))"
+else
+cp -r "$SUMBER" "$TUJUAN/backup-$(basename "$SUMBER")-$TANGGAL"
+log "Backup selesai."
+fi
 ```
 
 ### 3. Beri izin dan uji
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x ~/praktikum-os/week09/scripts/backup-data.sh 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ cd ~/praktikum-os/week09/scripts
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./backup-data.sh ~/praktikum-os/week09/data ~/praktikum-os/week09/logs
+[19:23:55] Backup selesai.
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./backup-data.sh -v -c -l ../logs/backup.log \
+> ~/praktikum-os/week09/data ~/praktikum-os/week09/logs
+[19:34:07] Sumber: /home/praditadf/praktikum-os/week09/data | Tujuan: /home/praditadf/praktikum-os/week09/logs
+[19:34:07] Arsip: /home/praditadf/praktikum-os/week09/logs/backup-data-2026-04-28-193407.tar.gz (4.0K)
+
 ```
 
 ## Praktikum 7.6 Debugging Script
@@ -475,54 +626,289 @@ Grade E: 1
 ### 1. Buat script untuk dianalisis
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/debug-latihan.sh
 ```
 
 ### 2. Ketik isi berikut
 
 ```
+#!/bin/bash
+# Script: debug-latihan.sh
+# Penggunaan: ./debug-latihan.sh <direktori> <batas-MB>
+
+DIREKTORI=$1
+BATAS=$2
+
+if [ $# -ne 2 ]; then
+    echo "Penggunaan: $0 <direktori> <batas-MB>"
+    exit 1
+fi
+
+UKURAN=$(du -sm "$DIREKTORI" | cut -f1)
+
+echo "Direktori: $DIREKTORI"
+echo "Ukuran: ${UKURAN} MB"
+echo "Batas: ${BATAS} MB"
+
+if [ "$UKURAN" -gt "$BATAS" ]; then
+    echo "PERINGATAN: Ukuran melebihi batas!"
+    echo "Kelebihan: $((UKURAN - BATAS)) MB"
+else
+    echo "Status: Normal (sisa: $((BATAS - UKURAN)) MB)"
+fi
 ```
 
 ### 3. Cek sintaks, lalu jalankan dengan tracing
 
 ```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x ~/praktikum-os/week09/scripts/debug-latihan.sh
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ bash -n debug-latihan.sh && echo "Sintaks OK"
+Sintaks OK
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ bash -x debug-latihan.sh /etc 10
++ DIREKTORI=/etc
++ BATAS=10
++ '[' 2 -ne 2 ']'
+++ du -sm /etc
+++ cut -f1
+du: cannot read directory '/etc/credstore.encrypted': Permission denied
+du: cannot read directory '/etc/ssl/private': Permission denied
+du: cannot read directory '/etc/cups/ssl': Permission denied
+du: cannot read directory '/etc/polkit-1/rules.d': Permission denied
+du: cannot read directory '/etc/sssd': Permission denied
+du: cannot read directory '/etc/credstore': Permission denied
++ UKURAN=12
++ echo 'Direktori: /etc'
+Direktori: /etc
++ echo 'Ukuran: 12 MB'
+Ukuran: 12 MB
++ echo 'Batas: 10 MB'
+Batas: 10 MB
++ '[' 12 -gt 10 ']'
++ echo 'PERINGATAN: Ukuran melebihi batas!'
+PERINGATAN: Ukuran melebihi batas!
++ echo 'Kelebihan: 2 MB'
+Kelebihan: 2 MB
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./debug-latihan.sh /vat 50
+du: cannot access '/vat': No such file or directory
+Direktori: /vat
+Ukuran:  MB
+Batas: 50 MB
+./debug-latihan.sh: line 19: [: : integer expression expected
+Status: Normal (sisa: 50 MB)
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./debug-latihan.sh
+Penggunaan: ./debug-latihan.sh <direktori> <batas-MB>
 ```
+
 ## Latihan 9.5
 
-### Script debug-latihan.sh tidak menangani direktori yang tidak ada. Perbaiki dengan menambahkan:
+### Script debug-latihan.sh tidak menangani direktori yang tidak ada. Perbaiki dengan menambahkan
+
 * set -e di baris kedua
 * Pengecekan -d "$DIREKTORI" sebelum memanggil du
 * Pesan error yang informatif jika direktori tidak ditemukan
 
 Uji dengan direktori yang tidak ada.
+
 ```
+#!/bin/bash
+set -e
+# Script: debug-latihan.sh
+# Penggunaan: ./debug-latihan.sh <direktori> <batas-MB>
+
+DIREKTORI=$1
+BATAS=$2
+
+if [ $# -ne 2 ]; then
+echo "Penggunaan: $0 <direktori> <batas-MB>"
+exit 1
+fi
+
+if [ ! -d "$DIREKTORI" ]; then
+echo "ERROR: Direktori '$DIREKTORI' tidak ditemukan."
+exit 1
+fi
+
+UKURAN=$(du -sm "$DIREKTORI" | cut -f1)
+
+echo "Direktori: $DIREKTORI"
+echo "Ukuran: ${UKURAN} MB"
+echo "Batas: ${BATAS} MB"
+
+if [ "$UKURAN" -gt "$BATAS" ]; then
+echo "PERINGATAN: Ukuran melebihi batas!"
+echo "Kelebihan: $((UKURAN - BATAS)) MB"
+else
+echo "Status: Normal (sisa: $((BATAS - UKURAN)) MB)"
+fi
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./debug-latihan.sh /folder-tidak-ada 10
+ERROR: Direktori '/folder-tidak-ada' tidak ditemukan.
 ```
 
 ## Tugas Praktikum
 
 ### Tugas 1 Script Absensi Kelas
 
-```
-Konteks: instruktur mencatat kehadiran mahasiswa dari command line.
-Instruksi:
+#### Konteks: instruktur mencatat kehadiran mahasiswa dari command line
+
+Instruksi
+
 1. Buat script absensi.sh yang:
-• Menerima argumen nama mahasiswa dan status (hadir/izin/alpha)
-• Menyimpan entri ke absensi-YYYY-MM-DD.txt dengan format [HH:MM]
-NAMA - STATUS
-• Opsi -r: tampilkan rekapitulasi (jumlah per status)
-• Opsi -h: tampilkan bantuan
-2. Rekam minimal 5 entri dan tampilkan rekapitulasinya.
+
+* Menerima argumen nama mahasiswa dan status (hadir/izin/alpha)
+* Menyimpan entri ke absensi-YYYY-MM-DD.txt dengan format [HH:MM] NAMA - STATUS
+* Opsi -r: tampilkan rekapitulasi (jumlah per status)
+* Opsi -h: tampilkan bantuan
+
+1. Rekam minimal 5 entri dan tampilkan rekapitulasinya.
 Konsep wajib: variabel, parameter posisional, getopts, if, for, fungsi, dan redirection ke file.
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/absensi.sh
+#!/bin/bash
+# Script: absensi.sh
+# Pencatatan kehadiran mahasiswa
+
+FILE="$HOME/praktikum-os/week09/logs/absensi-$(date +%F).txt"
+mkdir -p "$(dirname "$FILE")"
+
+bantuan() { echo "Gunakan: $0 [-h] [-r] [NAMA STATUS]"; exit 0; }
+rekap() {
+echo "=== REKAP ==="
+for S in hadir izin alpha; do
+echo "$S: $(grep -ic "\- $S" "$FILE" 2>/dev/null || echo 0)"
+done
+exit 0
+}
+
+while getopts "hr" OPSI; do
+case $OPSI in
+h) bantuan ;;
+r) rekap ;;
+*) exit 1 ;;
+esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -lt 2 ]; then
+bantuan;
+fi
+
+STATUS=${2,,}
+if [[ ! "$STATUS" =~ ^(hadir|izin|alpha)$ ]]; then 
+echo "Error: Status harus hadir/izin/alpha";
+exit 1 
+fi
+
+echo "[$(date +%H:%M)] $1 - $STATUS" >> "$FILE"
+echo "Tercatat: $1 - $STATUS"
+
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x ~/praktikum-os/week09/scripts/absensi.sh
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "Aldi" izin
+Tercatat: Aldi - izin
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "Bobi" sakit
+Error: Status harus hadir/izin/alpha
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "Bobi" alpha
+Tercatat: Bobi - alpha
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "Albi" hadir
+Tercatat: Albi - hadir
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "Abil" izin
+Tercatat: Abil - izin
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh "bila" hadir
+Tercatat: bila - hadir
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./absensi.sh -r
+=== REKAP ===
+hadir: 2
+izin: 2
+alpha: 1
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ cat ../logs/absensi-2026-04-28.txt 
+[19:55] Aldi - izin
+[19:55] Bobi - alpha
+[19:55] Albi - hadir
+[19:56] Abil - izin
+[19:56] bila - hadir
 ```
 
 ### Tugas 2 Script Health Check Sistem
 
-```
-Konteks: administrator membuat pemeriksaan kondisi server sebelum maintenance.
-Instruksi:
+#### Konteks: administrator membuat pemeriksaan kondisi server sebelum maintenance
+
+Instruksi
+
 1. Buat script healthcheck.sh menggunakan template profesional dari bagian Best Practices.
 2. Script menampilkan: tanggal/waktu, hostname, uptime, penggunaan CPU, memori, dan disk untuk setiap filesystem yang terpasang.
 3. Jika penggunaan disk mana pun melebihi 80%, tampilkan peringatan.
 4. Simpan hasil ke healthcheck-YYYY-MM-DD.log dan tampilkan ke terminal sekaligus menggunakan tee.
 5. Opsi -t <persen> mengubah batas peringatan disk (default 80).
 Konsep wajib: set -euo pipefail, trap, getopts, fungsi dengan local, for, if, dan tee.
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ nano ~/praktikum-os/week09/scripts/healthcheck.sh
+#!/bin/bash
+set -euo pipefail
+
+BATAS=80
+LOG="$HOME/praktikum-os/week09/logs/healthcheck-$(date +%F).log"
+mkdir -p "${LOG%/*}"
+
+trap 'echo "[INFO] Selesai."' EXIT
+
+while getopts "t:h" OPT; do
+case "$OPT" in
+t) BATAS="$OPTARG" ;;
+h) echo "Gunakan: $0 [-t batas_persen] [-h]"; exit 0 ;;
+*) exit 1 ;;
+
+esac
+done
+
+cek_sistem() {
+local WAKTU=$(date '+%F %T')
+local HOST=$(hostname)
+local UPTIME=$(uptime -p)
+local CPU=$(top -bn1 | awk '/Cpu\(s\)/ {print $2+$4}')
+local RAM=$(free -h | awk '/^Mem/ {print $4}')
+
+echo "=== HEALTH CHECK ==="
+echo "Waktu    : $WAKTU"
+echo "Host     : $HOST"
+echo "Uptime   : $UPTIME"
+echo "CPU      : $CPU%" 
+echo "Sisa RAM : $RAM"
+echo "--- Disk ---"
+
+local DISKS=$(df -h | awk '/^\/dev\// {print $5","$6}')
+for d in $DISKS; do
+local P=$(echo "$d" | cut -d, -f1 | tr -d %)
+local M=$(echo "$d" | cut -d, -f2)
+if [ "$P" -ge "$BATAS" ]; then
+echo "[PERINGATAN] $M terpakai $P% (Batas: $BATAS%)"
+else
+echo "[OK] $M terpakai $P%"
+fi
+done
+}
+
+cek_sistem | tee -a "$LOG"
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ chmod +x ~/praktikum-os/week09/scripts/healthcheck.sh
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./healthcheck.sh
+=== HEALTH CHECK ===
+Waktu    : 2026-04-28 20:17:18
+Host     : praditadf-VirtualBox
+Uptime   : up 1 hour, 50 minutes
+CPU      : 0%
+Sisa RAM : 159Mi
+--- Disk ---
+[OK] / terpakai 63%
+[INFO] Selesai.
+praditadf@praditadf-VirtualBox:~/praktikum-os/week09/scripts$ ./healthcheck.sh -t 50
+=== HEALTH CHECK ===
+Waktu    : 2026-04-28 20:17:20
+Host     : praditadf-VirtualBox
+Uptime   : up 1 hour, 50 minutes
+CPU      : 0%
+Sisa RAM : 159Mi
+--- Disk ---
+[PERINGATAN] / terpakai 63% (Batas: 50%)
+[INFO] Selesai.
+
 ```
