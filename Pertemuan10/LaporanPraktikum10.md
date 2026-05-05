@@ -40,12 +40,25 @@ Writeback:             0 kB
 ### Analisis
 
 1. Hitung persentase memori tersedia: available / total × 100%. Jika hasilnya di bawah 10%, sistem mulai kekurangan memori.
+```
+Memori tersedia = 1.4Gi / 3.8Gi x 100% = 36%, Sistem masih mempunyai memori tersisa
+```
 2. Pada baris Swap, apakah kolom used bernilai 0? Jika lebih dari 0, kernel sudah pernah memindahkan data ke disk karena RAM tidak cukup.
+```
+Kolom used bernilai 135Mi, kernel sudah petmah memindahkan data ke disk karena RAM tidak cukup.
+```
 3. Perhatikan field Cached dan Buffers di /proc/meminfo. Nilai ini sesuai dengan kolom buff/cache pada free -h.
+```
+Buffers:            6500 kB
+Cached:          1658104 kB
+
+buff/cache
+1.6Gi
+```
 
 ## Studi Kasus 10.1 — Server Lambat karena Memori
 
-### 1. Periksa kondisi memori secara keseluruhan
+### 1. Periksa kondisi memori secara 
 
 ```
 praditadf@praditadf-VirtualBox:~$ free -h
