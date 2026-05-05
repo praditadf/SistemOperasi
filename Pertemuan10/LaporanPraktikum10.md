@@ -45,13 +45,13 @@ Writeback:             0 kB
 Memori tersedia = 1.4Gi / 3.8Gi x 100% = 36%, Sistem masih mempunyai memori tersisa
 ```
 
-1. Pada baris Swap, apakah kolom used bernilai 0? Jika lebih dari 0, kernel sudah pernah memindahkan data ke disk karena RAM tidak cukup.
+2. Pada baris Swap, apakah kolom used bernilai 0? Jika lebih dari 0, kernel sudah pernah memindahkan data ke disk karena RAM tidak cukup.
 
 ```
 Kolom used bernilai 135Mi, kernel sudah petmah memindahkan data ke disk karena RAM tidak cukup.
 ```
 
-1. Perhatikan field Cached dan Buffers di /proc/meminfo. Nilai ini sesuai dengan kolom buff/cache pada free -h.
+3. Perhatikan field Cached dan Buffers di /proc/meminfo. Nilai ini sesuai dengan kolom buff/cache pada free -h.
 
 ```
 /proc/meminfo   Buffers:            6500 kB
@@ -122,7 +122,7 @@ MiB Swap:   2048.0 total,   1912.6 free,    135.4 used.   1573.0 avail Mem
 Nilai available tidak dibawah 200Mb pada server dengan RAM 4 GB
 ```
 
-1. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
+2. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
 
 ```
 used
@@ -131,7 +131,7 @@ swap: 135Mi
 Kolom used pada baris Swap lebih dari 0, kernel sedang menggunakan swap, yang berarti performa menurun
 ```
 
-1. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut menjadi kandidat utama penyebab lambatnya server.
+3. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut menjadi kandidat utama penyebab lambatnya server.
 
 ```
 prosez dengan %MEM terbesar yaitu proses dengan pid 4003 dengan 9.7 %MEM, yaitu Visual Studio Code yang menjadi kandidat itama penyebab lambatnya server
@@ -167,20 +167,20 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu----
 Pada baris pertama nilai si dan so yaitu 17 dan 157, namun pada baris kedua sampai ke lima nilai nya 0.  
 ```
 
-1. Jika nilai si atau so sesekali muncul lebih dari 0, artinya pernah ada aktivitas swap. Ini masih wajar jika tidak terus-menerus.
+2. Jika nilai si atau so sesekali muncul lebih dari 0, artinya pernah ada aktivitas swap. Ini masih wajar jika tidak terus-menerus.
 
 ```
 Pada baris pertama nilai si dan so lebih dari 0, berarti adanya aktivitas swap, dan ini masih wajar karena baris selanjutnya tidak ada yang lebih dari 0.
 ```
 
-1. Jika si dan so terus-menerus lebih dari 0, sistem dalam kondisi memory pressure serius — performa turun drastis karena akses disk jauh lebih lambat
+3. Jika si dan so terus-menerus lebih dari 0, sistem dalam kondisi memory pressure serius — performa turun drastis karena akses disk jauh lebih lambat
 dari RAM.
 
 ```
 Jika si dan so terus-menerut lebih dari 0 menandakan sistem butuh lebih banyak RAM. Salah satu solusi yaitu tambah RAM, dan kurangi jumlah proses yang berjalan bersamaan, atau optimalkan konfigurasi aplikasi.
 ```
 
-1. Perhatikan juga kolom free (RAM kosong) dan buff (buffer) untuk memahami kondisi keseluruhan RAM saat itu.
+4. Perhatikan juga kolom free (RAM kosong) dan buff (buffer) untuk memahami kondisi keseluruhan RAM saat itu.
 
 ```
   free   buff
@@ -246,13 +246,13 @@ praditadf@praditadf-VirtualBox:~$ cat /proc/sys/vm/swappiness
 nilai swappiness default adalah 60, kernel cepat memindahkan data ke swap meski RAM masih tersedia
 ```
 
-1. Setelah diubah ke 10, konfirmasi nilai berubah pada output cat kedua. Apa dampak nilai 10 terhadap penggunaan swap dibanding nilai 60?
+2. Setelah diubah ke 10, konfirmasi nilai berubah pada output cat kedua. Apa dampak nilai 10 terhadap penggunaan swap dibanding nilai 60?
 
 ```
 Setelah diubah nilai swappinessnya ke 10, kernel lebih mengutamakan RAM dan hanya menggunakan swap jika benar-benar terpaksa
 ```
 
-1. Apakah entri /swapfile-week10 muncul di swapon –show? Jika tidak, pastikan Langkah 2 (chmod 600) sudah dijalankan sebelum Langkah 3.
+3. Apakah entri /swapfile-week10 muncul di swapon –show? Jika tidak, pastikan Langkah 2 (chmod 600) sudah dijalankan sebelum Langkah 3.
 
 ```
 praditadf@praditadf-VirtualBox:~$ swapon --show
@@ -330,7 +330,7 @@ Proses yang berada di urutan pertama yaitu Visual Studio Code
 RSS  : 331872
 ```
 
-1. Konversikan RSS dari KB ke MB (bagi 1024). Misalnya, RSS=524288 berarti proses menggunakan 512 MB RAM. Apakah wajar untuk jenis program tersebut?
+2. Konversikan RSS dari KB ke MB (bagi 1024). Misalnya, RSS=524288 berarti proses menggunakan 512 MB RAM. Apakah wajar untuk jenis program tersebut?
 
 ```
 Proses Visual Studio Code
@@ -339,13 +339,13 @@ Hasil Konversi : 324 MB
 Hal tersebut wajar, karena pada Visual Studio Code setiap jendela atau proses ekstensi bertindak sebagai tab browser terpisah yang memakan penggunaan memori
 ```
 
-1. Mengapa VSZ selalu lebih besar dari RSS pada proses yang sama?
+3. Mengapa VSZ selalu lebih besar dari RSS pada proses yang sama?
 
 ```
 Karena RSS merupakan ukuran RAM fisik yang benar-benar dipakai proses saat ini, sedangkan VSZ merupakan total memori virtual yang dialokasikan, termasuk bagian yang belum dimuat ke RAM
 ```
 
-1. Apakah urutan proses di ps konsisten dengan tampilan top saat diurutkan berdasarkan %MEM?
+4. Apakah urutan proses di ps konsisten dengan tampilan top saat diurutkan berdasarkan %MEM?
 
 ```
 Urutan top konsisten saat diurutkan berdasarkan %MEM, karena top dapat melakukan pemantauan secara realtime
@@ -417,13 +417,13 @@ Available / total x 100
   = 44%
 ```
 
-1. Kondisi if [ "$AVAIL" -lt "$THRESHOLD" ] bernilai benar jika persentase memori tersedia di bawah 20.
+2. Kondisi if [ "$AVAIL" -lt "$THRESHOLD" ] bernilai benar jika persentase memori tersedia di bawah 20.
 
 ```
 Memori tersedia 43% lebih besar dari THRESHOLD=20, sehingga outputnya adalah echo "Status: Memori tersedia ${AVAIL}% (normal)"
 ```
 
-1. Ubah THRESHOLD menjadi 90 dan jalankan ulang. Apa yang berubah pada output? Mengapa demikian?
+3. Ubah THRESHOLD menjadi 90 dan jalankan ulang. Apa yang berubah pada output? Mengapa demikian?
 
 ```
 #!/bin/bash
@@ -506,7 +506,7 @@ Output akan menampilkan: cat: app.conf: Permission denied. Ini terjadi karena sy
 karena tidak ada bit izin baca (r)
 ```
 
-1. Apa perbedaan pesan error Permission denied vs No such file or directory? Coba rm app.conf lalu cat app.conf untuk melihat perbedaannya.
+2. Apa perbedaan pesan error Permission denied vs No such file or directory? Coba rm app.conf lalu cat app.conf untuk melihat perbedaannya.
 
 ```
 praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory/syscall-case$ rm app.conf 
@@ -517,7 +517,7 @@ Permission denied : File ada namun sistem menolak untuk membukanya karena keterb
 No such file or directory : File tidak ada sehingga sistem tidak dapat mengaksesnya
 ```
 
-1. Permission 644 berarti apa untuk owner, group, dan others?
+3. Permission 644 berarti apa untuk owner, group, dan others?
 
 ```
 6 : rw atau read & write
@@ -720,19 +720,19 @@ openat : Membuka atau membuat file relatif terhadap file descriptor di direktori
 fstat  : Mengambil informasi status lengkap dari sebuah file yang terbuka, berdasarkan file descriptor
 ```
 
-1. Dari ringkasan strace -c, system call mana yang paling sering dipanggil? Mengapa?
+2. Dari ringkasan strace -c, system call mana yang paling sering dipanggil? Mengapa?
 
 ```
 system call yang paling sering dipanggil adalah mmap sebanyak 18 kali, karena mmap merupakan cara yang efisien untuk mengelola memori
 ```
 
-1. Apakah ada system call dengan errors lebih dari 0? Apakah itu berarti program bermasalah, ataukah bagian normal dari logika program?
+3. Apakah ada system call dengan errors lebih dari 0? Apakah itu berarti program bermasalah, ataukah bagian normal dari logika program?
 
 ```
 banyak -1 ENOENT (No such file or directory) , ini normal karena program mengecek keberadaan file konfigurasi lokal, jika file tidak ditemukan, sistem akan membiarkan program melanjutkan tugasnya dengan konfigurasi bawaan
 ```
 
-1. Apakah jumlah system call berbeda antara ls dan ls /etc? Faktor apa yang menyebabkan perbedaan tersebut?
+4. Apakah jumlah system call berbeda antara ls dan ls /etc? Faktor apa yang menyebabkan perbedaan tersebut?
 
 ```
 Jumlah system call berbeda karena terdapat perbedaan target yang harus diproses, karena ls /etc memerlukan lebih banyak sumber daya untuk membaca file dari directory lain dibandingkan dengan ls yang sering kali lebih ringan 
@@ -811,13 +811,13 @@ available / total x 100%
 
 ```
 
-1. Mengapa buff/cache tidak dihitung sebagai memori yang terpakai dari sudut pandang ketersediaan untuk aplikasi?
+2. Mengapa buff/cache tidak dihitung sebagai memori yang terpakai dari sudut pandang ketersediaan untuk aplikasi?
 
 ```
 
 ```
 
-1. Dari /proc/meminfo, apakah SwapTotal lebih besar dari 0? Berapa nilai SwapFree?
+3. Dari /proc/meminfo, apakah SwapTotal lebih besar dari 0? Berapa nilai SwapFree?
 
 ```
 
@@ -850,13 +850,13 @@ pradita+    3631  0.1  3.0 2617060 122280 ?      Sl   18:30   0:08 /snap/firefox
 
 ```
 
-1. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
+2. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
 
 ```
 
 ```
 
-1. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
+3. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
 
 ```
 
@@ -899,12 +899,12 @@ Swap:          2.2Gi       372Mi       1.9Gi
 ```
 ```
 
-1. Apakah nilai total pada baris Swap di free -h bertambah 256 MB?
+2. Apakah nilai total pada baris Swap di free -h bertambah 256 MB?
 
 ```
 ```
 
-1. Mengapa permission 600 penting? Apa risiko jika diatur ke 644?
+3. Mengapa permission 600 penting? Apa risiko jika diatur ke 644?
 
 ```
 ```
@@ -1033,12 +1033,12 @@ praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cat strace-summary.
 ```
 ```
 
-1. System call mana yang paling sering dipanggil? Mengapa?
+2. System call mana yang paling sering dipanggil? Mengapa?
 
 ```
 ```
 
-1. Apakah ada errors lebih dari 0? Apakah program tetap berjalan normal meskipun ada kegagalan tersebut?
+3. Apakah ada errors lebih dari 0? Apakah program tetap berjalan normal meskipun ada kegagalan tersebut?
 
 ```
 ```
@@ -1162,17 +1162,17 @@ Laporan disimpan ke : diagnosa-server-lambat.txt
 ```
 ```
 
-1. Berdasarkan bagian RINGKASAN, apakah kondisi sistem normal atau kritis? Jelaskan berdasarkan nilai threshold yang digunakan script.
+2. Berdasarkan bagian RINGKASAN, apakah kondisi sistem normal atau kritis? Jelaskan berdasarkan nilai threshold yang digunakan script.
 
 ```
 ```
 
-1. Mengapa script menggunakan tee "$LAPORAN" bukan redirection biasa > "$LAPORAN"? Apa keuntungannya?
+3. Mengapa script menggunakan tee "$LAPORAN" bukan redirection biasa > "$LAPORAN"? Apa keuntungannya?
 
 ```
 ```
 
-1. Dari output cek_paging, apakah ada aktivitas si atau so? Jika ada, apa implikasinya terhadap performa server?
+4. Dari output cek_paging, apakah ada aktivitas si atau so? Jika ada, apa implikasinya terhadap performa server?
 
 ```
 ```
