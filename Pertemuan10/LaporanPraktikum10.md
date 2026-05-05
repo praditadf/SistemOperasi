@@ -45,13 +45,13 @@ Writeback:             0 kB
 Memori tersedia = 1.4Gi / 3.8Gi x 100% = 36%, Sistem masih mempunyai memori tersisa
 ```
 
-2. Pada baris Swap, apakah kolom used bernilai 0? Jika lebih dari 0, kernel sudah pernah memindahkan data ke disk karena RAM tidak cukup.
+1. Pada baris Swap, apakah kolom used bernilai 0? Jika lebih dari 0, kernel sudah pernah memindahkan data ke disk karena RAM tidak cukup.
 
 ```
 Kolom used bernilai 135Mi, kernel sudah petmah memindahkan data ke disk karena RAM tidak cukup.
 ```
 
-3. Perhatikan field Cached dan Buffers di /proc/meminfo. Nilai ini sesuai dengan kolom buff/cache pada free -h.
+1. Perhatikan field Cached dan Buffers di /proc/meminfo. Nilai ini sesuai dengan kolom buff/cache pada free -h.
 
 ```
 /proc/meminfo   Buffers:            6500 kB
@@ -122,7 +122,7 @@ MiB Swap:   2048.0 total,   1912.6 free,    135.4 used.   1573.0 avail Mem
 Nilai available tidak dibawah 200Mb pada server dengan RAM 4 GB
 ```
 
-2. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
+1. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
 
 ```
 used
@@ -131,7 +131,7 @@ swap: 135Mi
 Kolom used pada baris Swap lebih dari 0, kernel sedang menggunakan swap, yang berarti performa menurun
 ```
 
-3. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut menjadi kandidat utama penyebab lambatnya server.
+1. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut menjadi kandidat utama penyebab lambatnya server.
 
 ```
 prosez dengan %MEM terbesar yaitu proses dengan pid 4003 dengan 9.7 %MEM, yaitu Visual Studio Code yang menjadi kandidat itama penyebab lambatnya server
@@ -167,20 +167,20 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu----
 Pada baris pertama nilai si dan so yaitu 17 dan 157, namun pada baris kedua sampai ke lima nilai nya 0.  
 ```
 
-2. Jika nilai si atau so sesekali muncul lebih dari 0, artinya pernah ada aktivitas swap. Ini masih wajar jika tidak terus-menerus.
+1. Jika nilai si atau so sesekali muncul lebih dari 0, artinya pernah ada aktivitas swap. Ini masih wajar jika tidak terus-menerus.
 
 ```
 Pada baris pertama nilai si dan so lebih dari 0, berarti adanya aktivitas swap, dan ini masih wajar karena baris selanjutnya tidak ada yang lebih dari 0.
 ```
 
-3. Jika si dan so terus-menerus lebih dari 0, sistem dalam kondisi memory pressure serius — performa turun drastis karena akses disk jauh lebih lambat
+1. Jika si dan so terus-menerus lebih dari 0, sistem dalam kondisi memory pressure serius — performa turun drastis karena akses disk jauh lebih lambat
 dari RAM.
 
 ```
 Jika si dan so terus-menerut lebih dari 0 menandakan sistem butuh lebih banyak RAM. Salah satu solusi yaitu tambah RAM, dan kurangi jumlah proses yang berjalan bersamaan, atau optimalkan konfigurasi aplikasi.
 ```
 
-4. Perhatikan juga kolom free (RAM kosong) dan buff (buffer) untuk memahami kondisi keseluruhan RAM saat itu.
+1. Perhatikan juga kolom free (RAM kosong) dan buff (buffer) untuk memahami kondisi keseluruhan RAM saat itu.
 
 ```
   free   buff
@@ -772,12 +772,12 @@ Jumlah system call berbeda karena terdapat perbedaan target yang harus diproses,
 ```
 ```
 
-2. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
+1. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
 
 ```
 ```
 
-3. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
+1. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
 
 ```
 ```
