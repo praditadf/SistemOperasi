@@ -105,59 +105,25 @@ MiB Swap:   2048.0 total,   1912.6 free,    135.4 used.   1573.0 avail Mem
      18 root      rt   0       0      0      0 S   0.0   0.0   0:00.05 migration/0                                                                       
      19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                     
      20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                           
-     21 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/1                                                                           
-
-
-top - 19:21:06 up 15 min,  1 user,  load average: 0.41, 1.58, 1.18
-Tasks: 226 total,   1 running, 225 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  3.2 us, 10.4 sy,  0.0 ni, 80.8 id,  0.2 wa,  0.0 hi,  5.5 si,  0.0 st 
-MiB Mem : 58.5/3914.8   [|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||                                         ] 
-MiB Swap:  7.0/2048.0   [|||||||                                                                                             ] 
-
-    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                           
-   2038 pradita+  20   0 3901248 240932  91648 S  20.5   6.0   1:34.11 gnome-shell                                                                       
-   2890 _apt      20   0   34208   8008   6868 S   9.9   0.2   0:22.98 http                                                                              
-    573 root      20   0       0      0      0 I   1.0   0.0   0:02.31 kworker/u9:5-events_unbound                                                       
-   3091 pradita+  20   0  571568  46996  36396 S   1.0   1.2   0:05.17 gnome-terminal-                                                                   
-    617 root     -51   0       0      0      0 S   0.7   0.0   0:03.51 irq/18-vmwgfx                                                                     
-   2150 pradita+  20   0  471048  10948   6940 S   0.7   0.3   0:01.48 ibus-daemon                                                                       
-   1446 root      20   0  325356   9124   7476 S   0.3   0.2   0:00.43 upowerd                                                                           
-   3180 pradita+  20   0 3558140 431600 206684 S   0.3  10.8   0:56.14 firefox                                                                           
-   3974 pradita+  20   0 1393.6g 108348  77584 S   0.3   2.7   0:01.70 code                                                                              
-      1 root      20   0   23688  14132   9752 S   0.0   0.4   0:03.33 systemd                                                                           
-      2 root      20   0       0      0      0 S   0.0   0.0   0:00.03 kthreadd                                                                          
-      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                            
-      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_gp                                                                  
-      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-sync_wq                                                                 
-      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-kvfree_rcu_reclaim                                                      
-      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_flushwq                                                            
-      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                   
-     10 root      20   0       0      0      0 I   0.0   0.0   0:00.28 kworker/0:1-events                                                                
-     11 root       0 -20       0      0      0 I   0.0   0.0   0:00.40 kworker/0:0H-kblockd                                                              
-     12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker/u8:0-ipv6_addrconf                                                        
-     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_percpu_wq                                                            
-     14 root      20   0       0      0      0 S   0.0   0.0   0:01.60 ksoftirqd/0                                                                       
-     15 root      20   0       0      0      0 I   0.0   0.0   0:01.99 rcu_preempt                                                                       
-     16 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_exp_par_gp_kthread_worker/0                                                   
-     17 root      20   0       0      0      0 S   0.0   0.0   0:00.08 rcu_exp_gp_kthread_worker                                                         
-     18 root      rt   0       0      0      0 S   0.0   0.0   0:00.05 migration/0                                                                       
-     19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                     
-     20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                           
-     21 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/1                                                                           
-
-
+     21 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/1                                                                          
 ```
 
 ### Analisis
 
 1. Apakah nilai available sangat kecil (misalnya di bawah 200 MB pada server dengan RAM 2 GB)? Jika ya, server kemungkinan kekurangan memori.
 ```
+1573.0 avail Mem
+Nilai available tidak dibawah 200Mb
 ```
 2. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
 ```
+used
+swap: 135Mi
+Kolom used pada baris Swap lebih dari 0, kernel sedang menggunakan swap, yang berarti performa menurun
 ```
-3. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut enjadi kandidat utama penyebab lambatnya server.
+3. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut menjadi kandidat utama penyebab lambatnya server.
 ```
+prosez dengan %MEM terbesar yaitu proses dengan pid 4003 dengan 9.7 %MEM, yaitu Visual Studio Code yang menjadi kandidat itama penyebab lambatnya server
 ```
 
 ## Praktikum 10.2 — Mengamati Aktivitas Paging
