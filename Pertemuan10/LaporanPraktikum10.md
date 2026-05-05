@@ -656,8 +656,16 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Hitung persentase memori tersedia (available / total × 100%). Apakah sistem dalam kondisi normal?
+```
+```
+
 2. Mengapa buff/cache tidak dihitung sebagai memori yang terpakai dari sudut pandang ketersediaan untuk aplikasi?
+```
+```
+
 3. Dari /proc/meminfo, apakah SwapTotal lebih besar dari 0? Berapa nilai SwapFree?
+```
+```
 
 ### 2. Tugas 10.2 Identifikasi Proses dengan Memori Tertinggi
 
@@ -666,8 +674,14 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Proses apa di urutan pertama? Catat nilai %MEM dan RSS.
+```
+```
 2. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
+```
+```
 3. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
+```
+```
 
 ### 3. Tugas 10.3 Membuat dan Memverifikasi Swap File
 
@@ -676,8 +690,16 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Identifikasi kolom NAME, TYPE, SIZE, dan USED pada output swapon –show.
+```
+```
+
 2. Apakah nilai total pada baris Swap di free -h bertambah 256 MB?
+```
+```
+
 3. Mengapa permission 600 penting? Apa risiko jika diatur ke 644?
+```
+```
 
 ### 4. Tugas 10.4 Analisis System Call dengan strace
 
@@ -686,8 +708,16 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Sebutkan minimal 5 system call dari strace-summary.txt beserta fungsi singkatnya.
+```
+```
+
 2. System call mana yang paling sering dipanggil? Mengapa?
+```
+```
+
 3. Apakah ada errors lebih dari 0? Apakah program tetap berjalan normal meskipun ada kegagalan tersebut?
+```
+```
 
 ### 5. Tugas 10.5 Studi Kasus Diagnosa Server Lambat
 
@@ -696,6 +726,17 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Jelaskan peran masing-masing fungsi: cek_memori, cek_swap, cek_proses, cek_paging, dan ringkasan. Mengapa diagnosa dipecah menjadi fungsi terpisah?
+```
+```
+
 2. Berdasarkan bagian RINGKASAN, apakah kondisi sistem normal atau kritis? Jelaskan berdasarkan nilai threshold yang digunakan script.
+```
+```
+
 3. Mengapa script menggunakan tee "$LAPORAN" bukan redirection biasa > "$LAPORAN"? Apa keuntungannya?
+```
+```
+
 4. Dari output cek_paging, apakah ada aktivitas si atau so? Jika ada, apa implikasinya terhadap performa server?
+```
+```
