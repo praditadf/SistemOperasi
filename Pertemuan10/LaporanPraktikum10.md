@@ -151,8 +151,14 @@ MiB Swap:  7.0/2048.0   [|||||||                                                
 ### Analisis
 
 1. Apakah nilai available sangat kecil (misalnya di bawah 200 MB pada server dengan RAM 2 GB)? Jika ya, server kemungkinan kekurangan memori.
+```
+```
 2. Apakah kolom used pada baris Swap lebih dari 0? Jika ya, kernel sedang enggunakan swap, yang berarti performa menurun.
+```
+```
 3. Di tampilan top, proses apa yang memiliki %MEM terbesar? Proses tersebut enjadi kandidat utama penyebab lambatnya server.
+```
+```
 
 ## Praktikum 10.2 — Mengamati Aktivitas Paging
 
@@ -172,10 +178,18 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu----
 ### Analisis
 
 1. Amati nilai si dan so pada kelima baris. Pada sistem normal dengan RAM cukup, kedua nilai ini selalu 0.
+```
+```
 2. Jika nilai si atau so sesekali muncul lebih dari 0, artinya pernah ada aktivitas swap. Ini masih wajar jika tidak terus-menerus.
+```
+```
 3. Jika si dan so terus-menerus lebih dari 0, sistem dalam kondisi memory pressure serius — performa turun drastis karena akses disk jauh lebih lambat
 dari RAM.
+```
+```
 4. Perhatikan juga kolom free (RAM kosong) dan buff (buffer) untuk memahami kondisi keseluruhan RAM saat itu.
+```
+```
 
 ## Praktikum 10.3 — Membuat dan Mengonfigurasi Swap File
 
@@ -227,8 +241,16 @@ praditadf@praditadf-VirtualBox:~$ cat /proc/sys/vm/swappiness
 ### Analisis
 
 1. Berapa nilai swappiness default? Apa artinya bagi perilaku kernel dalam menggunakan swap?
+```
+```
+
 2. Setelah diubah ke 10, konfirmasi nilai berubah pada output cat kedua. Apa dampak nilai 10 terhadap penggunaan swap dibanding nilai 60?
+```
+```
+
 3. Apakah entri /swapfile-week10 muncul di swapon –show? Jika tidak, pastikan Langkah 2 (chmod 600) sudah dijalankan sebelum Langkah 3.
+```
+```
 
 ## Praktikum 10.4 — Monitoring Memory
 
@@ -292,9 +314,20 @@ MiB Swap: 27.4/2048.0   [|||||||||||||||||||||||||||                            
 ### Analisis
 
 1. Proses apa yang berada di urutan pertama? Catat nilai %MEM dan RSS-nya.
+```
+```
+
 2. Konversikan RSS dari KB ke MB (bagi 1024). Misalnya, RSS=524288 berarti proses menggunakan 512 MB RAM. Apakah wajar untuk jenis program tersebut?
+```
+```
+
 3. Mengapa VSZ selalu lebih besar dari RSS pada proses yang sama?
+```
+```
+
 4. Apakah urutan proses di ps konsisten dengan tampilan top saat diurutkan berdasarkan %MEM?
+```
+```
 
 ## Praktikum 10.5 — Script Monitor Memori
 
@@ -355,8 +388,16 @@ root       20476  7.7  4.5 629380 181248 ?       Ssl  19:36   0:01 /usr/libexec/
 ### Analisis
 
 1. Variabel THRESHOLD=20 menetapkan batas persentase. Perintah free | awk ’/Mem/ {printf "%d", $7/$2*100}’ mengambil kolom ke-7 (available) dibagi kolom ke-2 (total) dari baris Mem, lalu dikalikan 100 untuk menghasilkan persentase bilangan bulat.
+```
+```
+
 2. Kondisi if [ "$AVAIL" -lt "$THRESHOLD" ] bernilai benar jika persentase memori tersedia di bawah 20.
+```
+```
+
 3. Ubah THRESHOLD menjadi 90 dan jalankan ulang. Apa yang berubah pada output? Mengapa demikian?
+```
+```
 
 ## Studi Kasus 10.2 — Gagal Akses File
 
@@ -391,8 +432,10 @@ PORT=8080
 ### Analisis
 
 1. Mengapa cat menghasilkan Permission denied setelah chmod 000? System call apa yang gagal?
-2. Apa perbedaan pesan error Permission denied vs No such file or directory? Coba rm app.conf lalu cat app.conf untuk melihat perbedaannya.
+```
+```
 
+2. Apa perbedaan pesan error Permission denied vs No such file or directory? Coba rm app.conf lalu cat app.conf untuk melihat perbedaannya.
 ```
 praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory/syscall-case$ rm app.conf 
 praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory/syscall-case$ cat app.conf
@@ -400,6 +443,8 @@ cat: app.conf: No such file or directory
 ```
 
 3. Permission 644 berarti apa untuk owner, group, dan others?
+```
+```
 
 ## Praktikum 10.6 — Mengamati System Call dengan strace
 
@@ -588,10 +633,20 @@ praditadf@praditadf-VirtualBox:~$ strace -c ls /etc 2>&1 | tail -5
 ### Analisis
 
 1. Dari output Langkah 1, identifikasi minimal 4 system call berbeda. Jelaskan fungsi singkat masing-masing berdasarkan argumen yang terlihat.
-2. Dari ringkasan strace -c, system call mana yang paling sering dipanggil? Mengapa?
-3. Apakah ada system call dengan errors lebih dari 0? Apakah itu berarti program bermasalah, ataukah bagian normal dari logika program?
-4. Apakah jumlah system call berbeda antara ls dan ls /etc? Faktor apa yang menyebabkan perbedaan tersebut?
+```
+```
 
+2. Dari ringkasan strace -c, system call mana yang paling sering dipanggil? Mengapa?
+```
+```
+
+3. Apakah ada system call dengan errors lebih dari 0? Apakah itu berarti program bermasalah, ataukah bagian normal dari logika program?
+```
+```
+
+4. Apakah jumlah system call berbeda antara ls dan ls /etc? Faktor apa yang menyebabkan perbedaan tersebut?
+```
+```
 ## Tugas Praktikum
 
 ### 1. Tugas 10.1 Audit Penggunaan Memori Sistem
