@@ -807,20 +807,20 @@ Writeback:             0 kB
 available / total x 100% 
 = 1.4Gi / 3.8Gi x 100% 
 = 36.8%
-
-
+Kondisi masih dalam keadaan normal karena presentase memori tersedia tidak kurang dari 10%
 ```
 
 2. Mengapa buff/cache tidak dihitung sebagai memori yang terpakai dari sudut pandang ketersediaan untuk aplikasi?
 
 ```
-
+Nilai buff/cache tidak dihitung sebagai memori yang terpakai karena buff/cache adalah memori yang fleksibel yang dapat membersihkan cache secara otomatis jika ada aplikasi yang membutuhkan
 ```
 
 3. Dari /proc/meminfo, apakah SwapTotal lebih besar dari 0? Berapa nilai SwapFree?
 
 ```
-
+SwapTotal lebih besar dari 0 SwapTotal:       2097148 kB
+dan Swap yang masih kosong SwapFree:        1716932 kB
 ```
 
 ### 2. Tugas 10.2 Identifikasi Proses dengan Memori Tertinggi
@@ -847,19 +847,29 @@ pradita+    3631  0.1  3.0 2617060 122280 ?      Sl   18:30   0:08 /snap/firefox
 1. Proses apa di urutan pertama? Catat nilai %MEM dan RSS.
 
 ```
-
+Proses pada urutan pertama adalah firefox dengan %MEM = 12.3 dan RSS = 493408
 ```
 
 2. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
 
 ```
-
+RSS = 493408
+Konversi = 493408 / 1024 = 481,84375
+Penggunaan memori oleh firefox sebesar 481MB ini wajar karena pada firefox kita membuka beberapa tab secara bersamaan. 
 ```
 
 3. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
 
 ```
-
+%MEM
+12.3
+12.2
+10.9
+7.4
+5.9
+----+
+48,7
+Penggunaan RAM dari 5 proses diatas yaitu sebesar 48,7% 
 ```
 
 ### 3. Tugas 10.3 Membuat dan Memverifikasi Swap File
@@ -889,7 +899,6 @@ NAME                   TYPE SIZE   USED PRIO
                total        used        free      shared  buff/cache   available
 Mem:           3.8Gi       2.5Gi       116Mi       143Mi       1.4Gi       1.3Gi
 Swap:          2.2Gi       372Mi       1.9Gi
-
 ```
 
 ### Analisis
@@ -897,16 +906,22 @@ Swap:          2.2Gi       372Mi       1.9Gi
 1. Identifikasi kolom NAME, TYPE, SIZE, dan USED pada output swapon –show.
 
 ```
+NAME = /swapfile-tugas-week10
+TYPE = file
+SIZE = 256M
+USED = 0B
 ```
 
 2. Apakah nilai total pada baris Swap di free -h bertambah 256 MB?
 
 ```
+Bilai total pada baris Swao bertambah awalnya 2.0Gi menjadi 
 ```
 
 3. Mengapa permission 600 penting? Apa risiko jika diatur ke 644?
 
 ```
+Permission 600 hanya memberikan izin kepada user untuk membaca dan menulis karena berisi data yang sensitif, dan jika diatur ke 644 maka pengguna lain dapat membaca isi dari data tersebut
 ```
 
 ### 4. Tugas 10.4 Analisis System Call dengan strace
@@ -1031,16 +1046,23 @@ praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cat strace-summary.
 1. Sebutkan minimal 5 system call dari strace-summary.txt beserta fungsi singkatnya.
 
 ```
+ mmap  = Memetakan file atau library ke dalam memori virtual
+ fstat = Mengambil informasi status lengkap dari sebuah file yang terbuka
+ openat= Membuka atau membuat file relatif terhadap file descriptor di direktori tertentu
+ close = Membuka sebuah file atau direktori
+ read  = Membaca data/isi dari file yang telah dibuka
 ```
 
 2. System call mana yang paling sering dipanggil? Mengapa?
 
 ```
+System call yang paling sering dipanggil adalah mmap dipanggil 18 kali, karena instruksi ls perlu memuat dan memetakan banyak shared library kedalam memori sebelum perintah utamanya dijalankan
 ```
 
 3. Apakah ada errors lebih dari 0? Apakah program tetap berjalan normal meskipun ada kegagalan tersebut?
 
 ```
+Terdapat error 2 access dan 2 statfs, namun program tetap berjalan normal karena merupakan pemeriksaan file konfigurasi opsional. Jika file tidak ada, program otomatis menggunakan konfigurasi bawaan
 ```
 
 ### 5. Tugas 10.5 Studi Kasus Diagnosa Server Lambat
@@ -1160,19 +1182,28 @@ Laporan disimpan ke : diagnosa-server-lambat.txt
 1. Jelaskan peran masing-masing fungsi: cek_memori, cek_swap, cek_proses, cek_paging, dan ringkasan. Mengapa diagnosa dipecah menjadi fungsi terpisah?
 
 ```
+cek_memori() = Memeriksa ketersediaan memori/RAM 
+cek_swap()   = Memeriksa jumlah swap yang sedang digunakan
+cek_proses() = Menampilkan 10 proses yang memakai memori terbesar
+cek_paging() = Memantau lalu lintas I/O memori ke dalam disk (swap)
+ringkasan()  = Menarik kesimpulan akhir berdasarkan peringatan dari fungsi sebelumnya
+Diagnosa dipecah menjadi fungsi terpisah agar script menjadi lebih mudah dibaca, dan mudah diperbaiki
 ```
 
 2. Berdasarkan bagian RINGKASAN, apakah kondisi sistem normal atau kritis? Jelaskan berdasarkan nilai threshold yang digunakan script.
 
 ```
+Berdasarkan hasil ringkasan, kondisi sistem normal karena memori tersisa 34%, jika  "$AVAIL_PCT" -lt 20 atau memori kurang dari 20 maka kondisi sistem sedang kritis 
 ```
 
 3. Mengapa script menggunakan tee "$LAPORAN" bukan redirection biasa > "$LAPORAN"? Apa keuntungannya?
 
 ```
+Karena tee dapat menampilkan hasil teks ke terminal dan menyimpan kedalam file secara bersamaan, sehingga kita tidak perlu melakukan perintah untuk melihat isi file
 ```
 
 4. Dari output cek_paging, apakah ada aktivitas si atau so? Jika ada, apa implikasinya terhadap performa server?
 
 ```
+Pada baris pertama terdapat si sebesar 4 dan so sebesar 59. Ini merupakan hal yang wajar. Namun, Jika si dan so terus-menerut lebih dari 0, performa server akan menurun.
 ```
