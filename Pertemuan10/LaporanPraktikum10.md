@@ -744,47 +744,153 @@ Jumlah system call berbeda karena terdapat perbedaan target yang harus diproses,
 
 ### Instruksi: Buat script memory-audit.sh yang menghasilkan laporan kondisi memori sistem secara otomatis
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ nano ~/praktikum-os/week10-memory/memory-audit.sh
+
+#!/bin/bash
+set - euo pipefail
+LAPORAN="memory-report.txt"
+{
+echo "=== LAPORAN MEMORI SISTEM ==="
+date
+echo
+echo "--- Ringkasan free -h ---"
+free -h
+echo
+echo "--- /proc/meminfo ---"
+cat /proc/meminfo | head -n 20
+} > "$LAPORAN"
+echo "Laporan disimpan ke: $LAPORAN"
+cat "$LAPORAN"
+
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ chmod +x ~/praktikum-os/week10-memory/memory-audit.sh 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cd ~/praktikum-os/week10-memory/
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ bash memory-audit.sh 
+Laporan disimpan ke: memory-report.txt
+=== LAPORAN MEMORI SISTEM ===
+Tue May  5 07:57:02 PM WIB 2026
+
+--- Ringkasan free -h ---
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.4Gi       207Mi       109Mi       1.4Gi       1.4Gi
+Swap:          2.0Gi       371Mi       1.6Gi
+
+--- /proc/meminfo ---
+MemTotal:        4008732 kB
+MemFree:          212948 kB
+MemAvailable:    1458316 kB
+Buffers:           17728 kB
+Cached:          1358456 kB
+SwapCached:        23304 kB
+Active:          1574704 kB
+Inactive:        1675912 kB
+Active(anon):    1137672 kB
+Inactive(anon):   694544 kB
+Active(file):     437032 kB
+Inactive(file):   981368 kB
+Unevictable:          32 kB
+Mlocked:              32 kB
+SwapTotal:       2097148 kB
+SwapFree:        1716932 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:               300 kB
+Writeback:             0 kB
+
+```
+
 ### Analisis
 
 1. Hitung persentase memori tersedia (available / total × 100%). Apakah sistem dalam kondisi normal?
 
 ```
+available / total x 100% 
+= 1.4Gi / 3.8Gi x 100% 
+= 36.8%
+
+
 ```
 
 1. Mengapa buff/cache tidak dihitung sebagai memori yang terpakai dari sudut pandang ketersediaan untuk aplikasi?
 
 ```
+
 ```
 
 1. Dari /proc/meminfo, apakah SwapTotal lebih besar dari 0? Berapa nilai SwapFree?
 
 ```
+
 ```
 
 ### 2. Tugas 10.2 Identifikasi Proses dengan Memori Tertinggi
 
 ### Instruksi: Simpan daftar 10 proses pengguna memori terbesar ke file
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ ps aux --sort=-%mem | head -n 10 > top-memory-process.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cat top-memory-process.txt 
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+pradita+    3268  3.2 12.3 11962396 493408 ?     Sl   18:30   2:58 /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    3766  4.3 12.2 1461340248 492764 ?   Sl   18:30   4:02 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --js-flags=--nodecommit_pooled_pages --crashpad-handler-pid=3281 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,575274992115735246,3257856061749499378,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708994745248135
+pradita+    3465 16.5 10.9 1463055160 440100 ?   Sl   18:30  15:13 /snap/code/237/usr/share/code/code --type=zygote --no-sandbox
+pradita+    4130  0.7  7.4 2871428 300152 ?      Sl   18:30   0:39 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:44197 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {ba4cb202-1079-4f27-b926-ce4ad7cd4a29} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 7 tab
+pradita+    3900  0.6  5.9 6988296 240500 ?      Sl   18:30   0:37 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:44098 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {b2c4f9aa-7427-4164-a669-3d88c4c9e84f} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 6 tab
+pradita+    3251  1.5  4.7 1461594804 190412 ?   SLsl 18:30   1:27 /snap/code/237/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=x11
+pradita+    2324  5.9  4.3 3949204 172852 ?      Ssl  18:29   5:30 /usr/bin/gnome-shell
+pradita+    3757  0.2  4.0 1461316300 164300 ?   Sl   18:30   0:12 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --js-flags=--nodecommit_pooled_pages --crashpad-handler-pid=3281 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,575274992115735246,3257856061749499378,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708993808206286
+pradita+    3631  0.1  3.0 2617060 122280 ?      Sl   18:30   0:08 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:39033 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {a0209f95-4661-49a3-990b-a28206bdb5d5} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
+```
+
 ### Analisis
 
 1. Proses apa di urutan pertama? Catat nilai %MEM dan RSS.
 
 ```
+
 ```
 
 1. Konversikan RSS ke MB (bagi 1024). Apakah wajar?
 
 ```
+
 ```
 
 1. Jumlahkan %MEM dari 5 proses teratas. Berapa persen RAM yang mereka gunakan bersama?
 
 ```
+
 ```
 
 ### 3. Tugas 10.3 Membuat dan Memverifikasi Swap File
 
 ### Instruksi: Buat swap file khusus tugas sebesar 256 MB dan verifikasi
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ sudo fallocate -l 256M /swapfile-tugas-week10
+[sudo] password for praditadf: 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ sudo chmod 600 /swapfile-tugas-week10
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ sudo mkswap /swapfile-tugas-week10 
+Setting up swapspace version 1, size = 256 MiB (268431360 bytes)
+no label, UUID=9b3f715e-f499-4127-8fce-e5a781e7b4cb
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ sudo swapon /swapfile-tugas-week10
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ { 
+> echo "=== VERIFIKASI SWAP ==="
+> swapon --show
+> echo
+> free -h
+> } > swap-check.txt
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cat swap-check.txt 
+=== VERIFIKASI SWAP ===
+NAME                   TYPE SIZE   USED PRIO
+/swap.img              file   2G 372.5M   -2
+/swapfile-tugas-week10 file 256M     0B   -3
+
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.5Gi       116Mi       143Mi       1.4Gi       1.3Gi
+Swap:          2.2Gi       372Mi       1.9Gi
+
+```
 
 ### Analisis
 
@@ -807,6 +913,119 @@ Jumlah system call berbeda karena terdapat perbedaan target yang harus diproses,
 
 ### Instruksi: Analisis system call yang dipanggil perintah ls
 
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ strace -c ls 2> strace-summary.txt
+memory-audit.sh    strace-summary.txt  top-memory-process.txt
+memory-report.txt  swap-check.txt
+monitor-memori.sh  syscall-case
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ strace ls /etc 2> strace-ls-etc.txt
+adduser.conf  host.conf      profile
+alsa   hostname      profile.d
+alternatives  hosts       protocols
+anacrontab  hosts.allow      pulse
+apg.conf  hosts.deny      python3
+apm   hp       python3.12
+apparmor  ifplugd       rc0.d
+apparmor.d  ImageMagick-6      rc1.d
+apport   init       rc2.d
+apt   init.d       rc3.d
+avahi   initramfs-tools      rc4.d
+bash.bashrc  inputrc       rc5.d
+bash_completion  insserv.conf.d      rc6.d
+bash_completion.d ipp-usb       rcS.d
+bindresvport.blacklist iproute2      resolv.conf
+binfmt.d  issue       rmt
+bluetooth  issue.net      rpc
+brlapi.key  kernel       rsyslog.conf
+brltty   kerneloops.conf      rsyslog.d
+brltty.conf  krb5.conf.d      rygel.conf
+ca-certificates  ldap       sane.d
+ca-certificates.conf ld.so.cache      security
+chatscripts  ld.so.conf      selinux
+cloud   ld.so.conf.d      sensors3.conf
+colord   legal       sensors.d
+console-setup  libao.conf      services
+cracklib  libaudit.conf      sgml
+credstore  libblockdev      shadow
+credstore.encrypted libibverbs.d      shadow-
+cron.d   libnl-3       shells
+cron.daily  libpaper.d      skel
+cron.hourly  locale.alias      snmp
+cron.monthly  locale.conf      speech-dispatcher
+crontab   locale.gen      ssh
+cron.weekly  localtime      ssl
+cron.yearly  logcheck      sssd
+cups   login.defs      subgid
+cupshelpers  logrotate.conf      subgid-
+dbus-1   logrotate.d      subuid
+dconf   lsb-release      subuid-
+debconf.conf  machine-id      sudo.conf
+debian_version  magic       sudoers
+debuginfod  magic.mime      sudoers.d
+default   manpath.config      sudo_logsrvd.conf
+deluser.conf  mime.types      supercat
+depmod.d  mke2fs.conf      sysctl.conf
+dhcp   ModemManager      sysctl.d
+dhcpcd.conf  modprobe.d      sysstat
+dictionaries-common modules       systemd
+dpkg   modules-load.d      terminfo
+e2scrub.conf  mtab       thermald
+emacs   nanorc       timezone
+environment  netconfig      tmpfiles.d
+environment.d  netplan       ts.conf
+ethertypes  network       ubuntu-advantage
+fonts   networkd-dispatcher  ucf.conf
+fprintd.conf  NetworkManager      udev
+fstab   networks      udisks2
+fuse.conf  newt       ufw
+fwupd   nftables.conf      updatedb.conf
+gai.conf  nsswitch.conf      update-manager
+gdb   openal       update-motd.d
+gdm3   openvpn       update-notifier
+geoclue   opt       UPower
+ghostscript  os-release      usb_modeswitch.conf
+glvnd   PackageKit      usb_modeswitch.d
+gnome   pam.conf      vconsole.conf
+gnome-remote-desktop pam.d       vdpau_wrapper.cfg
+gnutls   papersize      vim
+groff   passwd       vtrgb
+group   passwd-       vulkan
+group-   pcmcia       w3m
+grub.d   perl       wgetrc
+gshadow   pki       wpa_supplicant
+gshadow-  plymouth      X11
+gss   pm       xattr.conf
+gtk-2.0   pnm2ppa.conf      xdg
+gtk-3.0   polkit-1      xml
+hdparm.conf  ppp       zsh_command_not_found
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cat strace-summary.txt 
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 25.91    0.001531          85        18           mmap
+ 15.84    0.000936         117         8           fstat
+ 10.77    0.000636          90         7           openat
+ 10.68    0.000631          70         9           close
+  5.69    0.000336          67         5           mprotect
+  5.35    0.000316          63         5           read
+  4.81    0.000284         142         2           getdents64
+  3.32    0.000196          98         2           pread64
+  3.20    0.000189          63         3           brk
+  2.25    0.000133          66         2         2 access
+  2.20    0.000130          65         2         2 statfs
+  1.79    0.000106          35         3           write
+  1.37    0.000081          81         1           munmap
+  1.13    0.000067          33         2           ioctl
+  0.96    0.000057          57         1           arch_prctl
+  0.96    0.000057          57         1           prlimit64
+  0.95    0.000056          56         1           set_tid_address
+  0.95    0.000056          56         1           getrandom
+  0.95    0.000056          56         1           rseq
+  0.91    0.000054          54         1           set_robust_list
+  0.00    0.000000           0         1           execve
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.005908          77        76         4 total
+```
+
 ### Analisis
 
 1. Sebutkan minimal 5 system call dari strace-summary.txt beserta fungsi singkatnya.
@@ -827,6 +1046,114 @@ Jumlah system call berbeda karena terdapat perbedaan target yang harus diproses,
 ### 5. Tugas 10.5 Studi Kasus Diagnosa Server Lambat
 
 ### Skenario: Server terasa lambat. Buat script diagnosa yang menggabungkan semua pemeriksaan dari bab ini menggunakan fungsi Bash
+
+```
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ nano ~/praktikum-os/week10-memory/diagnosa-server.sh
+#!/bin/bash
+set -euo pipefail
+LAPORAN="diagnosa-server-lambat.txt"
+WARN_MEM=false
+WARN_SWAP=0
+cek_memori() {
+echo "--- Kondisi Memori ---"
+free -h
+echo
+AVAIL_PCT=$(free | awk '/Mem/ {printf "%d", $7/$2*100}
+')
+if [ "$AVAIL_PCT" -lt 20 ]; then
+echo "PERINGATAN : Memori tersedia hanya ${AVAIL_PCT}% "
+WARN_MEM=true
+fi
+}
+cek_swap() {
+echo "--- Penggunaan Swap ---"
+swapon --show 2>/dev/null || echo "Tidak ada swap aktif "
+echo
+WARN_SWAP=$(free | awk '/Swap/ {print $3}')
+if [ "$WARN_SWAP" -gt 0 ]; then
+echo "INFO: Swap digunakan (${WARN_SWAP} kB)"
+fi
+}
+cek_proses() {
+echo "--- 10 Proses Memori Tertinggi ---"
+ps aux --sort=-%mem | head -n 11
+echo
+}
+cek_paging() {
+echo "--- Aktivitas Paging (5 sampel ) ---"
+vmstat 1 5
+echo
+}
+ringkasan() {
+echo "=== RINGKASAN === "
+if [ "$WARN_MEM" = true ]; then
+echo "- Memori: KRITIS - perlu tindakan segera"
+else
+echo "- Memori : normal"
+fi
+if [ "$WARN_SWAP" -gt 0 ]; then
+echo "- Swap: aktif - pantau aktivitas paging"
+else
+echo "- Swap: tidak digunakan"
+fi
+}
+{
+echo "=== LAPORAN DIAGNOSA SERVER === "
+date
+echo
+cek_memori
+cek_swap
+cek_proses
+cek_paging
+ringkasan
+} | tee "$LAPORAN"
+echo
+echo "Laporan disimpan ke : $LAPORAN"
+
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ chmod +x ~/praktikum-os/week10-memory/diagnosa-server.sh 
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ cd ~/praktikum-os/week10-memory
+praditadf@praditadf-VirtualBox:~/praktikum-os/week10-memory$ bash diagnosa-server.sh 
+=== LAPORAN DIAGNOSA SERVER === 
+Tue May  5 08:16:43 PM WIB 2026
+
+--- Kondisi Memori ---
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       2.5Gi       187Mi       137Mi       1.3Gi       1.3Gi
+Swap:          2.0Gi       423Mi       1.6Gi
+
+--- Penggunaan Swap ---
+NAME      TYPE SIZE   USED PRIO
+/swap.img file   2G 423.1M   -2
+
+INFO: Swap digunakan (433208 kB)
+--- 10 Proses Memori Tertinggi ---
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+pradita+    3268  3.2 12.6 11975676 505304 ?     Sl   18:30   3:29 /snap/firefox/7967/usr/lib/firefox/firefox
+pradita+    3766  3.9 12.1 1461340248 488024 ?   Sl   18:30   4:14 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --js-flags=--nodecommit_pooled_pages --crashpad-handler-pid=3281 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,575274992115735246,3257856061749499378,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708994745248135
+pradita+    3465 15.1 11.0 1463055800 441996 ?   Sl   18:30  16:07 /snap/code/237/usr/share/code/code --type=zygote --no-sandbox
+pradita+    4130  0.6  7.3 2871444 294380 ?      Sl   18:30   0:40 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:44197 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {ba4cb202-1079-4f27-b926-ce4ad7cd4a29} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 7 tab
+pradita+    3900  0.7  5.9 6986248 238440 ?      Sl   18:30   0:50 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:44098 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {b2c4f9aa-7427-4164-a669-3d88c4c9e84f} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 6 tab
+pradita+    3251  1.4  4.6 1461594804 184468 ?   SLsl 18:30   1:33 /snap/code/237/usr/share/code/code --no-sandbox --force-user-env --ozone-platform=x11
+pradita+    2324  6.1  4.1 3949368 164836 ?      Ssl  18:29   6:33 /usr/bin/gnome-shell
+pradita+    3757  0.2  4.0 1461316300 164284 ?   Sl   18:30   0:13 /proc/self/exe --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --no-sandbox --js-flags=--nodecommit_pooled_pages --crashpad-handler-pid=3281 --enable-crash-reporter=e9bfb98a-f4aa-4b21-89a7-bd4f93b569d0,no_channel --user-data-dir=/home/praditadf/.config/Code --standard-schemes=vscode-webview,vscode-file --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,575274992115735246,3257856061749499378,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708993808206286
+pradita+    3631  0.1  3.0 2618084 123676 ?      Sl   18:30   0:09 /snap/firefox/7967/usr/lib/firefox/firefox -contentproc -isForBrowser -prefsHandle 0:39033 -prefMapHandle 1:278832 -jsInitHandle 2:227672 -parentBuildID 20260309231353 -sandboxReporter 3 -chrootClient 4 -ipcHandle 5 -initialChannelId {a0209f95-4661-49a3-990b-a28206bdb5d5} -parentPid 3268 -crashReporter 6 -crashHelper 7 -greomni /snap/firefox/7967/usr/lib/firefox/omni.ja -appomni /snap/firefox/7967/usr/lib/firefox/browser/omni.ja -appDir /snap/firefox/7967/usr/lib/firefox/browser 3 tab
+pradita+    4517  0.3  2.8 1459523924 113588 ?   Sl   18:30   0:23 /snap/code/237/usr/share/code/code /snap/code/237/usr/share/code/resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=3766
+
+--- Aktivitas Paging (5 sampel ) ---
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+ 1  0 433200 190324  10520 1403436    4   59   629   185  840    7  5  8 87  0  0  0
+ 0  0 433200 190316  10520 1403576    0    0     0     0  468  251  0  1 99  0  0  0
+ 0  0 433200 190316  10528 1403568    0    0     0    56  652  584  3  3 94  0  0  0
+ 2  0 433200 190316  10528 1403576    0    0     0   100  811  938  2  4 94  0  0  0
+ 0  0 433200 190316  10528 1403576    0    0     0     0  920 1334  1  2 97  0  0  0
+
+=== RINGKASAN === 
+- Memori : normal
+- Swap: aktif - pantau aktivitas paging
+
+Laporan disimpan ke : diagnosa-server-lambat.txt
+```
 
 ### Analisis
 
