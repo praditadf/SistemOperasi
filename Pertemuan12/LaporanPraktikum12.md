@@ -78,10 +78,109 @@ Identifikasi tiga layanan dengan waktu inisialisasi terlama menggunakan systemd-
 
 ```
 praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemd-analyze blame | sort -rh | head -3
-      741ms cloud-final.service
-      682ms e2scrub_reap.service
-      603ms fwupd-refresh.service
+      741ms cloud-final.service  : Menjalankan skrip konfigurasi tahap akhir `cloud-init` saat server selesai *boot*.
+      682ms e2scrub_reap.service : Membersihkan sisa *snapshot* LVM setelah proses pengecekan sistem file (ext4).
+      653ms logrotate.service    : Mengunduh dan memperbarui metadata *firmware* dari internet di latar belakang.
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl cat cloud-final.service
+```   
+
+<details>
+<summary><b>Read More</b></summary>
+<br>
+
 ```
+# /usr/lib/systemd/system/cloud-final.service
+[Unit]
+# https://docs.cloud-init.io/en/latest/explanation/boot.html
+Description=Cloud-init: Final Stage
+After=network-online.target time-sync.target cloud-config.service rc-local.service
+After=multi-user.target
+Before=apt-daily.service
+Wants=network-online.target cloud-config.service
+ConditionPathExists=!/etc/cloud/cloud-init.disabled
+ConditionKernelCommandLine=!cloud-init=disabled
+ConditionEnvironment=!KERNEL_CMDLINE=cloud-init=disabled
+
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cloud-init modules --mode=final
+RemainAfterExit=yes
+TimeoutSec=0
+KillMode=process
+TasksMax=infinity
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=cloud-init.target
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl cat e2scrub_reap.service
+# /usr/lib/systemd/system/e2scrub_reap.service
+[Unit]
+Description=Remove Stale Online ext4 Metadata Check Snapshots
+ConditionCapability=CAP_SYS_ADMIN
+ConditionCapability=CAP_SYS_RAWIO
+Documentation=man:e2scrub_all(8)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/
+PrivateNetwork=true
+ProtectSystem=true
+ProtectHome=read-only
+PrivateTmp=yes
+AmbientCapabilities=CAP_SYS_ADMIN CAP_SYS_RAWIO
+NoNewPrivileges=yes
+User=root
+IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
+Environment=SERVICE_MODE=1
+ExecStart=/sbin/e2scrub_all -A -r
+SyslogIdentifier=%N
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl cat logrotate.service
+# /usr/lib/systemd/system/logrotate.service
+[Unit]
+Description=Rotate log files
+Documentation=man:logrotate(8) man:logrotate.conf(5)
+RequiresMountsFor=/var/log
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
+
+# performance options
+Nice=19
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+# hardening options
+#  details: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+#  no ProtectHome for userdir logs
+#  no PrivateNetwork for mail deliviery
+#  no NoNewPrivileges for third party rotate scripts
+#  no RestrictSUIDSGID for creating setgid directories
+LockPersonality=true
+MemoryDenyWriteExecute=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=full
+RestrictNamespaces=true
+RestrictRealtime=true
+```
+
+</details>
 
 ## Praktek 10.2 — Kelola Layanan SSH
 
@@ -210,7 +309,31 @@ praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl --failed
 Buat skrip Bash (referensi Bab 7) bernama cek-layanan.sh yang memeriksa status daftar layanan dari sebuah berkas teks. Berkas teks daftar-layanan.txt berisi satu nama layanan per baris (isi minimal: ssh, cron, rsyslog). Skrip membaca setiap nama layanan, memeriksa statusnya dengan systemctl is-active, lalu menulis laporan ke berkas laporan-layanan.log dengan format: [TANGGAL] nama-layanan: ACTIVE/INACTIVE. Gunakan date untuk mendapatkan tanggal.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ echo -e "ssh\ncron\nrsyslog" > ~/lab-os/chapter10-services/daftar-layanan.txt
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ cat << 'EOF' > ~/lab-os/chapter10-services/cek-layanan.sh
+> #!/bin/bash
+> while read layanan; do
+> status=$(systemctl is-active "$layanan")
+> if [ "$status" == "active" ]; then
+> kondisi="ACTIVE"
+> else
+> kondisi="INACTIVE"
+> fi
+> echo "[$(date)] $layanan: $kondisi" >> ~/lab-os/chapter10-services/laporan-layanan.log
+> done < ~/lab-os/chapter10-services/daftar-layanan.txt
+> EOF
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ chmod +x ~/lab-os/chapter10-services/cek-layanan.sh
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ ~/lab-os/chapter10-services/cek-layanan.sh
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ cat ~/lab-os/chapter10-services/laporan-layanan.log
+[Tue May 19 12:36:47 PM UTC 2026] ssh: ACTIVE
+[Tue May 19 12:36:47 PM UTC 2026] cron: ACTIVE
+[Tue May 19 12:36:47 PM UTC 2026] rsyslog: ACTIVE
+[Tue May 19 12:37:01 PM UTC 2026] ssh: ACTIVE
+[Tue May 19 12:37:01 PM UTC 2026] cron: ACTIVE
+[Tue May 19 12:37:01 PM UTC 2026] rsyslog: ACTIVE
+[Tue May 19 12:37:07 PM UTC 2026] ssh: ACTIVE
+[Tue May 19 12:37:07 PM UTC 2026] cron: ACTIVE
+[Tue May 19 12:37:07 PM UTC 2026] rsyslog: ACTIVE
 ```
 
 ## Praktek 10.3 — Buat Layanan Sederhana dari Skrip Bash
@@ -913,31 +1036,115 @@ praditadf@Ubuntu-Server:~$ systemctl --failed
 1. Buat skrip Bash (referensi Bab 7) bernama monitor-disk. sh yang setiap 30 detik menuliskan penggunaan disk ke berkas log. Gunakan df -h dan date.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ cat << 'EOF' > ~/lab-os/chapter10-services/monitor-disk.sh
+> #!/bin/bash
+> while true; do
+> echo "[$(date)] Penggunaan Disk:"
+> df -h /
+> sleep 30
+> done
+> EOF
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ chmod +x ~/lab-os/chapter10-services/monitor-disk.sh
 ```
 
 2. Buat berkas unit /etc/systemd/system/monitor-disk. service untuk menjalankan skrip tersebut dengan konfigurasi: Restart=always, RestartSec $=5~s$, dan berjalan sebagai pengguna kamu sendiri.
 
 ```
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ cat << EOF | sudo tee /etc/systemd/system/monitor-disk.service
+> [Unit]
+> Description=Monitor Disk Otomatis
+> After=network.target
+>
+> [Service]
+> Type=simple
+> User=$USER
+> ExecStart=$HOME/lab-os/chapter10-services/monitor-disk.sh
+> Restart=always
+> RestartSec=5s
+> StandardOutput=journal
+>
+> [Install]
+> WantedBy=multi-user.target
+> EOF
+[sudo] password for praditadf:
+[Unit]
+Description=Monitor Disk Otomatis
+After=network.target
 
+[Service]
+Type=simple
+User=praditadf
+ExecStart=/home/praditadf/lab-os/chapter10-services/monitor-disk.sh
+Restart=always
+RestartSec=5s
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 3. Aktifkan dan jalankan layanan. Verifikasi dengan systemctl status dan pastikan log masuk ke journal.
 
 ```
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl daemon-reload
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl enable --now monitor-disk
+Created symlink /etc/systemd/system/multi-user.target.wants/monitor-disk.service → /etc/systemd/system/monitor-disk.service.
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl status monitor-disk
+● monitor-disk.service - Monitor Disk Otomatis
+     Loaded: loaded (/etc/systemd/system/monitor-disk.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-05-19 12:10:16 UTC; 27s ago
+   Main PID: 25141 (monitor-disk.sh)
+      Tasks: 2 (limit: 4600)
+     Memory: 560.0K (peak: 1.5M)
+        CPU: 106ms
+     CGroup: /system.slice/monitor-disk.service
+             ├─25141 /bin/bash /home/praditadf/lab-os/chapter10-services/monitor-disk.sh
+             └─25146 sleep 30
 
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25141]: [Tue May 19 12:10:16 PM UTC 2026] Penggunaan Disk:
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25145]: Filesystem      Size  Used Avail Use% Mounted on
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25145]: /dev/sda2        30G  3.3G   25G  12% /
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo journalctl -u monitor-disk -f
+May 19 12:10:16 Ubuntu-Server systemd[1]: Started monitor-disk.service - Monitor Disk Otomatis.
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25141]: [Tue May 19 12:10:16 PM UTC 2026] Penggunaan Disk:
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25145]: Filesystem      Size  Used Avail Use% Mounted on
+May 19 12:10:16 Ubuntu-Server monitor-disk.sh[25145]: /dev/sda2        30G  3.3G   25G  12% /
+May 19 12:10:46 Ubuntu-Server monitor-disk.sh[25141]: [Tue May 19 12:10:46 PM UTC 2026] Penggunaan Disk:
+May 19 12:10:46 Ubuntu-Server monitor-disk.sh[25244]: Filesystem      Size  Used Avail Use% Mounted on
+May 19 12:10:46 Ubuntu-Server monitor-disk.sh[25244]: /dev/sda2        30G  3.3G   25G  12% /
 ```
 
 4. Simulasikan crash dengan membunuh proses secara paksa (kill -9), tunggu 10 detik, dan verifikasi bahwa layanan hidup kembali secara otomatis.
 
 ```
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl status monitor-disk | grep "Main PID"
+   Main PID: 25141 (monitor-disk.sh)
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo kill -9 25141
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sleep 10
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl status monitor-disk
+● monitor-disk.service - Monitor Disk Otomatis
+     Loaded: loaded (/etc/systemd/system/monitor-disk.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-05-19 12:12:50 UTC; 12s ago
+   Main PID: 25264 (monitor-disk.sh)
+      Tasks: 2 (limit: 4600)
+     Memory: 568.0K (peak: 1.4M)
+        CPU: 107ms
+     CGroup: /system.slice/monitor-disk.service
+             ├─25264 /bin/bash /home/praditadf/lab-os/chapter10-services/monitor-disk.sh
+             └─25267 sleep 30
 
+May 19 12:12:50 Ubuntu-Server monitor-disk.sh[25264]: [Tue May 19 12:12:50 PM UTC 2026] Penggunaan Disk:
+May 19 12:12:50 Ubuntu-Server monitor-disk.sh[25266]: Filesystem      Size  Used Avail Use% Mounted on
+May 19 12:12:50 Ubuntu-Server monitor-disk.sh[25266]: /dev/sda2        30G  3.3G   25G  12% /
 ```
 
 5. Bersihkan: nonaktifkan layanan dan hapus berkas unit setelah selesai.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl disable --now monitor-disk
+Removed "/etc/systemd/system/multi-user.target.wants/monitor-disk.service".
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo rm /etc/systemd/system/monitor-disk.service
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl daemon-reload
 ```
 
 ## Latihan 10.3 — Investigasi Log dan Keamanan SSH
@@ -945,23 +1152,60 @@ praditadf@Ubuntu-Server:~$ systemctl --failed
 1. Gunakan journalctl -b-perr untuk menemukan semua error sejak boot terakhir. Simpan hasilnya ke berkas dan hitung jumlah baris dengan wc -1.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo journalctl -b -p err --no-pager > ~/lab-os/chapter10-services/boot-errors.txt
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ wc -l ~/lab-os/chapter10-services/boot-errors.txt
+218 /home/praditadf/lab-os/chapter10-services/boot-errors.txt
 ```
 
 2. Lakukan tiga perubahan keamanan pada /etc/ssh/sshd_config: tambahkan PermitRootLogin no, MaxAuthTries 3, dan LoginGraceTime 30. Ikuti alur aman: backup, edit, validasi sshd -t, reload.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup.latihan
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ echo "PermitRootLogin no" | sudo tee -a /etc/ssh/sshd_config
+PermitRootLogin no
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ echo "MaxAuthTries 3" | sudo tee -a /etc/ssh/sshd_config
+MaxAuthTries 3
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ echo "LoginGraceTime 30" | sudo tee -a /etc/ssh/sshd_config
+LoginGraceTime 30
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo mkdir -p /run/sshd
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo sshd -t
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl reload ssh
 ```
 
 3. Setelah reload, verifikasi tiga hal: layanan masih berjalan (systemctl status ssh), port masih mendengarkan (ss -tlnp | grep ssh), dan konfigurasi baru terbaca (grep -Е "PermitRoot | MaxAuth | GraceTime" /etc/ssh/sshd_config).
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ systemctl status ssh
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-05-14 05:30:36 UTC; 5 days ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 25431 ExecReload=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+    Process: 25433 ExecReload=/bin/kill -HUP $MAINPID (code=exited, status=0/SUCCESS)
+   Main PID: 23838 (sshd)
+      Tasks: 1 (limit: 4600)
+     Memory: 3.3M (peak: 4.8M)
+        CPU: 934ms
+     CGroup: /system.slice/ssh.service
+             └─23838 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups"
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo ss -tlnp | grep ssh
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=23838,fd=3))
+LISTEN 0      128             [::]:22           [::]:*    users:(("sshd",pid=23838,fd=4))
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ grep -E "PermitRoot|MaxAuth|GraceTime" /etc/ssh/sshd_config
+#LoginGraceTime 2m
+#PermitRootLogin prohibit-password
+#MaxAuthTries 6
+# the setting of "PermitRootLogin prohibit-password".
+PermitRootLogin no
+MaxAuthTries 3
+LoginGraceTime 30
 ```
 
 4. Kembalikan konfigurasi SSH ke kondisi semula menggunakan berkas backup.
 
 ```
-
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo cp /etc/ssh/sshd_config.backup.latihan /etc/ssh/sshd_config
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo sshd -t
+praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl reload ssh
 ```
