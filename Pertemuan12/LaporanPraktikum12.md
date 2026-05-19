@@ -816,19 +816,96 @@ praditadf@Ubuntu-Server:~/lab-os/chapter10-services$ sudo systemctl reload ssh
 1. Jalankan systemctl list-units -type=service -state running dan catat semua layanan aktif. Pilih tiga layanan yang kamu kenal, periksa status masing-masing dengan systemctl status, dan jelaskan fungsinya.
 
 ```
+praditadf@Ubuntu-Server:~$ systemctl list-units --type=service --state=running
+  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION
+  cron.service                loaded active running Regular background program processing daemon
+  dbus.service                loaded active running D-Bus System Message Bus
+  fwupd.service               loaded active running Firmware update daemon
+  getty@tty1.service          loaded active running Getty on tty1
+  ModemManager.service        loaded active running Modem Manager
+  multipathd.service          loaded active running Device-Mapper Multipath Device Controller
+  packagekit.service          loaded active running PackageKit Daemon
+  polkit.service              loaded active running Authorization Manager
+  rsyslog.service             loaded active running System Logging Service
+  ssh.service                 loaded active running OpenBSD Secure Shell server
+  systemd-journald.service    loaded active running Journal Service
+  systemd-logind.service      loaded active running User Login Management
+  systemd-networkd.service    loaded active running Network Configuration
+  systemd-resolved.service    loaded active running Network Name Resolution
+  systemd-timesyncd.service   loaded active running Network Time Synchronization
+  systemd-udevd.service       loaded active running Rule-based Manager for Device Events and Files
+  udisks2.service             loaded active running Disk Manager
+  unattended-upgrades.service loaded active running Unattended Upgrades Shutdown
+  upower.service              loaded active running Daemon for power management
+  user@1000.service           loaded active running User Manager for UID 1000
 
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+20 loaded units listed.
+
+praditadf@Ubuntu-Server:~$ systemctl status ssh.service
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-05-14 05:30:36 UTC; 4 days ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 23836 ExecStartPre=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+    Process: 23863 ExecReload=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+    Process: 23865 ExecReload=/bin/kill -HUP $MAINPID (code=exited, status=0/SUCCESS)
+   Main PID: 23838 (sshd)
+      Tasks: 1 (limit: 4600)
+     Memory: 3.0M (peak: 4.2M)
+        CPU: 574ms
+     CGroup: /system.slice/ssh.service
+             └─23838 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups"
+
+praditadf@Ubuntu-Server:~$ systemctl status upower.service
+● upower.service - Daemon for power management
+     Loaded: loaded (/usr/lib/systemd/system/upower.service; disabled; preset: enabled)
+     Active: active (running) since Sun 2026-05-10 08:54:20 UTC; 1 week 1 day ago
+       Docs: man:upowerd(8)
+   Main PID: 18702 (upowerd)
+      Tasks: 4 (limit: 4600)
+     Memory: 4.0M (peak: 4.6M)
+        CPU: 9.951s
+     CGroup: /system.slice/upower.service
+             └─18702 /usr/libexec/upowerd
+
+praditadf@Ubuntu-Server:~$ systemctl status udisk2.service
+Unit udisk2.service could not be found.
+praditadf@Ubuntu-Server:~$ systemctl status udisks2.service
+● udisks2.service - Disk Manager
+     Loaded: loaded (/usr/lib/systemd/system/udisks2.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-05-10 07:39:56 UTC; 1 week 1 day ago
+       Docs: man:udisks(8)
+   Main PID: 16607 (udisksd)
+      Tasks: 6 (limit: 4600)
+     Memory: 2.5M (peak: 3.0M)
+        CPU: 2.190s
+     CGroup: /system.slice/udisks2.service
+             └─16607 /usr/libexec/udisks2/udisksd
 ```
 
 2. Jalankan systemd-analyze blame dan identifikasi lima layanan dengan waktu inisialisasi terlama. Tampilkan hasilnya menggunakan pipeline: systemd-analyze blame | head -5.
 
 ```
-
+praditadf@Ubuntu-Server:~$ systemd-analyze blame | head -5
+1min 4.497s vboxadd.service
+    28.377s apt-daily.service
+     7.436s fwupd-refresh.service
+     4.607s cloud-config.service
+     3.898s motd-news.service
 ```
 
 3. Jalankan systemctl -failed dan dokumentasikan hasilnya. Jika ada layanan yang gagal, cari tahu penyebabnya dengan journalctl -u nama-layanan -n 30.
 
 ```
+praditadf@Ubuntu-Server:~$ systemctl --failed
+  UNIT LOAD ACTIVE SUB DESCRIPTION
 
+0 loaded units listed.
 ```
 
 ## Latihan 10.2 — Layanan Kustom dengan Restart Otomatis
